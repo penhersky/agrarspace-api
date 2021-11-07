@@ -1,0 +1,35 @@
+name: Agrarspace CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        env:
+          NODE_ENV: 'development'
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm run install
+
+      - name: Run pretest
+        run: npm run pretest
+
+      - name: Run test
+        run: npm run test
+
+      - name: Run build
+        run: npm run build

@@ -1,0 +1,34 @@
+{
+  "name": "@agrarspace/shared",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p .",
+    "migrate": "sequelize-cli db:migrate",
+    "migrate:crete": "sequelize-cli migration:generate --name",
+    "migrate:undo": "sequelize-cli db:migrate:undo",
+    "seed": "sequelize-cli db:seed:all",
+    "seed:create": "sequelize-cli seed:generate --name"
+  },
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "bcrypt": "5.0.1",
+    "faker": "5.5.3",
+    "pg": "8.7.1",
+    "pg-hstore": "2.3.4",
+    "reflect-metadata": "0.1.13",
+    "sequelize": "6.9.0",
+    "sequelize-typescript": "2.1.1",
+    "winston": "3.3.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "5.0.0",
+    "@types/dotenv": "8.2.0",
+    "@types/faker": "5.5.9",
+    "@types/node": "16.11.6",
+    "@types/validator": "13.6.6",
+    "sequelize-cli": "6.3.0",
+    "typescript": "4.4.4"
+  }
+}
