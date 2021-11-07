@@ -1,6 +1,6 @@
 # Places of interest API
 
-![workflow](https://github.com/penhersky/places-of-interest/actions/workflows/ci.yml/badge.svg) ![GitHub package.json version](https://img.shields.io/github/package-json/v/penhersky/places-of-interest) ![GitHub](https://img.shields.io/github/license/penhersky/places-of-interest)
+![workflow](https://github.com/penhersky/agrarspace/actions/workflows/ci.yml/badge.svg) ![GitHub package.json version](https://img.shields.io/github/package-json/v/penhersky/agrarspace) ![GitHub](https://img.shields.io/github/license/penhersky/agrarspace)
 
 ### Agricultural platform for balancing and comparing annual crop yields
 

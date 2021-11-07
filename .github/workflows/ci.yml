@@ -22,8 +22,9 @@ jobs:
           NODE_ENV: 'development'
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Install dependencies
-        run: npm run install
+        run: npm install
 
       - name: Run pretest
         run: npm run pretest
