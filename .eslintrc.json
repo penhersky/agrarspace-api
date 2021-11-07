@@ -8,6 +8,7 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["eslint-plugin-import", "prettier"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "implicit-arrow-linebreak": "off"
   }

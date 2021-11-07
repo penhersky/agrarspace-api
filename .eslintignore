@@ -1,4 +1,4 @@
 config
 .eslintrc
-jest.config
+jest.config.js
 tsconfig.json

@@ -15,7 +15,7 @@
     "start:dev": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
     "test": "jest",
-    "pretest": "eslint --ignore-path .gitignore .",
+    "lint": "eslint --ignore-path .gitignore .",
     "build": "tsc -p ."
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "@types/express-rate-limit": "5.1.3",
     "@types/jest": "27.0.2",
     "@types/koa-ratelimit": "4.2.3",
+    "@types/validator": "^13.6.6",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "eslint": "7.32.0",
