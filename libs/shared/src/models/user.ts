@@ -1,50 +1,62 @@
-import { Optional } from 'sequelize';
-import {
-  Table,
-  Model,
-  TableOptions,
-  Column,
-  DataType,
-} from 'sequelize-typescript';
+import Sequelize from 'sequelize';
+import { sequelize } from '..';
+export class User extends Sequelize.Model {
+  public id: number;
 
-export interface IUserTable {
-  id?: number;
-  name: string;
-  email: string;
-  password?: string;
-  provider?: string;
+  public name: string;
+
+  public email: string;
+
+  public phonNumber?: string;
+
+  public password?: string;
+
+  public provider: string;
 }
 
-interface UserCreationAttributes extends Optional<IUserTable, 'id'> {}
-
-const option: TableOptions<Model<any, any>> = {
-  timestamps: true,
-  tableName: 'User',
-  createdAt: true,
-  deletedAt: true,
-  updatedAt: true,
-  initialAutoIncrement: 'id',
+type UserType = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): User;
 };
 
-@Table(option)
-export class User extends Model<IUserTable, UserCreationAttributes> {
-  @Column({
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-    type: DataType.INTEGER,
-  })
-  id: number;
+const UserModel = <UserType>sequelize.define(
+  'user',
+  {
+    id: {
+      type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    name: {
+      type: new Sequelize.DataTypes.STRING(64),
+      allowNull: false,
+    },
+    email: {
+      type: new Sequelize.DataTypes.STRING(48),
+      allowNull: false,
+      unique: true,
+    },
+    phonNumber: {
+      type: new Sequelize.DataTypes.STRING(18),
+      allowNull: true,
+    },
+    password: {
+      type: new Sequelize.DataTypes.STRING(164),
+      allowNull: true,
+    },
+    provider: {
+      type: new Sequelize.DataTypes.STRING(64),
+      allowNull: false,
+      defaultValue: 'email',
+    },
+  },
+  {
+    freezeTableName: true,
+    timestamps: true,
+    createdAt: true,
+    updatedAt: true,
+    deletedAt: true,
+  },
+);
 
-  @Column(DataType.STRING)
-  name: string;
-
-  @Column({ type: DataType.STRING, unique: true })
-  email: string;
-
-  @Column(DataType.STRING)
-  password: string;
-
-  @Column({ type: DataType.STRING, defaultValue: 'password' })
-  provider: string;
-}
+export default UserModel;

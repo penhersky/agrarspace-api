@@ -5,7 +5,7 @@
     "es6": true
   },
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": ["./tsconfig.json", "./**/tsconfig.json"]
   },
   "plugins": ["eslint-plugin-import", "prettier"],
   "parser": "@typescript-eslint/parser",
