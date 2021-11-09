@@ -11,4 +11,5 @@ export const sequelize = new Sequelize(
 );
 
 export * from './user';
+export * from './category';
 export { Sequelize } from 'sequelize';

@@ -1,5 +1,8 @@
 import Sequelize from 'sequelize';
+
 import { sequelize } from '..';
+import { beforeCreateUpdate } from '../hooks/user';
+
 export class User extends Sequelize.Model {
   public id: number;
 
@@ -56,6 +59,10 @@ const UserModel = <UserType>sequelize.define(
     createdAt: true,
     updatedAt: true,
     deletedAt: true,
+    hooks: {
+      beforeCreate: beforeCreateUpdate,
+      beforeUpdate: beforeCreateUpdate,
+    },
   },
 );
 
