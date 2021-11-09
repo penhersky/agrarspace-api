@@ -2,26 +2,22 @@ import Sequelize from 'sequelize';
 
 import { sequelize } from '..';
 
-export class Category extends Sequelize.Model {
+export class Culture extends Sequelize.Model {
   public id: number;
 
   public name: string;
 
   public image?: string;
 
-  public color?: string;
-
-  public icon?: string;
-
   public description?: string;
 }
 
-type CategoryType = typeof Sequelize.Model & {
-  new (values?: object, options?: Sequelize.BuildOptions): Category;
+type CultureType = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): Culture;
 };
 
-const CategoryModel = <CategoryType>sequelize.define(
-  'category',
+const CultureModel = <CultureType>sequelize.define(
+  'culture',
   {
     id: {
       type: Sequelize.DataTypes.INTEGER.UNSIGNED,
@@ -34,15 +30,7 @@ const CategoryModel = <CategoryType>sequelize.define(
       allowNull: false,
     },
     image: {
-      type: new Sequelize.DataTypes.STRING(256),
-      allowNull: true,
-    },
-    color: {
-      type: new Sequelize.DataTypes.STRING(24),
-      allowNull: true,
-    },
-    icon: {
-      type: new Sequelize.DataTypes.STRING(64),
+      type: new Sequelize.DataTypes.STRING(132),
       allowNull: true,
     },
     description: {
@@ -59,4 +47,4 @@ const CategoryModel = <CategoryType>sequelize.define(
   },
 );
 
-export default CategoryModel;
+export default CultureModel;

@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface: any, Sequelize: any) => {
-    return queryInterface.createTable('category', {
+    return queryInterface.createTable('culture', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -15,21 +15,14 @@ module.exports = {
         type: new Sequelize.STRING(132),
         allowNull: true,
       },
-      icon: {
-        type: new Sequelize.STRING(64),
-        allowNull: true,
-      },
       description: {
         type: new Sequelize.TEXT(),
         allowNull: true,
       },
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE,
-      deletedAt: Sequelize.DATE,
     });
   },
 
   down: async (queryInterface: any) => {
-    return queryInterface.dropTable('category');
+    return queryInterface.dropTable('culture');
   },
 };
