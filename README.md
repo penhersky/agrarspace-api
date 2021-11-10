@@ -27,6 +27,7 @@ npm install
 - NODE_ENV
 - PORT
 - LOG_LEVEL
+
 - DB_USER
 - DB_PASSWORD
 - DB_DEV_NAME
@@ -34,18 +35,23 @@ npm install
 - DB_TEST_NAME
 - DB_PROD_NAME
 - DB_HOST
-- JWT_SECRET
+
+- JWT_SECRET - password salt (default 10)
+
+- PASSWORD_SALT
+
+- TEXT_PASS - password for test users (default 12345@A)
 
 #### Migrate database tables
 
 ```
-npm run migrate
+npm run migrate:local
 ```
 
 #### Fill the database with test data
 
 ```
-npm run seed
+npm run seed:local
 ```
 
 #### Run app for development

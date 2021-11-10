@@ -25,7 +25,7 @@ const UserModel = <UserType>sequelize.define(
   'user',
   {
     id: {
-      type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+      type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       unique: true,
@@ -40,7 +40,7 @@ const UserModel = <UserType>sequelize.define(
       unique: true,
     },
     phonNumber: {
-      type: new Sequelize.DataTypes.STRING(18),
+      type: new Sequelize.DataTypes.STRING(24),
       allowNull: true,
     },
     password: {

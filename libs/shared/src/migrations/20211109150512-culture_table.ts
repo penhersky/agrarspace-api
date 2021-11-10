@@ -11,6 +11,10 @@ module.exports = {
         type: new Sequelize.STRING(64),
         allowNull: false,
       },
+      categoryId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       image: {
         type: new Sequelize.STRING(132),
         allowNull: true,
@@ -19,6 +23,9 @@ module.exports = {
         type: new Sequelize.TEXT(),
         allowNull: true,
       },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
+      deletedAt: Sequelize.DATE,
     });
   },
 

@@ -15,6 +15,10 @@ module.exports = {
         type: new Sequelize.STRING(132),
         allowNull: true,
       },
+      color: {
+        type: new Sequelize.STRING(24),
+        allowNull: true,
+      },
       icon: {
         type: new Sequelize.STRING(64),
         allowNull: true,

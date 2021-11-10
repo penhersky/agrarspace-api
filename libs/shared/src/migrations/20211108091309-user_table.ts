@@ -2,7 +2,7 @@ module.exports = {
   up: async (queryInterface: any, Sequelize: any) => {
     return queryInterface.createTable('user', {
       id: {
-        type: Sequelize.INTEGER(),
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
@@ -16,7 +16,7 @@ module.exports = {
         unique: true,
       },
       phonNumber: {
-        type: Sequelize.STRING(18),
+        type: Sequelize.STRING(24),
         allowNull: true,
       },
       password: {

@@ -7,6 +7,8 @@ export class Culture extends Sequelize.Model {
 
   public name: string;
 
+  public categoryId: number;
+
   public image?: string;
 
   public description?: string;
@@ -20,13 +22,17 @@ const CultureModel = <CultureType>sequelize.define(
   'culture',
   {
     id: {
-      type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+      type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       unique: true,
     },
     name: {
       type: new Sequelize.DataTypes.STRING(64),
+      allowNull: false,
+    },
+    categoryId: {
+      type: Sequelize.DataTypes.INTEGER,
       allowNull: false,
     },
     image: {

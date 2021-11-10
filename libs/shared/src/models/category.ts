@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 
 import { sequelize } from '..';
+import CultureModel from './culture';
 
 export class Category extends Sequelize.Model {
   public id: number;
@@ -24,7 +25,7 @@ const CategoryModel = <CategoryType>sequelize.define(
   'category',
   {
     id: {
-      type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+      type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       unique: true,
@@ -58,5 +59,13 @@ const CategoryModel = <CategoryType>sequelize.define(
     deletedAt: true,
   },
 );
+
+CultureModel.belongsTo(CategoryModel, { targetKey: 'id' });
+
+CategoryModel.hasMany(CultureModel, {
+  sourceKey: 'id',
+  foreignKey: 'categoryId',
+  as: 'category',
+});
 
 export default CategoryModel;
