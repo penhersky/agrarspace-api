@@ -9,6 +9,7 @@ import {
   ApolloServerPluginDrainHttpServer,
 } from 'apollo-server-core';
 import cors from '@koa/cors';
+import formatError from './utils/formatError';
 
 import { logger, sequelize } from '@agrarspace/shared';
 
@@ -33,8 +34,9 @@ export default (typeDefs: DocumentNode, resolvers: any, stage: string) => {
     context: (ctx) => ({ ctx }),
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      ApolloServerPluginCacheControl({ defaultMaxAge: 5 }),
+      ApolloServerPluginCacheControl({ defaultMaxAge: 0 }),
     ],
+    formatError,
   });
 
   const start = async () => {

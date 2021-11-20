@@ -18,4 +18,19 @@ export default gql`
     phoneNumber: String
     provider: String!
   }
+
+  input UpdateUser {
+    name: String!
+    email: String!
+    phoneNumber: String
+  }
+
+  extend type Query {
+    getMe: User!
+    getUser(id: ID!): User!
+  }
+
+  extend type Mutation {
+    updateUser(user: UpdateUser!): User
+  }
 `;
