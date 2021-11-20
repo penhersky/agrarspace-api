@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
 
-import { sequelize } from '..';
+import { sequelize } from '../db';
 
-export class Culture extends Sequelize.Model {
+export class TCulture extends Sequelize.Model {
   public id: number;
 
   public name: string;
@@ -15,10 +15,10 @@ export class Culture extends Sequelize.Model {
 }
 
 type CultureType = typeof Sequelize.Model & {
-  new (values?: object, options?: Sequelize.BuildOptions): Culture;
+  new (values?: object, options?: Sequelize.BuildOptions): TCulture;
 };
 
-const CultureModel = <CultureType>sequelize.define(
+export const Culture = <CultureType>sequelize.define(
   'culture',
   {
     id: {
@@ -52,5 +52,3 @@ const CultureModel = <CultureType>sequelize.define(
     deletedAt: true,
   },
 );
-
-export default CultureModel;

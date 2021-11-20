@@ -56,7 +56,7 @@ export default (typeDefs: DocumentNode, resolvers: any, stage: string) => {
       .authenticate()
       .then(() => {
         logger.info(
-          '======================== 🔗 CONNECTED TO DATABASE 🔗 =====================',
+          '======================== 🔗 CONNECTED TO DATABASE 🔗 ====================',
         );
       })
       .catch((error: any) => {

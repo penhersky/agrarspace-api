@@ -1,6 +1,6 @@
 import faker from 'faker';
 import path from 'path';
-import encrypt from '../encrypt';
+import encrypt from '../utils/encrypt';
 import { fillArr } from '../utils/seed';
 require('dotenv').config({ path: path.resolve(__dirname, '../../../../.env') });
 
@@ -15,7 +15,7 @@ module.exports = {
         return {
           name: faker.name.findName(),
           email: faker.internet.email(),
-          phonNumber: faker.phone.phoneNumber('380#######'),
+          phoneNumber: faker.phone.phoneNumber('380#######'),
           password: passwordHash,
           provider: 'email',
           createdAt: new Date(),

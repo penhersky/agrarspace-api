@@ -1,9 +1,9 @@
 import Sequelize from 'sequelize';
 
-import { sequelize } from '..';
-import CultureModel from './culture';
+import { sequelize } from '../db';
+import { Culture } from './culture';
 
-export class Category extends Sequelize.Model {
+export class TCategory extends Sequelize.Model {
   public id: number;
 
   public name: string;
@@ -18,10 +18,10 @@ export class Category extends Sequelize.Model {
 }
 
 type CategoryType = typeof Sequelize.Model & {
-  new (values?: object, options?: Sequelize.BuildOptions): Category;
+  new (values?: object, options?: Sequelize.BuildOptions): TCategory;
 };
 
-const CategoryModel = <CategoryType>sequelize.define(
+export const Category = <CategoryType>sequelize.define(
   'category',
   {
     id: {
@@ -60,12 +60,10 @@ const CategoryModel = <CategoryType>sequelize.define(
   },
 );
 
-CultureModel.belongsTo(CategoryModel, { targetKey: 'id' });
+Culture.belongsTo(Category, { targetKey: 'id' });
 
-CategoryModel.hasMany(CultureModel, {
+Category.hasMany(Culture, {
   sourceKey: 'id',
   foreignKey: 'categoryId',
   as: 'category',
 });
-
-export default CategoryModel;

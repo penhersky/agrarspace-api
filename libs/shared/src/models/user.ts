@@ -1,16 +1,16 @@
 import Sequelize from 'sequelize';
 
-import { sequelize } from '..';
+import { sequelize } from '../db';
 import { beforeCreateUpdate } from '../hooks/user';
 
-export class User extends Sequelize.Model {
+export class TUser extends Sequelize.Model {
   public id: number;
 
   public name: string;
 
   public email: string;
 
-  public phonNumber?: string;
+  public phoneNumber?: string;
 
   public password?: string;
 
@@ -18,10 +18,10 @@ export class User extends Sequelize.Model {
 }
 
 type UserType = typeof Sequelize.Model & {
-  new (values?: object, options?: Sequelize.BuildOptions): User;
+  new (values?: object, options?: Sequelize.BuildOptions): TUser;
 };
 
-const UserModel = <UserType>sequelize.define(
+export const User = <UserType>sequelize.define(
   'user',
   {
     id: {
@@ -39,7 +39,7 @@ const UserModel = <UserType>sequelize.define(
       allowNull: false,
       unique: true,
     },
-    phonNumber: {
+    phoneNumber: {
       type: new Sequelize.DataTypes.STRING(24),
       allowNull: true,
     },
@@ -65,5 +65,3 @@ const UserModel = <UserType>sequelize.define(
     },
   },
 );
-
-export default UserModel;
