@@ -1,5 +1,5 @@
 import serverLauncher from './server';
-import resolvers from './resolvers';
+import { resolvers } from './resolvers';
 import typeDefs from './typeDefs';
 import { PORT, NODE_ENV } from './config';
 
