@@ -1,12 +1,9 @@
-import { gql } from 'apollo-server-koa';
 import { mergeTypeDefs } from '@graphql-tools/merge';
 
 import user from './user';
+import auth from './auth';
 
-const temp = gql`
-  type Query {
-    hello: String
-  }
-`;
+import Mutation from './Mutation';
+import Query from './Query';
 
-export default mergeTypeDefs([user, temp]);
+export default mergeTypeDefs([Query, Mutation, auth, user]);
