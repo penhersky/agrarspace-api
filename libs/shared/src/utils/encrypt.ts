@@ -9,5 +9,8 @@ const hash = async (password: string) => {
 
 export default {
   hash,
-  compare: bcrypt.compare,
+  compare: bcrypt.compare as (
+    data: string | Buffer,
+    encrypted: string,
+  ) => Promise<boolean>,
 };

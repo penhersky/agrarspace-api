@@ -76,6 +76,7 @@ export type QueryRefreshTokenArgs = {
 
 export type QuerySingInArgs = {
   data: SingIn;
+  info: UserDeviceInfo;
 };
 
 export type SingIn = {
@@ -105,6 +106,12 @@ export type User = {
   phoneNumber?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
   updatedAt: Scalars['String'];
+};
+
+export type UserDeviceInfo = {
+  browser?: InputMaybe<Scalars['String']>;
+  details?: InputMaybe<Scalars['String']>;
+  os?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -187,6 +194,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   UpdateUser: UpdateUser;
   User: ResolverTypeWrapper<User>;
+  UserDeviceInfo: UserDeviceInfo;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -202,6 +210,7 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   UpdateUser: UpdateUser;
   User: User;
+  UserDeviceInfo: UserDeviceInfo;
 };
 
 export type AccessResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccessResult'] = ResolversParentTypes['AccessResult']> = {
@@ -221,7 +230,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
   refreshToken?: Resolver<ResolversTypes['AccessResult'], ParentType, ContextType, RequireFields<QueryRefreshTokenArgs, 'token'>>;
-  singIn?: Resolver<ResolversTypes['AccessResult'], ParentType, ContextType, RequireFields<QuerySingInArgs, 'data'>>;
+  singIn?: Resolver<ResolversTypes['AccessResult'], ParentType, ContextType, RequireFields<QuerySingInArgs, 'data' | 'info'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
