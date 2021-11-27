@@ -6,3 +6,5 @@ export const isDevelopment: boolean = !isProduction;
 export const PORT: number | undefined = Number(ENV.PORT);
 
 export const LOG_LEVEL: string | undefined = ENV.LOG_LEVEL;
+
+export const JWT_SECRET: string | undefined = ENV.JWT_SECRET;

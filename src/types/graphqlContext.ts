@@ -1,10 +1,10 @@
 import { Context } from 'koa';
-import { TCategory, TCulture, TUser } from '@agrarspace/shared';
+import { TCategoryModel, TCultureModel, TUserModel } from '@agrarspace/shared';
 
 type Models = {
-  Category: TCategory;
-  Culture: TCulture;
-  User: TUser;
+  Category: TCategoryModel;
+  Culture: TCultureModel;
+  User: TUserModel;
 };
 
 export type IContext = {

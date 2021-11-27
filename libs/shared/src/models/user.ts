@@ -17,11 +17,11 @@ export class TUser extends Sequelize.Model {
   public provider: string;
 }
 
-type UserType = typeof Sequelize.Model & {
+export type TUserModel = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): TUser;
 };
 
-export const User = <UserType>sequelize.define(
+export const User = <TUserModel>sequelize.define(
   'user',
   {
     id: {

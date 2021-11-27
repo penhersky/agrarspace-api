@@ -17,11 +17,11 @@ export class TCategory extends Sequelize.Model {
   public description?: string;
 }
 
-type CategoryType = typeof Sequelize.Model & {
+export type TCategoryModel = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): TCategory;
 };
 
-export const Category = <CategoryType>sequelize.define(
+export const Category = <TCategoryModel>sequelize.define(
   'category',
   {
     id: {

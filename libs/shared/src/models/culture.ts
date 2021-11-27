@@ -14,11 +14,11 @@ export class TCulture extends Sequelize.Model {
   public description?: string;
 }
 
-type CultureType = typeof Sequelize.Model & {
+export type TCultureModel = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): TCulture;
 };
 
-export const Culture = <CultureType>sequelize.define(
+export const Culture = <TCultureModel>sequelize.define(
   'culture',
   {
     id: {
