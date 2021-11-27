@@ -1,4 +1,3 @@
-import { Context } from 'koa';
 import { TCategoryModel, TCultureModel, TUserModel } from '@agrarspace/shared';
 
 type Models = {
@@ -7,7 +6,13 @@ type Models = {
   User: TUserModel;
 };
 
+type Tokens = {
+  permanent: string;
+  session: string;
+  admin: string;
+};
+
 export type IContext = {
-  ctx: Context;
   models: Models;
+  tokens: Tokens;
 };
