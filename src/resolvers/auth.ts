@@ -1,10 +1,6 @@
-import { QuerySingInArgs, AccessResult } from '../types/graphql';
-import { IResolver } from '../types';
+import { SingInResolver } from '../types/resolvers';
 
-export const singIn: IResolver<AccessResult, QuerySingInArgs> = (
-  parent,
-  args,
-) => {
+export const singIn: SingInResolver = (parent, args) => {
   console.log(args, parent);
   return {
     token: '',

@@ -1,11 +1,14 @@
-import { Context } from 'koa';
-
 import { ResolverTypeWrapper, ResolverFn, RequireFields } from './graphql';
 
-interface IContext {
-  ctx: Context;
-}
+import { IContext } from './graphqlContext';
 
+export { IContext } from './graphqlContext';
+
+/**
+ * Default template for Apollo Graphql Resolver
+ * @param IResult
+ * @param TArgs
+ */
 export type IResolver<Result, Args> = ResolverFn<
   ResolverTypeWrapper<Result>,
   {},

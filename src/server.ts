@@ -10,6 +10,7 @@ import {
 } from 'apollo-server-core';
 import cors from '@koa/cors';
 import formatError from './utils/formatError';
+import { apolloContext } from './utils/createContext';
 
 import { logger, sequelize } from '@agrarspace/shared';
 
@@ -31,7 +32,7 @@ export default (typeDefs: DocumentNode, resolvers: any, stage: string) => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: (ctx) => ({ ctx }),
+    context: apolloContext,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
       ApolloServerPluginCacheControl({ defaultMaxAge: 0 }),
