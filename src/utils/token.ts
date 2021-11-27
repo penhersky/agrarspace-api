@@ -1,10 +1,11 @@
 import { sign, verify } from 'jsonwebtoken';
+
 import { JWT_SECRET } from './config';
 
-export const getToken = (data: any, expiresIn = 0) => {
+export const getToken = (data: any, expiresIn?: number) => {
   return sign(data, JWT_SECRET as string, {
     algorithm: 'HS256',
-    expiresIn,
+    ...(expiresIn ? { expiresIn } : {}),
   });
 };
 

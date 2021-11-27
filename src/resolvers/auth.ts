@@ -1,9 +1,9 @@
 import { UserInputError } from 'apollo-server-koa';
 import { User, encrypt } from '@agrarspace/shared';
 
-import { SingInResolver } from '../types/resolvers';
-import { findUserByEmail } from '../service/user';
-import { getToken } from '../utils/token';
+import { AuthenticateResolver, SingInResolver } from '../types/resolvers';
+import { findUserByEmail, findUserById } from '../service/user';
+import { getToken, verifyToken } from '../utils/token';
 
 export const singIn: SingInResolver = async (_, { data, info }) => {
   const user = await findUserByEmail(User, data.email);
@@ -24,7 +24,21 @@ export const singIn: SingInResolver = async (_, { data, info }) => {
   const token = getToken({ id: user.id, email: user.email, system: info });
 
   return {
-    token: token,
+    token,
     expiresIn: 'unlimited',
+  };
+};
+
+export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
+  const tokenContent = verifyToken(tokens.permanent);
+  if (typeof tokenContent === 'string') throw new UserInputError(tokenContent);
+
+  const user = await findUserById(User, 1);
+  if (!user) throw new UserInputError('Bad user data for authentication');
+
+  return {
+    token: '',
+    expiresIn: 'unlimited',
+    user,
   };
 };

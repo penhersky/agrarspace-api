@@ -2,13 +2,13 @@ import { gql } from 'apollo-server-koa';
 
 export default gql`
   type User {
-    id: ID!
+    id: Int!
     name: String!
     email: String!
     phoneNumber: String
     provider: String!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: String
+    updatedAt: String
     deletedAt: String
   }
 

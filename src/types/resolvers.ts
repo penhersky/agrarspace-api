@@ -1,5 +1,6 @@
-import { QuerySingInArgs, AccessResult } from './graphql';
+import { QuerySingInArgs, SingInResult, AuthenticateResult } from './graphql';
 import { IResolver } from '.';
 
 // auth
-export type SingInResolver = IResolver<AccessResult, QuerySingInArgs>;
+export type SingInResolver = IResolver<SingInResult, QuerySingInArgs>;
+export type AuthenticateResolver = IResolver<AuthenticateResult, {}>;

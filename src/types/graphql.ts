@@ -14,10 +14,11 @@ export type Scalars = {
   Float: number;
 };
 
-export type AccessResult = {
-  __typename?: 'AccessResult';
+export type AuthenticateResult = {
+  __typename?: 'AuthenticateResult';
   expiresIn?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
+  user: User;
 };
 
 export type CreateUser = {
@@ -57,20 +58,15 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  authenticate: AuthenticateResult;
   getMe: User;
   getUser: User;
-  refreshToken: AccessResult;
-  singIn: AccessResult;
+  singIn: SingInResult;
 };
 
 
 export type QueryGetUserArgs = {
   id: Scalars['ID'];
-};
-
-
-export type QueryRefreshTokenArgs = {
-  token: Scalars['String'];
 };
 
 
@@ -82,6 +78,12 @@ export type QuerySingInArgs = {
 export type SingIn = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type SingInResult = {
+  __typename?: 'SingInResult';
+  expiresIn?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
 };
 
 export type SingUp = {
@@ -98,14 +100,14 @@ export type UpdateUser = {
 
 export type User = {
   __typename?: 'User';
-  createdAt: Scalars['String'];
+  createdAt?: Maybe<Scalars['String']>;
   deletedAt?: Maybe<Scalars['String']>;
   email: Scalars['String'];
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
-  updatedAt: Scalars['String'];
+  updatedAt?: Maybe<Scalars['String']>;
 };
 
 export type UserDeviceInfo = {
@@ -183,13 +185,15 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  AccessResult: ResolverTypeWrapper<AccessResult>;
+  AuthenticateResult: ResolverTypeWrapper<AuthenticateResult>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateUser: CreateUser;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   SingIn: SingIn;
+  SingInResult: ResolverTypeWrapper<SingInResult>;
   SingUp: SingUp;
   String: ResolverTypeWrapper<Scalars['String']>;
   UpdateUser: UpdateUser;
@@ -199,13 +203,15 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  AccessResult: AccessResult;
+  AuthenticateResult: AuthenticateResult;
   Boolean: Scalars['Boolean'];
   CreateUser: CreateUser;
   ID: Scalars['ID'];
+  Int: Scalars['Int'];
   Mutation: {};
   Query: {};
   SingIn: SingIn;
+  SingInResult: SingInResult;
   SingUp: SingUp;
   String: Scalars['String'];
   UpdateUser: UpdateUser;
@@ -213,9 +219,10 @@ export type ResolversParentTypes = {
   UserDeviceInfo: UserDeviceInfo;
 };
 
-export type AccessResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccessResult'] = ResolversParentTypes['AccessResult']> = {
+export type AuthenticateResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthenticateResult'] = ResolversParentTypes['AuthenticateResult']> = {
   expiresIn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -227,28 +234,35 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  authenticate?: Resolver<ResolversTypes['AuthenticateResult'], ParentType, ContextType>;
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
-  refreshToken?: Resolver<ResolversTypes['AccessResult'], ParentType, ContextType, RequireFields<QueryRefreshTokenArgs, 'token'>>;
-  singIn?: Resolver<ResolversTypes['AccessResult'], ParentType, ContextType, RequireFields<QuerySingInArgs, 'data' | 'info'>>;
+  singIn?: Resolver<ResolversTypes['SingInResult'], ParentType, ContextType, RequireFields<QuerySingInArgs, 'data' | 'info'>>;
+};
+
+export type SingInResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SingInResult'] = ResolversParentTypes['SingInResult']> = {
+  expiresIn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   deletedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  AccessResult?: AccessResultResolvers<ContextType>;
+  AuthenticateResult?: AuthenticateResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SingInResult?: SingInResultResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

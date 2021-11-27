@@ -12,8 +12,14 @@ export default gql`
     password: String!
   }
 
-  type AccessResult {
+  type SingInResult {
     token: String
     expiresIn: String
+  }
+
+  type AuthenticateResult {
+    token: String
+    expiresIn: String
+    user: User!
   }
 `;
