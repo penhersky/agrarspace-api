@@ -15,7 +15,13 @@ export class TYield extends Sequelize.Model {
 
   public collectedWeight: number;
 
-  public dateOfSubmission: Date;
+  public dateOfSowingStart: Date;
+
+  public dateOfSowingEnd?: Date;
+
+  public dateOfCollectionStart: Date;
+
+  public dateOfCollectionEnd?: Date;
 
   public description?: string;
 }
@@ -53,7 +59,19 @@ export const Yield = <TYieldModel>sequelize.define(
       type: new Sequelize.DataTypes.DOUBLE(),
       allowNull: false,
     },
-    dateOfSubmission: {
+    dateOfSowingStart: {
+      type: new Sequelize.DataTypes.DATE(),
+      allowNull: false,
+    },
+    dateOfSowingEnd: {
+      type: new Sequelize.DataTypes.DATE(),
+      allowNull: false,
+    },
+    dateOfCollectionStart: {
+      type: new Sequelize.DataTypes.DATE(),
+      allowNull: false,
+    },
+    dateOfCollectionEnd: {
       type: new Sequelize.DataTypes.DATE(),
       allowNull: false,
     },

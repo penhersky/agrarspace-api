@@ -27,7 +27,19 @@ module.exports = {
         type: new Sequelize.DOUBLE(),
         allowNull: false,
       },
-      dateOfSubmission: {
+      dateOfSowingStart: {
+        type: new Sequelize.DATE(),
+        allowNull: false,
+      },
+      dateOfSowingEnd: {
+        type: new Sequelize.DATE(),
+        allowNull: false,
+      },
+      dateOfCollectionStart: {
+        type: new Sequelize.DATE(),
+        allowNull: false,
+      },
+      dateOfCollectionEnd: {
         type: new Sequelize.DATE(),
         allowNull: false,
       },
