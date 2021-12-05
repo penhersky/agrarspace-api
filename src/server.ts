@@ -35,7 +35,7 @@ export default (typeDefs: DocumentNode, resolvers: any, stage: string) => {
     context: apolloContext,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      ApolloServerPluginCacheControl({ defaultMaxAge: 0 }),
+      ApolloServerPluginCacheControl({ defaultMaxAge: 1 }),
     ],
     formatError,
   });

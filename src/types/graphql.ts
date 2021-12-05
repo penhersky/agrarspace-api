@@ -21,6 +21,25 @@ export type AuthenticateResult = {
   user: User;
 };
 
+export enum CacheControlScope {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC'
+}
+
+export type Category = {
+  __typename?: 'Category';
+  color?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  cultures?: Maybe<Array<Maybe<Culture>>>;
+  deletedAt?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
 export type CreateUser = {
   email: Scalars['String'];
   name: Scalars['String'];
@@ -28,17 +47,60 @@ export type CreateUser = {
   provider: Scalars['String'];
 };
 
+export type Culture = {
+  __typename?: 'Culture';
+  category: Category;
+  createdAt?: Maybe<Scalars['String']>;
+  deletedAt?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
+export type InputCategory = {
+  color?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  icon?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type InputCulture = {
+  categoryId: Scalars['ID'];
+  color?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  icon?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   confirmForgotPassword: Scalars['Boolean'];
+  createCategory: Category;
+  createCulture: Culture;
   forgotPassword: Scalars['Boolean'];
   singUp: Scalars['Boolean'];
+  updateCategory: Category;
+  updateCulture: Culture;
   updateUser?: Maybe<User>;
 };
 
 
 export type MutationConfirmForgotPasswordArgs = {
   token: Scalars['String'];
+};
+
+
+export type MutationCreateCategoryArgs = {
+  category: InputCategory;
+};
+
+
+export type MutationCreateCultureArgs = {
+  category: InputCulture;
 };
 
 
@@ -52,6 +114,18 @@ export type MutationSingUpArgs = {
 };
 
 
+export type MutationUpdateCategoryArgs = {
+  category: InputCategory;
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateCultureArgs = {
+  category: InputCulture;
+  id: Scalars['ID'];
+};
+
+
 export type MutationUpdateUserArgs = {
   user: UpdateUser;
 };
@@ -59,9 +133,16 @@ export type MutationUpdateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   authenticate: AuthenticateResult;
+  getCategories: Array<Maybe<Category>>;
+  getCulturesByCategoryId: Array<Maybe<Culture>>;
   getMe: User;
   getUser: User;
   singIn: SingInResult;
+};
+
+
+export type QueryGetCulturesByCategoryIdArgs = {
+  categoryId: Scalars['ID'];
 };
 
 
@@ -187,8 +268,13 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   AuthenticateResult: ResolverTypeWrapper<AuthenticateResult>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CacheControlScope: CacheControlScope;
+  Category: ResolverTypeWrapper<Category>;
   CreateUser: CreateUser;
+  Culture: ResolverTypeWrapper<Culture>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  InputCategory: InputCategory;
+  InputCulture: InputCulture;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -205,8 +291,12 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   AuthenticateResult: AuthenticateResult;
   Boolean: Scalars['Boolean'];
+  Category: Category;
   CreateUser: CreateUser;
+  Culture: Culture;
   ID: Scalars['ID'];
+  InputCategory: InputCategory;
+  InputCulture: InputCulture;
   Int: Scalars['Int'];
   Mutation: {};
   Query: {};
@@ -219,6 +309,13 @@ export type ResolversParentTypes = {
   UserDeviceInfo: UserDeviceInfo;
 };
 
+export type CacheControlDirectiveArgs = {
+  maxAge?: Maybe<Scalars['Int']>;
+  scope?: Maybe<CacheControlScope>;
+};
+
+export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type AuthenticateResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthenticateResult'] = ResolversParentTypes['AuthenticateResult']> = {
   expiresIn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -226,15 +323,47 @@ export type AuthenticateResultResolvers<ContextType = any, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
+  color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  cultures?: Resolver<Maybe<Array<Maybe<ResolversTypes['Culture']>>>, ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CultureResolvers<ContextType = any, ParentType extends ResolversParentTypes['Culture'] = ResolversParentTypes['Culture']> = {
+  category?: Resolver<ResolversTypes['Category'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   confirmForgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationConfirmForgotPasswordArgs, 'token'>>;
+  createCategory?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'category'>>;
+  createCulture?: Resolver<ResolversTypes['Culture'], ParentType, ContextType, RequireFields<MutationCreateCultureArgs, 'category'>>;
   forgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'email'>>;
   singUp?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSingUpArgs, 'data'>>;
+  updateCategory?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'category' | 'id'>>;
+  updateCulture?: Resolver<ResolversTypes['Culture'], ParentType, ContextType, RequireFields<MutationUpdateCultureArgs, 'category' | 'id'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'user'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authenticate?: Resolver<ResolversTypes['AuthenticateResult'], ParentType, ContextType>;
+  getCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
+  getCulturesByCategoryId?: Resolver<Array<Maybe<ResolversTypes['Culture']>>, ParentType, ContextType, RequireFields<QueryGetCulturesByCategoryIdArgs, 'categoryId'>>;
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
   singIn?: Resolver<ResolversTypes['SingInResult'], ParentType, ContextType, RequireFields<QuerySingInArgs, 'data' | 'info'>>;
@@ -260,9 +389,14 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   AuthenticateResult?: AuthenticateResultResolvers<ContextType>;
+  Category?: CategoryResolvers<ContextType>;
+  Culture?: CultureResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SingInResult?: SingInResultResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 
+export type DirectiveResolvers<ContextType = any> = {
+  cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
+};
