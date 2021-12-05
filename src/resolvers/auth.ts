@@ -3,7 +3,7 @@ import { User, encrypt } from '@agrarspace/shared';
 
 import { AuthenticateResolver, SingInResolver } from '../types/resolvers';
 import { findUserByEmail, findUserById } from '../service/user';
-import { getToken, verifyToken } from '../utils/token';
+import { getToken, verifyToken, USER_SESSION_TOKEN } from '../utils/token';
 
 export const singIn: SingInResolver = async (_, { data, info }) => {
   const user = await findUserByEmail(User, data.email);
@@ -21,7 +21,7 @@ export const singIn: SingInResolver = async (_, { data, info }) => {
   if (!compareResult)
     throw new UserInputError('Bad user data for authentication');
 
-  const token = getToken({ id: user.id, email: user.email, system: info });
+  const token = getToken({ id: user.id, system: info });
 
   return {
     token,
@@ -33,12 +33,16 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
   const tokenContent = verifyToken(tokens.permanent);
   if (typeof tokenContent === 'string') throw new UserInputError(tokenContent);
 
-  const user = await findUserById(User, 1);
+  const user = await findUserById(User, tokenContent.id);
   if (!user) throw new UserInputError('Bad user data for authentication');
 
+  const date = new Date();
+  const token = getToken({ id: user.id }, USER_SESSION_TOKEN);
+  date.setMilliseconds(date.getMilliseconds() + USER_SESSION_TOKEN);
+
   return {
-    token: '',
-    expiresIn: 'unlimited',
+    token,
+    expiresIn: Number(date).toString(),
     user,
   };
 };

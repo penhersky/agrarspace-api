@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { col, QueryInterface } from 'sequelize';
+import { QueryInterface } from 'sequelize';
 
 import { fillArr, getRandom, randomIntFromInterval } from '../utils/seed';
 
@@ -16,7 +16,7 @@ module.exports = {
     const userIds = users[0];
     await queryInterface.bulkInsert(
       'yield',
-      fillArr(3000, () => {
+      fillArr(5000, () => {
         const area = getRandom([
           faker.datatype.float({
             max: 20000,
@@ -80,6 +80,7 @@ module.exports = {
         };
       }),
     );
+    await queryInterface.bulkDelete('yield', { collectedWeight: 0 }, {});
   },
 
   down: async (queryInterface: any) => {
