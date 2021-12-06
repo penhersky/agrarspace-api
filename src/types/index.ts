@@ -15,3 +15,15 @@ export type IResolver<Result, Args> = ResolverFn<
   IContext,
   RequireFields<Args, keyof Args>
 >;
+
+/**
+ * Default template for Apollo Graphql Resolver
+ * @param IResult
+ * @param TArgs
+ */
+export type IResolverReturnArray<Result, Args> = ResolverFn<
+  ResolverTypeWrapper<Result>[],
+  {},
+  IContext,
+  RequireFields<Args, keyof Args>
+>;
