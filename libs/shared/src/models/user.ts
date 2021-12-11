@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 
 import { sequelize } from '../db';
 import { beforeCreateUpdate } from '../hooks/user';
+import { UserRoles } from '../utils/constants';
 
 export class TUser extends Sequelize.Model {
   public id: number;
@@ -13,6 +14,8 @@ export class TUser extends Sequelize.Model {
   public phoneNumber?: string;
 
   public password?: string;
+
+  public role: UserRoles;
 
   public provider: string;
 }
@@ -47,6 +50,11 @@ export const User = <TUserModel>sequelize.define(
       type: new Sequelize.DataTypes.STRING(164),
       allowNull: true,
     },
+    role: {
+      type: new Sequelize.DataTypes.ENUM(...Object.keys(UserRoles)),
+      allowNull: false,
+      defaultValue: UserRoles.User,
+    },
     provider: {
       type: new Sequelize.DataTypes.STRING(64),
       allowNull: false,
@@ -58,7 +66,6 @@ export const User = <TUserModel>sequelize.define(
     timestamps: true,
     createdAt: true,
     updatedAt: true,
-    deletedAt: true,
     hooks: {
       beforeCreate: beforeCreateUpdate,
       beforeUpdate: beforeCreateUpdate,

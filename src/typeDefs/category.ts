@@ -11,7 +11,6 @@ export default gql`
     cultures: [Culture]
     createdAt: String
     updatedAt: String
-    deletedAt: String
   }
 
   input InputCategory {

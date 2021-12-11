@@ -28,9 +28,13 @@ module.exports = {
         allowNull: false,
         defaultValue: 'email',
       },
+      role: {
+        type: Sequelize.DataTypes.ENUM('user', 'admin', 'manager'),
+        allowNull: false,
+        defaultValue: 'user',
+      },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
-      deletedAt: Sequelize.DATE,
     });
   },
 

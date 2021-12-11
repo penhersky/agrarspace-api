@@ -31,7 +31,6 @@ export type Category = {
   color?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   cultures?: Maybe<Array<Maybe<Culture>>>;
-  deletedAt?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   icon?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -51,11 +50,11 @@ export type Culture = {
   __typename?: 'Culture';
   category: Category;
   createdAt?: Maybe<Scalars['String']>;
-  deletedAt?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   image?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  subcultures?: Maybe<Array<Maybe<Category>>>;
   updatedAt?: Maybe<Scalars['String']>;
 };
 
@@ -74,6 +73,7 @@ export type InputCulture = {
   icon?: InputMaybe<Scalars['String']>;
   image?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
+  parentId?: InputMaybe<Scalars['ID']>;
 };
 
 export type Mutation = {
@@ -182,12 +182,12 @@ export type UpdateUser = {
 export type User = {
   __typename?: 'User';
   createdAt?: Maybe<Scalars['String']>;
-  deletedAt?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
+  role: UserRoles;
   updatedAt?: Maybe<Scalars['String']>;
 };
 
@@ -196,6 +196,12 @@ export type UserDeviceInfo = {
   details?: InputMaybe<Scalars['String']>;
   os?: InputMaybe<Scalars['String']>;
 };
+
+export enum UserRoles {
+  Admin = 'admin',
+  Manager = 'manager',
+  User = 'user'
+}
 
 
 
@@ -285,6 +291,7 @@ export type ResolversTypes = {
   UpdateUser: UpdateUser;
   User: ResolverTypeWrapper<User>;
   UserDeviceInfo: UserDeviceInfo;
+  UserRoles: UserRoles;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -327,7 +334,6 @@ export type CategoryResolvers<ContextType = any, ParentType extends ResolversPar
   color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cultures?: Resolver<Maybe<Array<Maybe<ResolversTypes['Culture']>>>, ParentType, ContextType>;
-  deletedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -340,11 +346,11 @@ export type CategoryResolvers<ContextType = any, ParentType extends ResolversPar
 export type CultureResolvers<ContextType = any, ParentType extends ResolversParentTypes['Culture'] = ResolversParentTypes['Culture']> = {
   category?: Resolver<ResolversTypes['Category'], ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  deletedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subcultures?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -377,12 +383,12 @@ export type SingInResultResolvers<ContextType = any, ParentType extends Resolver
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  deletedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['UserRoles'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

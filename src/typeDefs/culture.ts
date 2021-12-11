@@ -7,14 +7,15 @@ export default gql`
     image: String
     description: String
     category: Category!
+    subcultures: [Category]
     createdAt: String
     updatedAt: String
-    deletedAt: String
   }
 
   input InputCulture {
     name: String!
     categoryId: ID!
+    parentId: ID
     image: String
     color: String
     icon: String

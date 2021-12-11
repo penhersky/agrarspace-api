@@ -9,6 +9,8 @@ export class TCulture extends Sequelize.Model {
 
   public categoryId: number;
 
+  public parentId: number;
+
   public image?: string;
 
   public description?: string;
@@ -35,6 +37,10 @@ export const Culture = <TCultureModel>sequelize.define(
       type: Sequelize.DataTypes.INTEGER,
       allowNull: false,
     },
+    parentId: {
+      type: Sequelize.DataTypes.INTEGER,
+      allowNull: true,
+    },
     image: {
       type: new Sequelize.DataTypes.STRING(132),
       allowNull: true,
@@ -49,6 +55,5 @@ export const Culture = <TCultureModel>sequelize.define(
     timestamps: true,
     createdAt: true,
     updatedAt: true,
-    deletedAt: true,
   },
 );

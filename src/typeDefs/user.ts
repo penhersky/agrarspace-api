@@ -6,10 +6,10 @@ export default gql`
     name: String!
     email: String!
     phoneNumber: String
+    role: UserRoles!
     provider: String!
     createdAt: String
     updatedAt: String
-    deletedAt: String
   }
 
   input CreateUser {

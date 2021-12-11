@@ -9,17 +9,27 @@ module.exports = {
       `SELECT id from category;`,
     );
     const ids = categories[0];
-    await queryInterface.bulkInsert(
-      'culture',
-      fillArr(50, () => ({
-        name: faker.commerce.productName(),
-        image: faker.image.food(),
-        description: faker.lorem.text(),
-        categoryId: getRandom(ids).id || ids[0].id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })),
-    );
+
+    const parents = fillArr(40, () => ({
+      name: faker.commerce.productName(),
+      image: faker.image.food(),
+      description: faker.lorem.text(),
+      categoryId: getRandom(ids).id || ids[0].id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+    const children = fillArr(20, () => ({
+      name: faker.commerce.productName(),
+      image: faker.image.food(),
+      description: faker.lorem.text(),
+      categoryId: getRandom(ids).id || ids[0].id,
+      parentId: getRandom(parents).id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+    await queryInterface.bulkInsert('culture', [...parents, ...children]);
   },
 
   down: async (queryInterface: any) => {

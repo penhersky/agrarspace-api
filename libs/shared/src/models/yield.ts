@@ -85,6 +85,5 @@ export const Yield = <TYieldModel>sequelize.define(
     timestamps: true,
     createdAt: true,
     updatedAt: true,
-    deletedAt: true,
   },
 );

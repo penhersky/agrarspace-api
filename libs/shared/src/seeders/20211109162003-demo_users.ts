@@ -1,7 +1,9 @@
+import { getRandom } from './../utils/seed';
 import faker from 'faker';
 import path from 'path';
 import encrypt from '../utils/encrypt';
 import { fillArr } from '../utils/seed';
+import { UserRoles } from '../utils/constants';
 require('dotenv').config({ path: path.resolve(__dirname, '../../../../.env') });
 
 const pass = process.env.TEXT_PASS || '12345@A';
@@ -18,6 +20,7 @@ module.exports = {
           phoneNumber: faker.phone.phoneNumber('380#######'),
           password: passwordHash,
           provider: 'email',
+          role: getRandom(Object.values(UserRoles)),
           createdAt: new Date(),
           updatedAt: new Date(),
         };

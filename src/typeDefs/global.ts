@@ -1,3 +1,4 @@
+import { UserRoles } from '@agrarspace/shared';
 import { gql } from 'apollo-server-koa';
 
 export default gql`
@@ -10,6 +11,10 @@ export default gql`
   enum CacheControlScope {
     PUBLIC
     PRIVATE
+  }
+
+  enum UserRoles {
+    ${Object.values(UserRoles).join(' ')}
   }
 
   directive @cacheControl(

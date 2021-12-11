@@ -56,7 +56,6 @@ export const Category = <TCategoryModel>sequelize.define(
     timestamps: true,
     createdAt: true,
     updatedAt: true,
-    deletedAt: true,
   },
 );
 

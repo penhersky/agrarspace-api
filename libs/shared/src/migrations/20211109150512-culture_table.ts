@@ -15,6 +15,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      parentId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
       image: {
         type: new Sequelize.STRING(132),
         allowNull: true,
@@ -25,7 +29,6 @@ module.exports = {
       },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
-      deletedAt: Sequelize.DATE,
     });
   },
 
