@@ -26,8 +26,8 @@ export default gql`
   }
 
   extend type Query {
-    getMe: User!
-    getUser(id: ID!): User!
+    getMe: User! @auth
+    getUser(id: ID!): User! @auth
   }
 
   extend type Mutation {

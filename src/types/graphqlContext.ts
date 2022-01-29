@@ -1,18 +1,3 @@
-import { TCategoryModel, TCultureModel, TUserModel } from '@agrarspace/shared';
+import { apolloContext } from '../utils/createContext';
 
-type Models = {
-  Category: TCategoryModel;
-  Culture: TCultureModel;
-  User: TUserModel;
-};
-
-type Tokens = {
-  permanent: string;
-  session: string;
-  admin: string;
-};
-
-export type IContext = {
-  models: Models;
-  tokens: Tokens;
-};
+export type IContext = ReturnType<typeof apolloContext>;

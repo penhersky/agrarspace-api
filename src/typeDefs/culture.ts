@@ -23,11 +23,11 @@ export default gql`
   }
 
   extend type Query {
-    getCulturesByCategoryId(categoryId: ID!): [Culture]!
+    getCulturesByCategoryId(categoryId: ID!): [Culture]! @auth
   }
 
   extend type Mutation {
-    createCulture(category: InputCulture!): Culture!
-    updateCulture(id: ID!, category: InputCulture!): Culture!
+    createCulture(category: InputCulture!): Culture! @auth(role: ADMIN)
+    updateCulture(id: ID!, category: InputCulture!): Culture! @auth(role: ADMIN)
   }
 `;

@@ -7,9 +7,12 @@ import {
   ApolloServerPluginCacheControl,
   ApolloServerPluginDrainHttpServer,
 } from 'apollo-server-core';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import cors from '@koa/cors';
+
 import formatError from './utils/formatError';
 import { apolloContext } from './utils/createContext';
+import { authDirective } from './directives/auth';
 
 import { logger, sequelize } from '@agrarspace/shared';
 
@@ -17,9 +20,18 @@ export default (typeDefs: DocumentNode, resolvers: any, stage: string) => {
   const app = new Koa();
   const httpServer = http.createServer();
 
-  const server = new ApolloServer({
-    typeDefs,
+  const { deprecatedDirectiveTransformer, deprecatedDirectiveTypeDefs } =
+    authDirective('auth');
+
+  let schema = makeExecutableSchema({
+    typeDefs: [deprecatedDirectiveTypeDefs, typeDefs],
     resolvers,
+  });
+
+  schema = deprecatedDirectiveTransformer(schema);
+
+  const server = new ApolloServer({
+    schema,
     context: apolloContext,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),

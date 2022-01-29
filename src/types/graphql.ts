@@ -316,6 +316,12 @@ export type ResolversParentTypes = {
   UserDeviceInfo: UserDeviceInfo;
 };
 
+export type AuthDirectiveArgs = {
+  role?: Maybe<UserRoles>;
+};
+
+export type AuthDirectiveResolver<Result, Parent, ContextType = any, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type CacheControlDirectiveArgs = {
   maxAge?: Maybe<Scalars['Int']>;
   scope?: Maybe<CacheControlScope>;
@@ -404,5 +410,6 @@ export type Resolvers<ContextType = any> = {
 };
 
 export type DirectiveResolvers<ContextType = any> = {
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
   cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
 };

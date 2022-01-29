@@ -22,11 +22,12 @@ export default gql`
   }
 
   extend type Query {
-    getCategories: [Category]! @cacheControl(maxAge: 1200)
+    getCategories: [Category]! @cacheControl(maxAge: 1200) @auth
   }
 
   extend type Mutation {
-    createCategory(category: InputCategory!): Category!
+    createCategory(category: InputCategory!): Category! @auth(role: ADMIN)
     updateCategory(id: ID!, category: InputCategory!): Category!
+      @auth(role: ADMIN)
   }
 `;

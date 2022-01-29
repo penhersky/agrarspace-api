@@ -32,6 +32,8 @@
   "dependencies": {
     "@agrarspace/shared": "file:libs/shared/agrarspace-shared-1.0.0.tgz",
     "@graphql-tools/merge": "8.2.1",
+    "@graphql-tools/schema": "8.3.1",
+    "@graphql-tools/utils": "8.6.1",
     "@koa/cors": "3.1.0",
     "apollo-server-core": "3.5.0",
     "apollo-server-koa": "3.3.0",
