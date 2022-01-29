@@ -1,4 +1,4 @@
-# Places of interest API
+# Agrarspace
 
 ![workflow](https://github.com/penhersky/agrarspace/actions/workflows/ci.yml/badge.svg) ![GitHub package.json version](https://img.shields.io/github/package-json/v/penhersky/agrarspace) ![GitHub](https://img.shields.io/github/license/penhersky/agrarspace)
 

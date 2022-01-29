@@ -82,7 +82,7 @@ export type Mutation = {
   createCategory: Category;
   createCulture: Culture;
   forgotPassword: Scalars['Boolean'];
-  singUp: Scalars['Boolean'];
+  signUp: Scalars['Boolean'];
   updateCategory: Category;
   updateCulture: Culture;
   updateUser?: Maybe<User>;
@@ -109,8 +109,8 @@ export type MutationForgotPasswordArgs = {
 };
 
 
-export type MutationSingUpArgs = {
-  data: SingUp;
+export type MutationSignUpArgs = {
+  data: SignUp;
 };
 
 
@@ -137,7 +137,7 @@ export type Query = {
   getCulturesByCategoryId: Array<Maybe<Culture>>;
   getMe: User;
   getUser: User;
-  singIn: SingInResult;
+  signIn: SignInResult;
 };
 
 
@@ -151,23 +151,23 @@ export type QueryGetUserArgs = {
 };
 
 
-export type QuerySingInArgs = {
-  data: SingIn;
+export type QuerySignInArgs = {
+  data: SignIn;
   info: UserDeviceInfo;
 };
 
-export type SingIn = {
+export type SignIn = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
 
-export type SingInResult = {
-  __typename?: 'SingInResult';
+export type SignInResult = {
+  __typename?: 'SignInResult';
   expiresIn?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
 };
 
-export type SingUp = {
+export type SignUp = {
   email: Scalars['String'];
   name: Scalars['String'];
   password: Scalars['String'];
@@ -284,9 +284,9 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
-  SingIn: SingIn;
-  SingInResult: ResolverTypeWrapper<SingInResult>;
-  SingUp: SingUp;
+  SignIn: SignIn;
+  SignInResult: ResolverTypeWrapper<SignInResult>;
+  SignUp: SignUp;
   String: ResolverTypeWrapper<Scalars['String']>;
   UpdateUser: UpdateUser;
   User: ResolverTypeWrapper<User>;
@@ -307,9 +307,9 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   Mutation: {};
   Query: {};
-  SingIn: SingIn;
-  SingInResult: SingInResult;
-  SingUp: SingUp;
+  SignIn: SignIn;
+  SignInResult: SignInResult;
+  SignUp: SignUp;
   String: Scalars['String'];
   UpdateUser: UpdateUser;
   User: User;
@@ -360,7 +360,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createCategory?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'category'>>;
   createCulture?: Resolver<ResolversTypes['Culture'], ParentType, ContextType, RequireFields<MutationCreateCultureArgs, 'category'>>;
   forgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'email'>>;
-  singUp?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSingUpArgs, 'data'>>;
+  signUp?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'data'>>;
   updateCategory?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'category' | 'id'>>;
   updateCulture?: Resolver<ResolversTypes['Culture'], ParentType, ContextType, RequireFields<MutationUpdateCultureArgs, 'category' | 'id'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'user'>>;
@@ -372,10 +372,10 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getCulturesByCategoryId?: Resolver<Array<Maybe<ResolversTypes['Culture']>>, ParentType, ContextType, RequireFields<QueryGetCulturesByCategoryIdArgs, 'categoryId'>>;
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
-  singIn?: Resolver<ResolversTypes['SingInResult'], ParentType, ContextType, RequireFields<QuerySingInArgs, 'data' | 'info'>>;
+  signIn?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInArgs, 'data' | 'info'>>;
 };
 
-export type SingInResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SingInResult'] = ResolversParentTypes['SingInResult']> = {
+export type SignInResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInResult'] = ResolversParentTypes['SignInResult']> = {
   expiresIn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -399,7 +399,7 @@ export type Resolvers<ContextType = any> = {
   Culture?: CultureResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  SingInResult?: SingInResultResolvers<ContextType>;
+  SignInResult?: SignInResultResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

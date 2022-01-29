@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import http from 'http';
 import Koa from 'koa';
-import rateLimit from 'koa-ratelimit';
 import { ApolloServer } from 'apollo-server-koa';
 import { DocumentNode } from 'graphql';
 import {
@@ -14,19 +13,8 @@ import { apolloContext } from './utils/createContext';
 
 import { logger, sequelize } from '@agrarspace/shared';
 
-const getLimiter = (memory: Map<any, any>) =>
-  rateLimit({
-    duration: 1000 * 60 * 60 * 5,
-    errorMessage: 'To Many requests!!!',
-    driver: 'memory',
-    db: memory,
-    max: 300,
-    disableHeader: true,
-  });
-
 export default (typeDefs: DocumentNode, resolvers: any, stage: string) => {
   const app = new Koa();
-  const memory = new Map();
   const httpServer = http.createServer();
 
   const server = new ApolloServer({
@@ -46,7 +34,6 @@ export default (typeDefs: DocumentNode, resolvers: any, stage: string) => {
 
   const connectMiddleware = () => {
     app.use(cors());
-    app.use(getLimiter(memory));
   };
 
   const apply = () => {

@@ -1,10 +1,10 @@
 import { Resolvers } from '../types/graphql';
-import { singIn, authenticate } from './auth';
+import { signIn, authenticate } from './auth';
 import { Category, CategoriesQueries } from './category';
 
 export const resolvers: Resolvers = {
   Query: {
-    singIn,
+    signIn,
     authenticate,
     ...CategoriesQueries,
   },

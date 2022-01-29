@@ -1,18 +1,18 @@
 import { gql } from 'apollo-server-koa';
 
 export default gql`
-  input SingUp {
+  input SignUp {
     name: String!
     email: String!
     password: String!
   }
 
-  input SingIn {
+  input SignIn {
     email: String!
     password: String!
   }
 
-  type SingInResult {
+  type SignInResult {
     token: String
     expiresIn: String
   }

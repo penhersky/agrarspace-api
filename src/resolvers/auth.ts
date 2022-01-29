@@ -5,7 +5,7 @@ import { AuthenticateResolver, SingInResolver } from '../types/resolvers';
 import { findUserByEmail, findUserById } from '../service/user';
 import { getToken, verifyToken, USER_SESSION_TOKEN } from '../utils/token';
 
-export const singIn: SingInResolver = async (_, { data, info }) => {
+export const signIn: SingInResolver = async (_, { data, info }) => {
   const user = await findUserByEmail(User, data.email);
 
   if (!user) throw new UserInputError('Bad user data for authentication');
