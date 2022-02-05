@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface: any, Sequelize: any) => {
-    return queryInterface.createTable('category', {
+    const category = queryInterface.createTable('category', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -30,6 +30,12 @@ module.exports = {
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
     });
+
+    category.associate = (models: any) => {
+      category.hasMany(models.culture);
+    };
+
+    return category;
   },
 
   down: async (queryInterface: any) => {

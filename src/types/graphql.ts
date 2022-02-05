@@ -136,6 +136,7 @@ export type Query = {
   getCategories: Array<Maybe<Category>>;
   getCulturesByCategoryId: Array<Maybe<Culture>>;
   getMe: User;
+  getTop: Top;
   getUser: User;
   signIn: SignInResult;
 };
@@ -173,6 +174,11 @@ export type SignUp = {
   password: Scalars['String'];
 };
 
+export type Top = {
+  __typename?: 'Top';
+  message?: Maybe<Scalars['String']>;
+};
+
 export type UpdateUser = {
   email: Scalars['String'];
   name: Scalars['String'];
@@ -198,9 +204,9 @@ export type UserDeviceInfo = {
 };
 
 export enum UserRoles {
-  Admin = 'admin',
-  Manager = 'manager',
-  User = 'user'
+  Admin = 'ADMIN',
+  Manager = 'MANAGER',
+  User = 'USER'
 }
 
 
@@ -288,6 +294,7 @@ export type ResolversTypes = {
   SignInResult: ResolverTypeWrapper<SignInResult>;
   SignUp: SignUp;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Top: ResolverTypeWrapper<Top>;
   UpdateUser: UpdateUser;
   User: ResolverTypeWrapper<User>;
   UserDeviceInfo: UserDeviceInfo;
@@ -311,6 +318,7 @@ export type ResolversParentTypes = {
   SignInResult: SignInResult;
   SignUp: SignUp;
   String: Scalars['String'];
+  Top: Top;
   UpdateUser: UpdateUser;
   User: User;
   UserDeviceInfo: UserDeviceInfo;
@@ -377,6 +385,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
   getCulturesByCategoryId?: Resolver<Array<Maybe<ResolversTypes['Culture']>>, ParentType, ContextType, RequireFields<QueryGetCulturesByCategoryIdArgs, 'categoryId'>>;
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  getTop?: Resolver<ResolversTypes['Top'], ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
   signIn?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInArgs, 'data' | 'info'>>;
 };
@@ -384,6 +393,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type SignInResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInResult'] = ResolversParentTypes['SignInResult']> = {
   expiresIn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TopResolvers<ContextType = any, ParentType extends ResolversParentTypes['Top'] = ResolversParentTypes['Top']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -406,6 +420,7 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignInResult?: SignInResultResolvers<ContextType>;
+  Top?: TopResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

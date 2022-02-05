@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface: any, Sequelize: any) => {
-    return queryInterface.createTable('yield', {
+    const yieldModel = queryInterface.createTable('yield', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
         autoIncrement: true,
@@ -10,10 +10,22 @@ module.exports = {
       cultureId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'culture',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       area: {
         type: new Sequelize.DOUBLE(),
@@ -50,6 +62,13 @@ module.exports = {
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
     });
+
+    yieldModel.associate = (models: any) => {
+      yieldModel.belongsTo(models.culture);
+      yieldModel.belongsTo(models.user);
+    };
+
+    return yieldModel;
   },
 
   down: async (queryInterface: any) => {

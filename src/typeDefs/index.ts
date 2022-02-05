@@ -7,6 +7,8 @@ import auth from './auth';
 
 import global from './global';
 
+import statistics from './statistics';
+
 import Mutation from './Mutation';
 import Query from './Query';
 
@@ -18,4 +20,5 @@ export default mergeTypeDefs([
   user,
   category,
   culture,
+  statistics,
 ]);

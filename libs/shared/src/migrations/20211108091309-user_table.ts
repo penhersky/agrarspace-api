@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface: any, Sequelize: any) => {
-    return queryInterface.createTable('user', {
+    const user = queryInterface.createTable('user', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -29,13 +29,19 @@ module.exports = {
         defaultValue: 'email',
       },
       role: {
-        type: Sequelize.DataTypes.ENUM('user', 'admin', 'manager'),
+        type: Sequelize.DataTypes.ENUM('user', 'admin'),
         allowNull: false,
         defaultValue: 'user',
       },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
     });
+
+    user.associate = (models: any) => {
+      user.hasMany(models.yield);
+    };
+
+    return user;
   },
 
   down: async (queryInterface: any) => {
