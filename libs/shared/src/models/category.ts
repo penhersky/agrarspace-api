@@ -1,68 +1,49 @@
+import {
+  Table,
+  Column,
+  Model,
+  HasMany,
+  AllowNull,
+  PrimaryKey,
+} from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { sequelize } from '../db';
-import { Culture } from './culture';
+import { Culture } from '.';
 
-export class TCategory extends Sequelize.Model {
-  public id: number;
+@Table({
+  tableName: 'category',
+  timestamps: true,
+  createdAt: true,
+  updatedAt: true,
+})
+export class Category extends Model {
+  @PrimaryKey
+  @Column
+  id: number;
 
-  public name: string;
+  @Column
+  name: string;
 
-  public image?: string;
+  @AllowNull
+  @Column
+  color?: string;
 
-  public color?: string;
+  @AllowNull
+  @Column
+  icon?: string;
 
-  public icon?: string;
+  @AllowNull
+  @Column
+  image?: string;
 
-  public description?: string;
+  @AllowNull
+  @Column
+  description?: string;
+
+  @HasMany(() => Culture)
+  culture: Culture[];
 }
 
 export type TCategoryModel = typeof Sequelize.Model & {
-  new (values?: object, options?: Sequelize.BuildOptions): TCategory;
+  new (values?: object, options?: Sequelize.BuildOptions): Category;
 };
-
-export const Category = <TCategoryModel>sequelize.define(
-  'category',
-  {
-    id: {
-      type: Sequelize.DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      unique: true,
-    },
-    name: {
-      type: new Sequelize.DataTypes.STRING(64),
-      allowNull: false,
-    },
-    image: {
-      type: new Sequelize.DataTypes.STRING(256),
-      allowNull: true,
-    },
-    color: {
-      type: new Sequelize.DataTypes.STRING(24),
-      allowNull: true,
-    },
-    icon: {
-      type: new Sequelize.DataTypes.STRING(64),
-      allowNull: true,
-    },
-    description: {
-      type: new Sequelize.DataTypes.TEXT(),
-      allowNull: true,
-    },
-  },
-  {
-    freezeTableName: true,
-    timestamps: true,
-    createdAt: true,
-    updatedAt: true,
-  },
-);
-
-Culture.belongsTo(Category, { targetKey: 'id' });
-
-Category.hasMany(Culture, {
-  sourceKey: 'id',
-  foreignKey: 'categoryId',
-  as: 'category',
-});

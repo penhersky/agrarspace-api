@@ -1,74 +1,56 @@
+import {
+  Table,
+  Column,
+  Model,
+  HasMany,
+  AllowNull,
+  PrimaryKey,
+} from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { sequelize } from '../db';
+import { Yield } from '.';
 import { beforeCreateUpdate } from '../hooks/user';
 import { UserRoles } from '../utils/constants';
 
-export class TUser extends Sequelize.Model {
-  public id: number;
+@Table({
+  tableName: 'user',
+  timestamps: true,
+  createdAt: true,
+  updatedAt: true,
+  hooks: {
+    beforeCreate: beforeCreateUpdate,
+    beforeUpdate: beforeCreateUpdate,
+  },
+})
+export class User extends Model {
+  @PrimaryKey
+  @Column
+  id: number;
 
-  public name: string;
+  @Column
+  name: string;
 
-  public email: string;
+  @Column
+  email: string;
 
-  public phoneNumber?: string;
+  @AllowNull
+  @Column
+  phoneNumber?: string;
 
-  public password?: string;
+  @AllowNull
+  @Column
+  password: string;
 
-  public role: UserRoles;
+  @Column
+  role: UserRoles;
 
-  public provider: string;
+  @Column
+  provider: string;
+
+  @HasMany(() => Yield)
+  yields: Yield[];
 }
 
 export type TUserModel = typeof Sequelize.Model & {
-  new (values?: object, options?: Sequelize.BuildOptions): TUser;
+  new (values?: object, options?: Sequelize.BuildOptions): User;
 };
-
-export const User = <TUserModel>sequelize.define(
-  'user',
-  {
-    id: {
-      type: Sequelize.DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      unique: true,
-    },
-    name: {
-      type: new Sequelize.DataTypes.STRING(64),
-      allowNull: false,
-    },
-    email: {
-      type: new Sequelize.DataTypes.STRING(48),
-      allowNull: false,
-      unique: true,
-    },
-    phoneNumber: {
-      type: new Sequelize.DataTypes.STRING(24),
-      allowNull: true,
-    },
-    password: {
-      type: new Sequelize.DataTypes.STRING(164),
-      allowNull: true,
-    },
-    role: {
-      type: new Sequelize.DataTypes.ENUM(...Object.keys(UserRoles)),
-      allowNull: false,
-      defaultValue: UserRoles.User,
-    },
-    provider: {
-      type: new Sequelize.DataTypes.STRING(64),
-      allowNull: false,
-      defaultValue: 'email',
-    },
-  },
-  {
-    freezeTableName: true,
-    timestamps: true,
-    createdAt: true,
-    updatedAt: true,
-    hooks: {
-      beforeCreate: beforeCreateUpdate,
-      beforeUpdate: beforeCreateUpdate,
-    },
-  },
-);

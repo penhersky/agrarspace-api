@@ -6,6 +6,6 @@ export default gql`
   }
 
   extend type Query {
-    getTop: Top!
+    getTopCulturesByYield: Top!
   }
 `;

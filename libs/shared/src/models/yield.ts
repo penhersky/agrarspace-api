@@ -1,89 +1,71 @@
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  BelongsTo,
+  AllowNull,
+  PrimaryKey,
+} from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { sequelize } from '../db';
+import { Culture, User } from '.';
 
-export class TYield extends Sequelize.Model {
-  public id: number;
+@Table({
+  tableName: 'yield',
+  timestamps: true,
+  createdAt: true,
+  updatedAt: true,
+})
+export class Yield extends Model {
+  @PrimaryKey
+  @Column
+  id: number;
 
-  public cultureId: number;
+  @Column
+  name: string;
 
-  public userId: number;
+  @ForeignKey(() => Culture)
+  @Column
+  cultureId: number;
 
-  public area: number;
+  @ForeignKey(() => User)
+  @Column
+  userId: number;
 
-  public plantedWeight: number;
+  @Column
+  area: number;
 
-  public collectedWeight: number;
+  @AllowNull
+  @Column
+  plantedWeight?: number;
 
-  public dateOfSowingStart: Date;
+  @Column
+  collectedWeight: number;
 
-  public dateOfSowingEnd?: Date;
+  @Column
+  dateOfSowingStart: Date;
 
-  public dateOfCollectionStart: Date;
+  @Column
+  dateOfSowingEnd: Date;
 
-  public dateOfCollectionEnd?: Date;
+  @Column
+  dateOfCollectionStart: Date;
 
-  public description?: string;
+  @Column
+  dateOfCollectionEnd?: Date;
+
+  @AllowNull
+  @Column
+  description?: string;
+
+  @BelongsTo(() => User)
+  owner: User;
+
+  @BelongsTo(() => Culture)
+  culture: Culture;
 }
 
 export type TYieldModel = typeof Sequelize.Model & {
-  new (values?: object, options?: Sequelize.BuildOptions): TYield;
+  new (values?: object, options?: Sequelize.BuildOptions): Yield;
 };
-
-export const Yield = <TYieldModel>sequelize.define(
-  'yield',
-  {
-    id: {
-      type: Sequelize.DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      unique: true,
-    },
-    cultureId: {
-      type: Sequelize.DataTypes.INTEGER,
-      allowNull: false,
-    },
-    userId: {
-      type: Sequelize.DataTypes.INTEGER,
-      allowNull: false,
-    },
-    area: {
-      type: new Sequelize.DataTypes.DOUBLE(),
-      allowNull: false,
-    },
-    plantedWeight: {
-      type: new Sequelize.DataTypes.DOUBLE(),
-      allowNull: true,
-    },
-    collectedWeight: {
-      type: new Sequelize.DataTypes.DOUBLE(),
-      allowNull: false,
-    },
-    dateOfSowingStart: {
-      type: new Sequelize.DataTypes.DATE(),
-      allowNull: false,
-    },
-    dateOfSowingEnd: {
-      type: new Sequelize.DataTypes.DATE(),
-      allowNull: false,
-    },
-    dateOfCollectionStart: {
-      type: new Sequelize.DataTypes.DATE(),
-      allowNull: false,
-    },
-    dateOfCollectionEnd: {
-      type: new Sequelize.DataTypes.DATE(),
-      allowNull: false,
-    },
-    description: {
-      type: new Sequelize.DataTypes.TEXT(),
-      allowNull: true,
-    },
-  },
-  {
-    freezeTableName: true,
-    timestamps: true,
-    createdAt: true,
-    updatedAt: true,
-  },
-);

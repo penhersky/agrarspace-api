@@ -1,59 +1,53 @@
 import Sequelize from 'sequelize';
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+  AllowNull,
+  PrimaryKey,
+} from 'sequelize-typescript';
 
-import { sequelize } from '../db';
+import { Category, Yield } from '.';
 
-export class TCulture extends Sequelize.Model {
-  public id: number;
+@Table({
+  tableName: 'culture',
+  timestamps: true,
+  createdAt: true,
+  updatedAt: true,
+})
+export class Culture extends Model {
+  @PrimaryKey
+  @Column
+  id: number;
 
-  public name: string;
+  @Column
+  name: string;
 
-  public categoryId: number;
+  @ForeignKey(() => Category)
+  @Column
+  categoryId: number;
 
-  public parentId: number;
+  @ForeignKey(() => Culture)
+  @Column
+  parentId: number;
 
-  public image?: string;
+  @AllowNull
+  @Column
+  image?: string;
 
-  public description?: string;
+  @Column
+  description?: string;
+
+  @BelongsTo(() => Category)
+  category: Category;
+
+  @HasMany(() => Yield)
+  yields: Yield[];
 }
 
 export type TCultureModel = typeof Sequelize.Model & {
-  new (values?: object, options?: Sequelize.BuildOptions): TCulture;
+  new (values?: object, options?: Sequelize.BuildOptions): Culture;
 };
-
-export const Culture = <TCultureModel>sequelize.define(
-  'culture',
-  {
-    id: {
-      type: Sequelize.DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      unique: true,
-    },
-    name: {
-      type: new Sequelize.DataTypes.STRING(64),
-      allowNull: false,
-    },
-    categoryId: {
-      type: Sequelize.DataTypes.INTEGER,
-      allowNull: false,
-    },
-    parentId: {
-      type: Sequelize.DataTypes.INTEGER,
-      allowNull: true,
-    },
-    image: {
-      type: new Sequelize.DataTypes.STRING(132),
-      allowNull: true,
-    },
-    description: {
-      type: new Sequelize.DataTypes.TEXT(),
-      allowNull: true,
-    },
-  },
-  {
-    freezeTableName: true,
-    timestamps: true,
-    createdAt: true,
-    updatedAt: true,
-  },
-);

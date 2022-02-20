@@ -136,7 +136,7 @@ export type Query = {
   getCategories: Array<Maybe<Category>>;
   getCulturesByCategoryId: Array<Maybe<Culture>>;
   getMe: User;
-  getTop: Top;
+  getTopCulturesByYield: Top;
   getUser: User;
   signIn: SignInResult;
 };
@@ -385,7 +385,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
   getCulturesByCategoryId?: Resolver<Array<Maybe<ResolversTypes['Culture']>>, ParentType, ContextType, RequireFields<QueryGetCulturesByCategoryIdArgs, 'categoryId'>>;
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  getTop?: Resolver<ResolversTypes['Top'], ParentType, ContextType>;
+  getTopCulturesByYield?: Resolver<ResolversTypes['Top'], ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
   signIn?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInArgs, 'data' | 'info'>>;
 };

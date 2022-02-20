@@ -1,1 +1,1 @@
-export * as TopQueries from './top';
+export { getTopCulturesByYield } from './getTopCultures';

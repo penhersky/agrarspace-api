@@ -1,5 +1,5 @@
 import { mergeTypeDefs } from '@graphql-tools/merge';
 
-import top from './top';
+import getTopCultures from './getTopCultures';
 
-export default mergeTypeDefs([top]);
+export default mergeTypeDefs([getTopCultures]);
