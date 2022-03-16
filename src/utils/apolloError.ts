@@ -15,3 +15,11 @@ export class SecurityError extends ApolloError {
     Object.defineProperty(this, 'name', { value: 'SecurityError' });
   }
 }
+
+export class DataCombinationError extends ApolloError {
+  constructor(message: string) {
+    super(`Data Combination: ${message}`, 'DATA_OUTPUT_ERROR');
+
+    Object.defineProperty(this, 'name', { value: 'DataCombinationError' });
+  }
+}

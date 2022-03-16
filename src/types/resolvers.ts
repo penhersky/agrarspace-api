@@ -4,7 +4,7 @@ import {
   AuthenticateResult,
   User,
   Category,
-  Top,
+  TopCultureItem,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
@@ -19,4 +19,4 @@ export type GetMeResolver = IResolver<User, {}>;
 export type GetCategoriesResolver = IResolverReturnArray<Category, {}>;
 
 // statistics
-export type GetTopResolver = IResolver<Top, {}>;
+export type GetTopCultureResolver = IResolverReturnArray<TopCultureItem, {}>;

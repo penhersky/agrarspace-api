@@ -1,11 +1,13 @@
 import { gql } from 'apollo-server-koa';
 
 export default gql`
-  type Top {
-    message: String
+  type TopCultureItem {
+    id: Int!
+    name: String!
+    data: StandardCoordinates!
   }
 
   extend type Query {
-    getTopCulturesByYield: Top!
+    getTopCulturesByYield: [TopCultureItem]!
   }
 `;

@@ -7,7 +7,7 @@ export const findCulturesByCategoryId = async (
   id: string | number,
 ) => {
   try {
-    return Model.findAll({
+    return await Model.findAll({
       where: {
         categoryId: id,
       },

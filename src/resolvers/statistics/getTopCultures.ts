@@ -1,21 +1,16 @@
 import { Culture, Yield } from '@agrarspace/shared';
 
-import { GetTopResolver } from '../../types/resolvers';
 import { getTopCulturesByYield as getByYield } from '../../service/statistics/getTopCulturesByYield';
+import { buildTopCultureStructure } from '../../structureBuilders/cultureStatistics';
 
-export const getTopCulturesByYield: GetTopResolver = async () => {
-  const result = await getByYield(Culture, Yield);
-  console.log(result);
-  console.log(
-    result?.forEach((item) =>
-      console.log(
-        `cultureId: ${item.cultureId}, total: ${item.getDataValue(
-          'totalCollectedWeight',
-        )}, cultureName: ${item.getDataValue('culture').name}`,
-      ),
-    ),
-  );
-  return {
-    message: 'test',
-  };
+import { DataCombinationError } from '../../utils/apolloError';
+import { GetTopCultureResolver } from '../../types/resolvers';
+
+export const getTopCulturesByYield: GetTopCultureResolver = async () => {
+  const statistics = await getByYield(Culture, Yield);
+
+  if (!statistics)
+    throw new DataCombinationError('Culture statistics is empty');
+
+  return buildTopCultureStructure(statistics);
 };

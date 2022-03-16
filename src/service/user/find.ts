@@ -4,7 +4,7 @@ import { DatabaseError } from '../../utils/apolloError';
 
 export const findUserByEmail = async (Model: TUserModel, email: string) => {
   try {
-    return Model.findOne({
+    return await Model.findOne({
       where: { email },
     });
   } catch (err: Error | unknown) {
@@ -14,7 +14,7 @@ export const findUserByEmail = async (Model: TUserModel, email: string) => {
 
 export const findUserById = async (Model: TUserModel, id: string | number) => {
   try {
-    return Model.findByPk(id);
+    return await Model.findByPk(id);
   } catch (err: Error | unknown) {
     if (err instanceof Error) throw new DatabaseError(err.message);
   }

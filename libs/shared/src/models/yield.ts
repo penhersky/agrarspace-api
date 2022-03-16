@@ -22,9 +22,6 @@ export class Yield extends Model {
   @Column
   id: number;
 
-  @Column
-  name: string;
-
   @ForeignKey(() => Culture)
   @Column
   cultureId: number;

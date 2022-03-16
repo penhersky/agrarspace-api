@@ -5,7 +5,8 @@ import category from './category';
 import culture from './culture';
 import auth from './auth';
 
-import global from './global';
+import __global from './__global';
+import __fragments from './__fragments';
 
 import statistics from './statistics';
 
@@ -15,7 +16,8 @@ import Query from './Query';
 export default mergeTypeDefs([
   Query,
   Mutation,
-  global,
+  __global,
+  __fragments,
   auth,
   user,
   category,
