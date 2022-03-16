@@ -37,10 +37,6 @@ module.exports = {
       updatedAt: Sequelize.DATE,
     });
 
-    user.associate = (models: any) => {
-      user.hasMany(models.yield);
-    };
-
     return user;
   },
 

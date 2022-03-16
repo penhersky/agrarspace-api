@@ -8,30 +8,12 @@ module.exports = {
     const cultures: any[] = await queryInterface.sequelize.query(
       `SELECT id from culture;`,
     );
-    const users: any[] = await queryInterface.sequelize.query(
-      `SELECT id from public."user";`,
-    );
 
     const culturesIds = cultures[0];
-    const userIds = users[0];
     await queryInterface.bulkInsert(
       'yield',
       fillArr(5000, () => {
-        const area = getRandom([
-          faker.datatype.float({
-            max: 20000,
-            min: 1,
-            precision: 80,
-          }),
-          faker.datatype.float({
-            max: 2000,
-            min: 1,
-            precision: 30,
-          }),
-        ]);
-
-        const workerKPD = randomIntFromInterval(50, 80);
-        const interval = area > workerKPD ? area / workerKPD : area;
+        const interval = randomIntFromInterval(50, 80);
 
         const dateOfSowingStart = faker.date.past(10, new Date(2022, 1, 1));
         const month = randomIntFromInterval(3, 6);
@@ -51,23 +33,19 @@ module.exports = {
               })),
         );
 
-        const plantedOnHectare = faker.datatype.float({
+        const plantedWeight = faker.datatype.float({
           max: 0.5,
           min: 0.01,
           precision: 0.1,
         });
-        const plantedWeight = area * plantedOnHectare;
 
         const collectedWeight = Math.floor(
-          area *
-            (plantedOnHectare *
-              faker.datatype.float({ max: 11.1, min: 0.5, precision: 6 })),
+          plantedWeight *
+            faker.datatype.float({ max: 11.1, min: 0.5, precision: 6 }),
         );
 
         return {
           cultureId: getRandom(culturesIds).id || culturesIds[0].id,
-          userId: getRandom(userIds).id || userIds[0].id,
-          area,
           plantedWeight,
           collectedWeight,
           dateOfSowingStart,

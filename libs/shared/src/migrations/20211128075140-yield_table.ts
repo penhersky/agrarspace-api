@@ -17,20 +17,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'user',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
-      },
-      area: {
-        type: new Sequelize.DOUBLE(),
-        allowNull: false,
-      },
       plantedWeight: {
         type: new Sequelize.DOUBLE(),
         allowNull: true,
@@ -65,7 +51,6 @@ module.exports = {
 
     yieldModel.associate = (models: any) => {
       yieldModel.belongsTo(models.culture);
-      yieldModel.belongsTo(models.user);
     };
 
     return yieldModel;

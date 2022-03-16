@@ -9,7 +9,7 @@ import {
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { Culture, User } from '.';
+import { Culture } from '.';
 
 @Table({
   tableName: 'yield',
@@ -25,13 +25,6 @@ export class Yield extends Model {
   @ForeignKey(() => Culture)
   @Column
   cultureId: number;
-
-  @ForeignKey(() => User)
-  @Column
-  userId: number;
-
-  @Column
-  area: number;
 
   @AllowNull
   @Column
@@ -55,9 +48,6 @@ export class Yield extends Model {
   @AllowNull
   @Column
   description?: string;
-
-  @BelongsTo(() => User)
-  owner: User;
 
   @BelongsTo(() => Culture)
   culture: Culture;

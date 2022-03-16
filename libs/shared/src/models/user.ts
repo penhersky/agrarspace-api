@@ -2,13 +2,11 @@ import {
   Table,
   Column,
   Model,
-  HasMany,
   AllowNull,
   PrimaryKey,
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { Yield } from '.';
 import { beforeCreateUpdate } from '../hooks/user';
 import { UserRoles } from '../utils/constants';
 
@@ -46,9 +44,6 @@ export class User extends Model {
 
   @Column
   provider: string;
-
-  @HasMany(() => Yield)
-  yields: Yield[];
 }
 
 export type TUserModel = typeof Sequelize.Model & {

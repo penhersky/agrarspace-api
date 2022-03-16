@@ -15,17 +15,6 @@ module.exports = {
       fields: ['cultureId'],
       unique: false,
     });
-    return queryInterface.addIndex('yield', ['userId', 'createdAt'], {
-      name: 'yield_by_userId_order_desc_createdAt',
-      fields: [
-        'userId',
-        {
-          name: 'createdAt',
-          order: 'DESC',
-        },
-      ],
-      unique: false,
-    });
   },
 
   down: async (queryInterface: any) => {
