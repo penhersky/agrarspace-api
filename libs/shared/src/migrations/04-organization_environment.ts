@@ -31,6 +31,7 @@ module.exports = {
 
     organization.associate = (models: any) => {
       organization.belongsTo(models.user);
+      organization.hasMany(models.yield);
     };
 
     return organization;

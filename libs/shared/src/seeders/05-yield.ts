@@ -8,8 +8,12 @@ module.exports = {
     const cultures: any[] = await queryInterface.sequelize.query(
       `SELECT id from culture;`,
     );
+    const organizations: any[] = await queryInterface.sequelize.query(
+      `SELECT id from organization;`,
+    );
 
     const culturesIds = cultures[0];
+    const organizationsIds = organizations[0];
     await queryInterface.bulkInsert(
       'yield',
       fillArr(5000, () => {
@@ -45,6 +49,8 @@ module.exports = {
         );
 
         return {
+          organizationId:
+            getRandom(organizationsIds).id || organizationsIds[0].id,
           cultureId: getRandom(culturesIds).id || culturesIds[0].id,
           plantedWeight,
           collectedWeight,

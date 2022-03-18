@@ -6,10 +6,11 @@ import {
   PrimaryKey,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { User } from '.';
+import { Yield, User } from '.';
 
 @Table({
   tableName: 'organization',
@@ -35,6 +36,9 @@ export class Organization extends Model {
 
   @BelongsTo(() => User)
   owner: User;
+
+  @HasMany(() => Yield)
+  yields: Yield[];
 }
 
 export type TOrganizationModel = typeof Sequelize.Model & {

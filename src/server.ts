@@ -2,7 +2,7 @@ import 'dotenv/config';
 import http from 'http';
 import Koa from 'koa';
 import { ApolloServer } from 'apollo-server-koa';
-import { DocumentNode } from 'graphql';
+import { DocumentNode, GraphQLSchema } from 'graphql';
 import {
   ApolloServerPluginCacheControl,
   ApolloServerPluginDrainHttpServer,
@@ -16,44 +16,58 @@ import { authDirective } from './directives/auth';
 
 import { logger, sequelize } from '@agrarspace/shared';
 
-export default (typeDefs: DocumentNode, resolvers: any, stage: string) => {
-  const app = new Koa();
-  const httpServer = http.createServer();
+export class Server {
+  private app: Koa<Koa.DefaultState, Koa.DefaultContext>;
 
-  const { deprecatedDirectiveTransformer, deprecatedDirectiveTypeDefs } =
-    authDirective('auth');
+  private httpsServer: http.Server;
 
-  let schema = makeExecutableSchema({
-    typeDefs: [deprecatedDirectiveTypeDefs, typeDefs],
-    resolvers,
-  });
+  private schema: GraphQLSchema;
 
-  schema = deprecatedDirectiveTransformer(schema);
+  private server: ApolloServer;
 
-  const server = new ApolloServer({
-    schema,
-    context: apolloContext,
-    plugins: [
-      ApolloServerPluginDrainHttpServer({ httpServer }),
-      ApolloServerPluginCacheControl({ defaultMaxAge: 1 }),
-    ],
-    formatError,
-  });
+  constructor(
+    private readonly typeDefs: DocumentNode,
+    private readonly resolvers: any,
+    private readonly stage: string,
+  ) {
+    this.app = new Koa();
+    this.httpsServer = http.createServer();
 
-  const start = async () => {
-    await server.start();
-  };
+    const { deprecatedDirectiveTransformer, deprecatedDirectiveTypeDefs } =
+      authDirective('auth');
 
-  const connectMiddleware = () => {
-    app.use(cors());
-  };
+    this.schema = makeExecutableSchema({
+      typeDefs: [deprecatedDirectiveTypeDefs, typeDefs],
+      resolvers,
+    });
 
-  const apply = () => {
-    server.applyMiddleware({ app, path: '/graphql' });
-    httpServer.on('request', app.callback());
-  };
+    this.schema = deprecatedDirectiveTransformer(this.schema);
 
-  const connectDB = () => {
+    this.server = new ApolloServer({
+      schema: this.schema,
+      context: apolloContext,
+      plugins: [
+        ApolloServerPluginDrainHttpServer({ httpServer: this.httpsServer }),
+        ApolloServerPluginCacheControl({ defaultMaxAge: 1 }),
+      ],
+      formatError,
+    });
+  }
+
+  async startConfiguring() {
+    await this.server.start();
+  }
+
+  connectMiddleware() {
+    this.app.use(cors());
+  }
+
+  applyGraphQl() {
+    this.server.applyMiddleware({ app: this.app, path: '/graphql' });
+    this.httpsServer.on('request', this.app.callback());
+  }
+
+  connectToDataBase() {
     sequelize
       .authenticate()
       .then(() => {
@@ -62,32 +76,27 @@ export default (typeDefs: DocumentNode, resolvers: any, stage: string) => {
         );
       })
       .catch((error: any) => {
-        if (stage === 'development') logger.error(error.message);
+        if (this.stage === 'development') logger.error(error.message);
         logger.error('!!!!!Unable to connect to the database!!!!');
       });
-  };
+  }
 
-  const getApp = () => ({ server, app });
+  getApp() {
+    return { server: this.server, app: this.app };
+  }
 
-  const listen = async (port: number) => {
-    await new Promise((resolve: any) => httpServer.listen({ port }, resolve));
+  async listen(port: number) {
+    await new Promise((resolve: any) =>
+      this.httpsServer.listen({ port }, resolve),
+    );
     logger.info(
       `=========================== 🚀 SERVER READY AT 🚀 =======================`,
     );
     logger.info(
-      `======================= http://localhost:${port}${server.graphqlPath} ===================`,
+      `======================= http://localhost:${port}${this.server.graphqlPath} ===================`,
     );
     logger.info(
-      `============================= STAGE: ${stage} ========================`,
+      `============================= STAGE: ${this.stage} ========================`,
     );
-  };
-
-  return {
-    connectMiddleware,
-    apply,
-    connectDB,
-    getApp,
-    listen,
-    start,
-  };
-};
+  }
+}

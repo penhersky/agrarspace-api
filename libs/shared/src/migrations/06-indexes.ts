@@ -21,6 +21,5 @@ module.exports = {
     queryInterface.removeIndex('culture', 'culture_by_categoryId');
     queryInterface.removeIndex('culture', 'culture_by_parentId');
     queryInterface.removeIndex('yield', 'yield_by_cultureId');
-    queryInterface.removeIndex('yield', 'yield_by_userId_order_desc_createdAt');
   },
 };

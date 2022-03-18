@@ -1,4 +1,4 @@
-import { getRandom } from './../utils/seed';
+import { getRandom } from '../utils/seed';
 import faker from 'faker';
 import path from 'path';
 import encrypt from '../utils/encrypt';

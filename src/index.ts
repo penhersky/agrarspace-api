@@ -1,15 +1,15 @@
-import serverLauncher from './server';
+import { Server } from './server';
 import { resolvers } from './resolvers';
 import typeDefs from './typeDefs';
 import { PORT, NODE_ENV } from './utils/config';
 
 const application = async () => {
-  const server = serverLauncher(typeDefs, resolvers, NODE_ENV as string);
+  const server = new Server(typeDefs, resolvers, NODE_ENV as string);
 
-  await server.start();
+  await server.startConfiguring();
   server.connectMiddleware();
-  server.connectDB();
-  server.apply();
+  server.connectToDataBase();
+  server.applyGraphQl();
   await server.listen(PORT as number);
 };
 

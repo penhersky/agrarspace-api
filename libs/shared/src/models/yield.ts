@@ -10,6 +10,7 @@ import {
 import Sequelize from 'sequelize';
 
 import { Culture } from '.';
+import { Organization } from './organization';
 
 @Table({
   tableName: 'yield',
@@ -21,6 +22,10 @@ export class Yield extends Model {
   @PrimaryKey
   @Column
   id: number;
+
+  @ForeignKey(() => Organization)
+  @Column
+  organizationId: number;
 
   @ForeignKey(() => Culture)
   @Column
@@ -51,6 +56,9 @@ export class Yield extends Model {
 
   @BelongsTo(() => Culture)
   culture: Culture;
+
+  @BelongsTo(() => Organization)
+  organization: Organization;
 }
 
 export type TYieldModel = typeof Sequelize.Model & {
