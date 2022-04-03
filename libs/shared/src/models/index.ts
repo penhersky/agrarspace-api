@@ -6,3 +6,4 @@ export * from './culture';
 export * from './yield';
 
 export * from './organization';
+export * from './employee';

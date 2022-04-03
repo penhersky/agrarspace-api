@@ -24,6 +24,7 @@
     "migrate:undo:local": "cross-env NODE_ENV=local sequelize-cli db:migrate:undo:all",
     "seed": "cross-env NODE_ENV=production sequelize-cli db:seed:all",
     "seed:local": "cross-env NODE_ENV=local sequelize-cli db:seed:all",
+    "seed:one:local": "cross-env NODE_ENV=local sequelize-cli db:seed --name",
     "seed:create": "cross-env NODE_ENV=development sequelize-cli seed:generate --name",
     "seed:undo": "cross-env NODE_ENV=production sequelize-cli db:seed:undo:all",
     "seed:undo:local": "cross-env NODE_ENV=local sequelize-cli db:seed:undo:all",
