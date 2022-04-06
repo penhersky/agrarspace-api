@@ -1,4 +1,4 @@
-import { UserRoles } from '@agrarspace/shared';
+import { UserRoles, EmployeeRoles } from '@agrarspace/shared';
 import { gql } from 'apollo-server-koa';
 
 export default gql`
@@ -15,6 +15,10 @@ export default gql`
 
   enum UserRoles {
     ${Object.values(UserRoles).join(' ').toUpperCase()}
+  }
+
+  enum EmployeeRoles {
+    ${Object.values(EmployeeRoles).join(' ').toUpperCase()}
   }
 
   directive @cacheControl(

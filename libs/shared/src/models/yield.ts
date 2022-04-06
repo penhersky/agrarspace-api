@@ -9,8 +9,7 @@ import {
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { Culture } from '.';
-import { Organization } from './organization';
+import { Culture, Organization, Plantation } from '.';
 
 @Table({
   tableName: 'yield',
@@ -27,9 +26,17 @@ export class Yield extends Model {
   @Column
   organizationId: number;
 
+  @ForeignKey(() => Plantation)
+  @Column
+  plantationId: number;
+
   @ForeignKey(() => Culture)
   @Column
   cultureId: number;
+
+  @AllowNull
+  @Column
+  plantedArea?: number;
 
   @AllowNull
   @Column
@@ -59,6 +66,9 @@ export class Yield extends Model {
 
   @BelongsTo(() => Organization)
   organization: Organization;
+
+  @BelongsTo(() => Plantation)
+  plantation: Plantation;
 }
 
 export type TYieldModel = typeof Sequelize.Model & {

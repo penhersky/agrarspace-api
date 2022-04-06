@@ -1,0 +1,58 @@
+import Sequelize from 'sequelize';
+
+module.exports = {
+  up: async (queryInterface: any) => {
+    const plantation = queryInterface.createTable('plantation', {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        unique: true,
+      },
+
+      organizationId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'organization',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
+
+      status: {
+        type: new Sequelize.STRING(64),
+        allowNull: true,
+      },
+
+      areaSize: {
+        type: new Sequelize.DOUBLE(),
+        allowNull: false,
+      },
+
+      region: {
+        type: new Sequelize.STRING(256),
+        allowNull: false,
+      },
+
+      description: {
+        type: new Sequelize.TEXT(),
+        allowNull: true,
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
+    });
+
+    plantation.associate = (models: any) => {
+      plantation.belongsTo(models.organization);
+      plantation.hasMany(models.yield);
+    };
+
+    return plantation;
+  },
+
+  down: async (queryInterface: any) => {
+    return queryInterface.dropTable('plantation');
+  },
+};

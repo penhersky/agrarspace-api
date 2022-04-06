@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { Yield, User } from '.';
+import { Yield, User, Plantation } from '.';
 
 @Table({
   tableName: 'organization',
@@ -39,6 +39,9 @@ export class Organization extends Model {
 
   @HasMany(() => Yield)
   yields: Yield[];
+
+  @HasMany(() => Plantation)
+  plantations: Plantation[];
 }
 
 export type TOrganizationModel = typeof Sequelize.Model & {

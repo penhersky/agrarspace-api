@@ -11,9 +11,13 @@ module.exports = {
     const organizations: any[] = await queryInterface.sequelize.query(
       `SELECT id from organization;`,
     );
+    const plantations: any[] = await queryInterface.sequelize.query(
+      `SELECT id, "areaSize" from plantation;`,
+    );
 
     const culturesIds = cultures[0];
     const organizationsIds = organizations[0];
+    const plantationIds = plantations[0];
     await queryInterface.bulkInsert(
       'yield',
       fillArr(5000, () => {
@@ -37,11 +41,16 @@ module.exports = {
               })),
         );
 
-        const plantedWeight = faker.datatype.float({
-          max: 0.5,
-          min: 0.01,
-          precision: 0.1,
-        });
+        const plantation = getRandom(plantationIds) || plantationIds[0];
+        const plantedArea = faker.datatype.number(plantation.areaSize);
+
+        const plantedWeight =
+          plantedArea *
+          faker.datatype.float({
+            max: 1,
+            min: 0.01,
+            precision: 0.5,
+          });
 
         const collectedWeight = Math.floor(
           plantedWeight *
@@ -52,6 +61,8 @@ module.exports = {
           organizationId:
             getRandom(organizationsIds).id || organizationsIds[0].id,
           cultureId: getRandom(culturesIds).id || culturesIds[0].id,
+          plantationId: plantation.id,
+          plantedArea,
           plantedWeight,
           collectedWeight,
           dateOfSowingStart,

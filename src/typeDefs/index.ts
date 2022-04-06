@@ -9,6 +9,7 @@ import __global from './__global';
 import __fragments from './__fragments';
 
 import statistics from './statistics';
+import organization from './organization';
 
 import Mutation from './Mutation';
 import Query from './Query';
@@ -23,4 +24,5 @@ export default mergeTypeDefs([
   category,
   culture,
   statistics,
+  organization,
 ]);

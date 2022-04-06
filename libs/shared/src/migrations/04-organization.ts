@@ -33,6 +33,7 @@ module.exports = {
       organization.belongsTo(models.user);
       organization.hasMany(models.yield);
       organization.hasMany(models.employee);
+      organization.hasMany(models.plantation);
     };
 
     return organization;

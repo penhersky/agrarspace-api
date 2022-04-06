@@ -27,6 +27,21 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
+      plantationId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'plantation',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
+      plantedArea: {
+        type: new Sequelize.DOUBLE(),
+        allowNull: true,
+        defaultValue: 0,
+      },
       plantedWeight: {
         type: new Sequelize.DOUBLE(),
         allowNull: true,
@@ -62,6 +77,7 @@ module.exports = {
     yieldModel.associate = (models: any) => {
       yieldModel.belongsTo(models.culture);
       yieldModel.belongsTo(models.organization);
+      yieldModel.belongsTo(models.plantation);
     };
 
     return yieldModel;
