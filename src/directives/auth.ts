@@ -13,8 +13,8 @@ const getArs = (directive: any, name: string): string | undefined => {
 
 export const authDirective = (directiveName: string) => {
   return {
-    deprecatedDirectiveTypeDefs: `directive @${directiveName}(role: UserRoles = USER) on OBJECT | FIELD_DEFINITION`,
-    deprecatedDirectiveTransformer: (schema: GraphQLSchema) =>
+    userAuthDirectiveTypeDefs: `directive @${directiveName}(role: UserRoles = USER) on OBJECT | FIELD_DEFINITION`,
+    userAuthDirectiveTransformer: (schema: GraphQLSchema) =>
       mapSchema(schema, {
         [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
           const directive = fieldConfig.astNode?.directives?.find(

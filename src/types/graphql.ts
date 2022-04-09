@@ -39,6 +39,13 @@ export type Category = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
+export type CreateEmployee = {
+  name: Scalars['String'];
+  position?: InputMaybe<Scalars['String']>;
+  role: EmployeeRoles;
+  tempPassword: Scalars['String'];
+};
+
 export type CreateUser = {
   email: Scalars['String'];
   name: Scalars['String'];
@@ -57,6 +64,23 @@ export type Culture = {
   subcultures?: Maybe<Array<Maybe<Category>>>;
   updatedAt?: Maybe<Scalars['String']>;
 };
+
+export type Employee = {
+  __typename?: 'Employee';
+  createdAt?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  organization?: Maybe<Organization>;
+  position?: Maybe<Scalars['String']>;
+  role: EmployeeRoles;
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
+export enum EmployeeRoles {
+  Director = 'DIRECTOR',
+  Manager = 'MANAGER',
+  Worker = 'WORKER'
+}
 
 export type InputCategory = {
   color?: InputMaybe<Scalars['String']>;
@@ -81,10 +105,15 @@ export type Mutation = {
   confirmForgotPassword: Scalars['Boolean'];
   createCategory: Category;
   createCulture: Culture;
+  createEmployee?: Maybe<Scalars['String']>;
   forgotPassword: Scalars['Boolean'];
   signUp: Scalars['Boolean'];
   updateCategory: Category;
   updateCulture: Culture;
+  updateEmployeeDetails?: Maybe<Scalars['String']>;
+  updateEmployeeRole?: Maybe<Scalars['String']>;
+  updateOrganizationName?: Maybe<Scalars['String']>;
+  updatePassword?: Maybe<Scalars['String']>;
   updateUser?: Maybe<User>;
 };
 
@@ -101,6 +130,11 @@ export type MutationCreateCategoryArgs = {
 
 export type MutationCreateCultureArgs = {
   category: InputCulture;
+};
+
+
+export type MutationCreateEmployeeArgs = {
+  employee: CreateEmployee;
 };
 
 
@@ -126,8 +160,39 @@ export type MutationUpdateCultureArgs = {
 };
 
 
+export type MutationUpdateEmployeeDetailsArgs = {
+  employee: UpdateEmployee;
+};
+
+
+export type MutationUpdateEmployeeRoleArgs = {
+  role: Scalars['String'];
+};
+
+
+export type MutationUpdateOrganizationNameArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationUpdatePasswordArgs = {
+  newPassword: Scalars['String'];
+  oldPassword: Scalars['String'];
+};
+
+
 export type MutationUpdateUserArgs = {
   user: UpdateUser;
+};
+
+export type Organization = {
+  __typename?: 'Organization';
+  createdAt?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  owner: User;
+  updatedAt?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -135,7 +200,10 @@ export type Query = {
   authenticate: AuthenticateResult;
   getCategories: Array<Maybe<Category>>;
   getCulturesByCategoryId: Array<Maybe<Culture>>;
+  getEmployees: Employee;
   getMe: User;
+  getMyEmployeeProfile: Employee;
+  getMyOrganization: Organization;
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
   getUser: User;
   signIn: SignInResult;
@@ -185,6 +253,11 @@ export type TopCultureItem = {
   data: StandardCoordinates;
   id: Scalars['Int'];
   name: Scalars['String'];
+};
+
+export type UpdateEmployee = {
+  name: Scalars['String'];
+  position?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateUser = {
@@ -289,13 +362,17 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CacheControlScope: CacheControlScope;
   Category: ResolverTypeWrapper<Category>;
+  CreateEmployee: CreateEmployee;
   CreateUser: CreateUser;
   Culture: ResolverTypeWrapper<Culture>;
+  Employee: ResolverTypeWrapper<Employee>;
+  EmployeeRoles: EmployeeRoles;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   InputCategory: InputCategory;
   InputCulture: InputCulture;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
+  Organization: ResolverTypeWrapper<Organization>;
   Query: ResolverTypeWrapper<{}>;
   SignIn: SignIn;
   SignInResult: ResolverTypeWrapper<SignInResult>;
@@ -303,6 +380,7 @@ export type ResolversTypes = {
   StandardCoordinates: ResolverTypeWrapper<StandardCoordinates>;
   String: ResolverTypeWrapper<Scalars['String']>;
   TopCultureItem: ResolverTypeWrapper<TopCultureItem>;
+  UpdateEmployee: UpdateEmployee;
   UpdateUser: UpdateUser;
   User: ResolverTypeWrapper<User>;
   UserDeviceInfo: UserDeviceInfo;
@@ -314,13 +392,16 @@ export type ResolversParentTypes = {
   AuthenticateResult: AuthenticateResult;
   Boolean: Scalars['Boolean'];
   Category: Category;
+  CreateEmployee: CreateEmployee;
   CreateUser: CreateUser;
   Culture: Culture;
+  Employee: Employee;
   ID: Scalars['ID'];
   InputCategory: InputCategory;
   InputCulture: InputCulture;
   Int: Scalars['Int'];
   Mutation: {};
+  Organization: Organization;
   Query: {};
   SignIn: SignIn;
   SignInResult: SignInResult;
@@ -328,6 +409,7 @@ export type ResolversParentTypes = {
   StandardCoordinates: StandardCoordinates;
   String: Scalars['String'];
   TopCultureItem: TopCultureItem;
+  UpdateEmployee: UpdateEmployee;
   UpdateUser: UpdateUser;
   User: User;
   UserDeviceInfo: UserDeviceInfo;
@@ -378,22 +460,51 @@ export type CultureResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type EmployeeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Employee'] = ResolversParentTypes['Employee']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  organization?: Resolver<Maybe<ResolversTypes['Organization']>, ParentType, ContextType>;
+  position?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['EmployeeRoles'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   confirmForgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationConfirmForgotPasswordArgs, 'token'>>;
   createCategory?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'category'>>;
   createCulture?: Resolver<ResolversTypes['Culture'], ParentType, ContextType, RequireFields<MutationCreateCultureArgs, 'category'>>;
+  createEmployee?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationCreateEmployeeArgs, 'employee'>>;
   forgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'email'>>;
   signUp?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'data'>>;
   updateCategory?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'category' | 'id'>>;
   updateCulture?: Resolver<ResolversTypes['Culture'], ParentType, ContextType, RequireFields<MutationUpdateCultureArgs, 'category' | 'id'>>;
+  updateEmployeeDetails?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationUpdateEmployeeDetailsArgs, 'employee'>>;
+  updateEmployeeRole?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationUpdateEmployeeRoleArgs, 'role'>>;
+  updateOrganizationName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationUpdateOrganizationNameArgs, 'name'>>;
+  updatePassword?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationUpdatePasswordArgs, 'newPassword' | 'oldPassword'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'user'>>;
+};
+
+export type OrganizationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Organization'] = ResolversParentTypes['Organization']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authenticate?: Resolver<ResolversTypes['AuthenticateResult'], ParentType, ContextType>;
   getCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
   getCulturesByCategoryId?: Resolver<Array<Maybe<ResolversTypes['Culture']>>, ParentType, ContextType, RequireFields<QueryGetCulturesByCategoryIdArgs, 'categoryId'>>;
+  getEmployees?: Resolver<ResolversTypes['Employee'], ParentType, ContextType>;
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  getMyEmployeeProfile?: Resolver<ResolversTypes['Employee'], ParentType, ContextType>;
+  getMyOrganization?: Resolver<ResolversTypes['Organization'], ParentType, ContextType>;
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
   signIn?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInArgs, 'data' | 'info'>>;
@@ -434,7 +545,9 @@ export type Resolvers<ContextType = any> = {
   AuthenticateResult?: AuthenticateResultResolvers<ContextType>;
   Category?: CategoryResolvers<ContextType>;
   Culture?: CultureResolvers<ContextType>;
+  Employee?: EmployeeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  Organization?: OrganizationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignInResult?: SignInResultResolvers<ContextType>;
   StandardCoordinates?: StandardCoordinatesResolvers<ContextType>;

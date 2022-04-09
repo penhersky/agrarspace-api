@@ -33,15 +33,15 @@ export class Server {
     this.app = new Koa();
     this.httpsServer = http.createServer();
 
-    const { deprecatedDirectiveTransformer, deprecatedDirectiveTypeDefs } =
+    const { userAuthDirectiveTransformer, userAuthDirectiveTypeDefs } =
       authDirective('auth');
 
     this.schema = makeExecutableSchema({
-      typeDefs: [deprecatedDirectiveTypeDefs, typeDefs],
+      typeDefs: [userAuthDirectiveTypeDefs, typeDefs],
       resolvers,
     });
 
-    this.schema = deprecatedDirectiveTransformer(this.schema);
+    this.schema = userAuthDirectiveTransformer(this.schema);
 
     this.server = new ApolloServer({
       schema: this.schema,

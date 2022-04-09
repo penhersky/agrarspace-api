@@ -12,6 +12,6 @@ export const buildTopCultureStructure = (data: Yield[]) => {
         y: item.getDataValue('totalCollectedWeight').toString(),
       },
     })),
-    (item: TopCultureItem) => +item.data.y,
+    (item: TopCultureItem) => +_.get(item, 'data.y'),
   );
 };
