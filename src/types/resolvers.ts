@@ -1,5 +1,6 @@
 import {
   QuerySignInArgs,
+  QuerySignInToOrganizationArgs,
   SignInResult,
   AuthenticateResult,
   User,
@@ -10,6 +11,10 @@ import { IResolver, IResolverReturnArray } from '.';
 
 // auth
 export type SingInResolver = IResolver<SignInResult, QuerySignInArgs>;
+export type SignInToOrganization = IResolver<
+  SignInResult,
+  QuerySignInToOrganizationArgs
+>;
 export type AuthenticateResolver = IResolver<AuthenticateResult, {}>;
 
 // user

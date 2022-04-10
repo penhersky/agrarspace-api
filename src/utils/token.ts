@@ -16,5 +16,3 @@ export const verifyToken = (token: string) => {
     throw Error('Invalid authentication token');
   }
 };
-
-export const USER_SESSION_TOKEN = 1000 * 60 * 60 * 5;

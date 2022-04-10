@@ -16,10 +16,17 @@ export type Scalars = {
 
 export type AuthenticateResult = {
   __typename?: 'AuthenticateResult';
-  expiresIn?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
-  user: User;
+  employee?: Maybe<Employee>;
+  expiresIn: Scalars['String'];
+  token: Scalars['String'];
+  type: AuthenticationType;
+  user?: Maybe<User>;
 };
+
+export enum AuthenticationType {
+  Employee = 'employee',
+  User = 'user'
+}
 
 export enum CacheControlScope {
   Private = 'PRIVATE',
@@ -77,9 +84,9 @@ export type Employee = {
 };
 
 export enum EmployeeRoles {
-  Director = 'DIRECTOR',
-  Manager = 'MANAGER',
-  Worker = 'WORKER'
+  Director = 'director',
+  Manager = 'manager',
+  Worker = 'worker'
 }
 
 export type InputCategory = {
@@ -207,6 +214,7 @@ export type Query = {
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
   getUser: User;
   signIn: SignInResult;
+  signInToOrganization: SignInResult;
 };
 
 
@@ -225,8 +233,20 @@ export type QuerySignInArgs = {
   info: UserDeviceInfo;
 };
 
+
+export type QuerySignInToOrganizationArgs = {
+  data: SignInOrganization;
+  info: UserDeviceInfo;
+};
+
 export type SignIn = {
   email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type SignInOrganization = {
+  name: Scalars['String'];
+  organizationId: Scalars['Int'];
   password: Scalars['String'];
 };
 
@@ -285,8 +305,8 @@ export type UserDeviceInfo = {
 };
 
 export enum UserRoles {
-  Admin = 'ADMIN',
-  User = 'USER'
+  Admin = 'admin',
+  User = 'user'
 }
 
 
@@ -359,6 +379,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AuthenticateResult: ResolverTypeWrapper<AuthenticateResult>;
+  AuthenticationType: AuthenticationType;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CacheControlScope: CacheControlScope;
   Category: ResolverTypeWrapper<Category>;
@@ -375,6 +396,7 @@ export type ResolversTypes = {
   Organization: ResolverTypeWrapper<Organization>;
   Query: ResolverTypeWrapper<{}>;
   SignIn: SignIn;
+  SignInOrganization: SignInOrganization;
   SignInResult: ResolverTypeWrapper<SignInResult>;
   SignUp: SignUp;
   StandardCoordinates: ResolverTypeWrapper<StandardCoordinates>;
@@ -404,6 +426,7 @@ export type ResolversParentTypes = {
   Organization: Organization;
   Query: {};
   SignIn: SignIn;
+  SignInOrganization: SignInOrganization;
   SignInResult: SignInResult;
   SignUp: SignUp;
   StandardCoordinates: StandardCoordinates;
@@ -429,9 +452,11 @@ export type CacheControlDirectiveArgs = {
 export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AuthenticateResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthenticateResult'] = ResolversParentTypes['AuthenticateResult']> = {
-  expiresIn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  employee?: Resolver<Maybe<ResolversTypes['Employee']>, ParentType, ContextType>;
+  expiresIn?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['AuthenticationType'], ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -508,6 +533,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
   signIn?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInArgs, 'data' | 'info'>>;
+  signInToOrganization?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInToOrganizationArgs, 'data' | 'info'>>;
 };
 
 export type SignInResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInResult'] = ResolversParentTypes['SignInResult']> = {

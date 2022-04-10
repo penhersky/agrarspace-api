@@ -12,14 +12,27 @@ export default gql`
     password: String!
   }
 
+  input SignInOrganization {
+    organizationId: Int!
+    name: String!
+    password: String!
+  }
+
   type SignInResult {
     token: String
     expiresIn: String
   }
 
+  enum AuthenticationType {
+    user
+    employee
+  }
+
   type AuthenticateResult {
-    token: String
-    expiresIn: String
-    user: User!
+    token: String!
+    expiresIn: String!
+    type: AuthenticationType!
+    user: User
+    employee: Employee
   }
 `;

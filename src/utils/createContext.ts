@@ -11,8 +11,12 @@ export const apolloContext = (ctx: Context) => {
   const user =
     typeof session !== 'string'
       ? {
-          id: session.id,
+          id: session.userId,
           isAdmin: typeof adminSession !== 'string',
+          isOrganizationMember: !!session.userRole,
+          isOrganizationOwner: session.organizationOwnerId === session.userId,
+          organizationId: session.organizationId,
+          organizationUserRole: session.organizationUserRole,
         }
       : null;
 

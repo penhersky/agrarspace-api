@@ -23,3 +23,12 @@ export class DataCombinationError extends ApolloError {
     Object.defineProperty(this, 'name', { value: 'DataCombinationError' });
   }
 }
+
+// organization
+export class OrganizationError extends ApolloError {
+  constructor(message: string, type: string) {
+    super(`Organization: ${message}`, `ORGANIZATION_${type}`);
+
+    Object.defineProperty(this, 'name', { value: 'DataCombinationError' });
+  }
+}

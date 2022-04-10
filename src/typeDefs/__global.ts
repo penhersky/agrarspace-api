@@ -14,11 +14,11 @@ export default gql`
   }
 
   enum UserRoles {
-    ${Object.values(UserRoles).join(' ').toUpperCase()}
+    ${Object.values(UserRoles).join(' ').toLowerCase()}
   }
 
   enum EmployeeRoles {
-    ${Object.values(EmployeeRoles).join(' ').toUpperCase()}
+    ${Object.values(EmployeeRoles).join(' ').toLowerCase()}
   }
 
   directive @cacheControl(
