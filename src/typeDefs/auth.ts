@@ -23,15 +23,10 @@ export default gql`
     expiresIn: String
   }
 
-  enum AuthenticationType {
-    user
-    employee
-  }
-
   type AuthenticateResult {
     token: String!
     expiresIn: String!
-    type: AuthenticationType!
+    type: UserRoles!
     user: User
     employee: Employee
   }

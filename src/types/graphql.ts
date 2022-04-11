@@ -19,14 +19,9 @@ export type AuthenticateResult = {
   employee?: Maybe<Employee>;
   expiresIn: Scalars['String'];
   token: Scalars['String'];
-  type: AuthenticationType;
+  type: UserRoles;
   user?: Maybe<User>;
 };
-
-export enum AuthenticationType {
-  Employee = 'employee',
-  User = 'user'
-}
 
 export enum CacheControlScope {
   Private = 'PRIVATE',
@@ -306,6 +301,7 @@ export type UserDeviceInfo = {
 
 export enum UserRoles {
   Admin = 'admin',
+  Employee = 'employee',
   User = 'user'
 }
 
@@ -379,7 +375,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AuthenticateResult: ResolverTypeWrapper<AuthenticateResult>;
-  AuthenticationType: AuthenticationType;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CacheControlScope: CacheControlScope;
   Category: ResolverTypeWrapper<Category>;
@@ -455,7 +450,7 @@ export type AuthenticateResultResolvers<ContextType = any, ParentType extends Re
   employee?: Resolver<Maybe<ResolversTypes['Employee']>, ParentType, ContextType>;
   expiresIn?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<ResolversTypes['AuthenticationType'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['UserRoles'], ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -12,9 +12,11 @@ import {
   SingInResolver,
   SignInToOrganization,
 } from '../types/resolvers';
-import { AuthenticationType } from '../types/graphql';
 import { findUserByEmail, findUserById } from '../service/user';
-import { findOrganizationById } from '../service/organization';
+import {
+  findOrganizationById,
+  findOrganizationByOwnerId,
+} from '../service/organization';
 import {
   findEmployeeByNameAndOrganizationId,
   findEmployeeById,
@@ -69,16 +71,16 @@ export const signInToOrganization: SignInToOrganization = async (
   );
 
   if (!user) throw new UserInputError('Bad user data for authorization');
-  // const compareResult = await encrypt.compare(
-  //   data.password,
-  //   user.password as string,
-  // );
-  // if (!compareResult)
-  //   throw new UserInputError('Bad user data for authentication');
+  const compareResult = await encrypt.compare(
+    data.password,
+    user.password as string,
+  );
+  if (!compareResult)
+    throw new UserInputError('Bad user data for authentication');
 
   const token = getToken({
     id: user.id,
-    type: AuthenticationType.Employee,
+    type: UserRoles.Employee,
     system: info,
   });
 
@@ -94,7 +96,10 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
 
   const date = new Date();
 
-  if (Object.values(UserRoles).includes(tokenContent.type)) {
+  if (
+    tokenContent.type === UserRoles.Admin ||
+    tokenContent.type === UserRoles.User
+  ) {
     const user = await findUserById(User, tokenContent.id);
 
     if (!user) throw new UserInputError('Bad user data for authentication');
@@ -112,8 +117,13 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
     }
 
     if (UserRoles.User === tokenContent.type) {
+      const organization = await findOrganizationByOwnerId(
+        Organization,
+        tokenContent.id,
+      );
+
       token = getToken(
-        { id: user.id, role: user.role },
+        { userId: user.id, role: user.role, organizationId: organization?.id },
         TOKEN.USER_SESSION_TOKEN,
       );
       expiresIn = date
@@ -124,10 +134,10 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
     return {
       token,
       expiresIn,
-      type: AuthenticationType.User,
+      type: UserRoles.User,
       user,
     };
-  } else if (tokenContent.type === AuthenticationType.Employee) {
+  } else if (tokenContent.type === UserRoles.Employee) {
     const employee = await findEmployeeById(Employee, tokenContent.id);
     if (!employee) throw new UserInputError('Bad user data for authentication');
     const organization = await findOrganizationById(
@@ -142,9 +152,9 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
 
     const token = getToken(
       {
-        id: employee.id,
-        userRole: AuthenticationType.Employee,
-        organizationId: employee.organizationId,
+        userId: employee.id,
+        userRole: UserRoles.Employee,
+        organizationId: organization.id,
         organizationOwnerId: organization.ownerId,
         organizationUserRole: employee.role,
       },
@@ -159,7 +169,7 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
     return {
       token,
       expiresIn,
-      type: AuthenticationType.Employee,
+      type: UserRoles.Employee,
       employee,
     };
   }

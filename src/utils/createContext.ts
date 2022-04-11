@@ -1,4 +1,5 @@
 import { Context } from 'koa';
+import { UserRoles } from '@agrarspace/shared';
 
 import { verifyToken } from '../utils/token';
 
@@ -12,7 +13,9 @@ export const apolloContext = (ctx: Context) => {
     typeof session !== 'string'
       ? {
           id: session.userId,
-          isAdmin: typeof adminSession !== 'string',
+          isAdmin:
+            typeof adminSession !== 'string' &&
+            session.role === UserRoles.Admin,
           isOrganizationMember: !!session.userRole,
           isOrganizationOwner: session.organizationOwnerId === session.userId,
           organizationId: session.organizationId,
