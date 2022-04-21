@@ -26,7 +26,10 @@ export class User extends Model {
   id: number;
 
   @Column
-  name: string;
+  firstName: string;
+
+  @Column
+  lastName: string;
 
   @Column
   email: string;

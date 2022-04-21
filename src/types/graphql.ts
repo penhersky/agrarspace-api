@@ -19,7 +19,7 @@ export type AuthenticateResult = {
   employee?: Maybe<Employee>;
   expiresIn: Scalars['String'];
   token: Scalars['String'];
-  type: UserRoles;
+  type: UserTypes;
   user?: Maybe<User>;
 };
 
@@ -50,7 +50,8 @@ export type CreateEmployee = {
 
 export type CreateUser = {
   email: Scalars['String'];
-  name: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
   phoneNumber?: InputMaybe<Scalars['String']>;
   provider: Scalars['String'];
 };
@@ -277,7 +278,8 @@ export type UpdateEmployee = {
 
 export type UpdateUser = {
   email: Scalars['String'];
-  name: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
   phoneNumber?: InputMaybe<Scalars['String']>;
 };
 
@@ -285,8 +287,9 @@ export type User = {
   __typename?: 'User';
   createdAt?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  firstName: Scalars['String'];
   id: Scalars['Int'];
-  name: Scalars['String'];
+  lastName: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
   provider: Scalars['String'];
   role: UserRoles;
@@ -300,6 +303,11 @@ export type UserDeviceInfo = {
 };
 
 export enum UserRoles {
+  Admin = 'admin',
+  User = 'user'
+}
+
+export enum UserTypes {
   Admin = 'admin',
   Employee = 'employee',
   User = 'user'
@@ -402,6 +410,7 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   UserDeviceInfo: UserDeviceInfo;
   UserRoles: UserRoles;
+  UserTypes: UserTypes;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -450,7 +459,7 @@ export type AuthenticateResultResolvers<ContextType = any, ParentType extends Re
   employee?: Resolver<Maybe<ResolversTypes['Employee']>, ParentType, ContextType>;
   expiresIn?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<ResolversTypes['UserRoles'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['UserTypes'], ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -553,8 +562,9 @@ export type TopCultureItemResolvers<ContextType = any, ParentType extends Resolv
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   role?: Resolver<ResolversTypes['UserRoles'], ParentType, ContextType>;

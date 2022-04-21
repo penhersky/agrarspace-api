@@ -1,4 +1,4 @@
-import { UserRoles, EmployeeRoles } from '@agrarspace/shared';
+import { UserRoles, EmployeeRoles, UserTypes } from '@agrarspace/shared';
 import { gql } from 'apollo-server-koa';
 
 export default gql`
@@ -15,6 +15,10 @@ export default gql`
 
   enum UserRoles {
     ${Object.values(UserRoles).join(' ').toLowerCase()}
+  }
+
+  enum UserTypes {
+    ${Object.values(UserTypes).join(' ').toLowerCase()}
   }
 
   enum EmployeeRoles {

@@ -3,7 +3,8 @@ import { gql } from 'apollo-server-koa';
 export default gql`
   type User {
     id: Int!
-    name: String!
+    firstName: String!
+    lastName: String!
     email: String!
     phoneNumber: String
     role: UserRoles!
@@ -13,14 +14,16 @@ export default gql`
   }
 
   input CreateUser {
-    name: String!
+    firstName: String!
+    lastName: String!
     email: String!
     phoneNumber: String
     provider: String!
   }
 
   input UpdateUser {
-    name: String!
+    firstName: String!
+    lastName: String!
     email: String!
     phoneNumber: String
   }

@@ -6,7 +6,11 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      name: {
+      firstName: {
+        type: Sequelize.STRING(64),
+        allowNull: false,
+      },
+      lastName: {
         type: Sequelize.STRING(64),
         allowNull: false,
       },

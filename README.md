@@ -1,6 +1,6 @@
 # Agrarspace
 
-![workflow](https://github.com/penhersky/agrarspace/actions/workflows/ci.yml/badge.svg) ![GitHub package.json version](https://img.shields.io/github/package-json/v/penhersky/agrarspace) ![GitHub](https://img.shields.io/github/license/penhersky/agrarspace)
+![workflow](https://github.com/penhersky/agrarspace-api/actions/workflows/ci.yml/badge.svg) ![GitHub package.json version](https://img.shields.io/github/package-json/v/penhersky/agrarspace-api) ![GitHub](https://img.shields.io/github/license/penhersky/agrarspace-api)
 
 ### Agricultural platform for balancing and comparing annual crop yields
 

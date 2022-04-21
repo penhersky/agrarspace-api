@@ -5,5 +5,5 @@ export { default as config } from './utils/sequelizerc';
 
 export { default as logger } from './utils/logger';
 export { default as encrypt } from './utils/encrypt';
-export { UserRoles, EmployeeRoles } from './utils/constants';
+export { UserRoles, EmployeeRoles, UserTypes } from './utils/constants';
 export { default as faker } from 'faker';

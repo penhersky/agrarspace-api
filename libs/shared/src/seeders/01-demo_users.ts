@@ -15,7 +15,8 @@ module.exports = {
       'user',
       fillArr(10, () => {
         return {
-          name: faker.name.findName(),
+          firstName: faker.name.firstName(),
+          lastName: faker.name.lastName(),
           email: faker.internet.email(),
           phoneNumber: faker.phone.phoneNumber('380#######'),
           password: passwordHash,

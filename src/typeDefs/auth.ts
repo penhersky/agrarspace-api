@@ -26,7 +26,7 @@ export default gql`
   type AuthenticateResult {
     token: String!
     expiresIn: String!
-    type: UserRoles!
+    type: UserTypes!
     user: User
     employee: Employee
   }

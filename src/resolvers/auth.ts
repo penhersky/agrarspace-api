@@ -4,7 +4,7 @@ import {
   Organization,
   Employee,
   encrypt,
-  UserRoles,
+  UserTypes,
 } from '@agrarspace/shared';
 
 import {
@@ -80,7 +80,7 @@ export const signInToOrganization: SignInToOrganization = async (
 
   const token = getToken({
     id: user.id,
-    type: UserRoles.Employee,
+    type: UserTypes.Employee,
     system: info,
   });
 
@@ -97,8 +97,8 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
   const date = new Date();
 
   if (
-    tokenContent.type === UserRoles.Admin ||
-    tokenContent.type === UserRoles.User
+    tokenContent.type === UserTypes.Admin ||
+    tokenContent.type === UserTypes.User
   ) {
     const user = await findUserById(User, tokenContent.id);
 
@@ -106,7 +106,7 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
 
     let token = '';
     let expiresIn = '';
-    if (UserRoles.Admin === tokenContent.type) {
+    if (UserTypes.Admin === tokenContent.type) {
       token = getToken(
         { id: user.id, role: user.role },
         TOKEN.ADMIN_SESSION_TOKEN,
@@ -116,7 +116,7 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
         .toString();
     }
 
-    if (UserRoles.User === tokenContent.type) {
+    if (UserTypes.User === tokenContent.type) {
       const organization = await findOrganizationByOwnerId(
         Organization,
         tokenContent.id,
@@ -134,10 +134,10 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
     return {
       token,
       expiresIn,
-      type: UserRoles.User,
+      type: UserTypes.User,
       user,
     };
-  } else if (tokenContent.type === UserRoles.Employee) {
+  } else if (tokenContent.type === UserTypes.Employee) {
     const employee = await findEmployeeById(Employee, tokenContent.id);
     if (!employee) throw new UserInputError('Bad user data for authentication');
     const organization = await findOrganizationById(
@@ -153,7 +153,7 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
     const token = getToken(
       {
         userId: employee.id,
-        userRole: UserRoles.Employee,
+        userRole: UserTypes.Employee,
         organizationId: organization.id,
         organizationOwnerId: organization.ownerId,
         organizationUserRole: employee.role,
@@ -169,7 +169,7 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
     return {
       token,
       expiresIn,
-      type: UserRoles.Employee,
+      type: UserTypes.Employee,
       employee,
     };
   }
