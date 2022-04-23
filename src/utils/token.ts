@@ -1,5 +1,7 @@
 import { sign, verify } from 'jsonwebtoken';
 
+import { AuthenticationError } from './apolloError';
+
 import { JWT_SECRET } from './config';
 
 export const getToken = (data: any, expiresIn?: number) => {
@@ -13,6 +15,6 @@ export const verifyToken = (token: string) => {
   try {
     return verify(token, JWT_SECRET as string);
   } catch (err) {
-    throw Error('Invalid authentication token');
+    throw new AuthenticationError('Invalid authentication token', 'TOKEN');
   }
 };

@@ -46,6 +46,7 @@ export const signIn: SingInResolver = async (_, { data, info }) => {
   return {
     token,
     expiresIn: 'unlimited',
+    type: UserTypes.User, // TODO: Create switch on user or admin
   };
 };
 
@@ -82,11 +83,12 @@ export const signInToOrganization: SignInToOrganization = async (
     id: user.id,
     type: UserTypes.Employee,
     system: info,
-  });
+  }); // TODO: add date of expiration
 
   return {
     token,
-    expiresIn: 'unlimited',
+    expiresIn: 'unlimited', // TODO: add date of expiration
+    type: UserTypes.Employee,
   };
 };
 

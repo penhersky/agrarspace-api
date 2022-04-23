@@ -7,7 +7,7 @@ export const findOrganizationById = async (
   id: number,
 ) => {
   try {
-    return Model.findByPk(id);
+    return await Model.findByPk(id);
   } catch (err: Error | unknown) {
     if (err instanceof Error) throw new DatabaseError(err.message);
   }
@@ -18,7 +18,7 @@ export const findOrganizationByOwnerId = async (
   id: number,
 ) => {
   try {
-    return Model.findOne({
+    return await Model.findOne({
       where: {
         ownerId: id,
       },

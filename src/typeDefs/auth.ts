@@ -21,13 +21,14 @@ export default gql`
   type SignInResult {
     token: String
     expiresIn: String
+    type: UserTypes!
   }
 
   type AuthenticateResult {
     token: String!
     expiresIn: String!
-    type: UserTypes!
     user: User
+    type: UserTypes!
     employee: Employee
   }
 `;

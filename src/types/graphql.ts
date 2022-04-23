@@ -250,6 +250,7 @@ export type SignInResult = {
   __typename?: 'SignInResult';
   expiresIn?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
+  type: UserTypes;
 };
 
 export type SignUp = {
@@ -543,6 +544,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type SignInResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInResult'] = ResolversParentTypes['SignInResult']> = {
   expiresIn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['UserTypes'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
