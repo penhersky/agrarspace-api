@@ -1,12 +1,12 @@
 import { TEmployeeModel } from '@agrarspace/shared';
 
-import { DatabaseError } from '../../utils/apolloError';
+import { AppError } from '../../utils/error';
 
 export const findEmployeeById = async (Model: TEmployeeModel, id: number) => {
   try {
     return await Model.findByPk(id);
   } catch (err: Error | unknown) {
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };
 
@@ -23,6 +23,6 @@ export const findEmployeeByNameAndOrganizationId = async (
       },
     });
   } catch (err: Error | unknown) {
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };

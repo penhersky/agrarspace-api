@@ -1,4 +1,4 @@
-import { SecurityError } from '../../utils/apolloError';
+import { AppError } from '../../utils/error';
 
 export const comparePassword = async (
   compare: (data: string | Buffer, encrypted: string) => Promise<boolean>,
@@ -8,6 +8,6 @@ export const comparePassword = async (
   try {
     return await compare(inputPass, userPass);
   } catch (err: Error | unknown) {
-    if (err instanceof Error) throw new SecurityError(err.message);
+    if (err instanceof Error) AppError.security(err.message);
   }
 };

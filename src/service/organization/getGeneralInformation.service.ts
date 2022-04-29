@@ -6,7 +6,7 @@ import {
 } from '@agrarspace/shared';
 import _ from 'lodash';
 
-import { DatabaseError } from '../../utils/apolloError';
+import { AppError } from '../../utils/error';
 
 export const getTotalOrganizationAreaSize = async (
   Model: TPlantationModel,
@@ -16,7 +16,7 @@ export const getTotalOrganizationAreaSize = async (
     return await Model.sum('areaSize', { where: { organizationId: id } });
   } catch (err: Error | unknown) {
     console.log(err);
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };
 
@@ -38,7 +38,7 @@ export const getTotalOrganizationResourcesPerYear = async (
     };
   } catch (err: Error | unknown) {
     console.log(err);
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };
 
@@ -55,7 +55,7 @@ export const getCulturesCountInOrganization = async (
     return result.length;
   } catch (err: Error | unknown) {
     console.log(err);
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };
 
@@ -70,7 +70,7 @@ export const getPlantationsCountInOrganization = async (
 
     return result.count;
   } catch (err: Error | unknown) {
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };
 
@@ -85,6 +85,6 @@ export const getEmployeesCountInOrganization = async (
 
     return result.count;
   } catch (err: Error | unknown) {
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };

@@ -1,6 +1,6 @@
 import { TOrganizationModel } from '@agrarspace/shared';
 
-import { DatabaseError } from '../../utils/apolloError';
+import { AppError } from '../../utils/error';
 
 export const findOrganizationById = async (
   Model: TOrganizationModel,
@@ -9,7 +9,7 @@ export const findOrganizationById = async (
   try {
     return await Model.findByPk(id);
   } catch (err: Error | unknown) {
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };
 
@@ -24,6 +24,6 @@ export const findOrganizationByOwnerId = async (
       },
     });
   } catch (err: Error | unknown) {
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };

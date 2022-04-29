@@ -1,4 +1,4 @@
-import { Year, Employee, Plantation } from '@agrarspace/shared';
+import { Year, Employee, Plantation, Organization } from '@agrarspace/shared';
 
 import {
   getCulturesCountInOrganization,
@@ -7,13 +7,20 @@ import {
   getTotalOrganizationAreaSize,
   getTotalOrganizationResourcesPerYear,
 } from '../../../service/organization/getGeneralInformation.service';
+import { findOrganizationById } from '../../../service/organization';
 
 import { GetOrganizationGeneralInfoResolver } from '../../../types/resolvers';
 import { OrganizationGeneralInfo } from './../../../types/graphql';
+import { AppError } from '../../../utils/error';
 
 export const getOrganizationGeneralInfo: GetOrganizationGeneralInfoResolver =
   async (_, { data: { id, year } }) => {
     let info: OrganizationGeneralInfo = {};
+
+    const organization = await findOrganizationById(Organization, +id);
+
+    if (!organization) AppError.userInput('Organization is das not exists');
+
     try {
       const employeesCount = await getEmployeesCountInOrganization(
         Employee,

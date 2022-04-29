@@ -3,11 +3,7 @@ import { Organization } from '@agrarspace/shared';
 import { findOrganizationById } from '../../../service/organization';
 
 import { GetMyOrganizationResolver } from '../../../types/resolvers';
-import {
-  OrganizationError,
-  AuthenticationError,
-} from '../../../utils/apolloError';
-import { ERROR } from '../../../utils/constants';
+import { AppError } from '../../../utils/error';
 
 export const getMyOrganization: GetMyOrganizationResolver = async (
   _,
@@ -15,17 +11,16 @@ export const getMyOrganization: GetMyOrganizationResolver = async (
   { user },
 ) => {
   if (!user?.organizationId)
-    throw new AuthenticationError(
+    AppError.authentication(
       'You do not have access to this resource',
-      ERROR.WRONG_CREDENTIALS,
+      'NEED_REAUTHENTICATE',
     );
 
   const organization = await findOrganizationById(
     Organization,
-    user.organizationId,
+    user?.organizationId,
   );
-  if (!organization)
-    throw new OrganizationError('Organization das not exist', ERROR.NOT_FOUND);
+  if (!organization) AppError.unexpected('Organization das not exist');
 
-  return organization;
+  return organization as Organization;
 };

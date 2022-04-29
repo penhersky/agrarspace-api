@@ -22,26 +22,26 @@ import {
   findEmployeeById,
 } from '../service/employee';
 import { getToken, verifyToken } from '../utils/token';
-import { ERROR, TOKEN } from '../utils/constants';
-import { OrganizationError } from '../utils/apolloError';
+import { TOKEN } from '../utils/constants';
+import { AppError } from '../utils/error';
 
 export const signIn: SingInResolver = async (_, { data, info }) => {
   const user = await findUserByEmail(User, data.email);
 
-  if (!user) throw new UserInputError('Bad user data for authorization');
-  if (user.provider !== 'email')
-    throw new UserInputError('Bad user authentication provider', {
+  if (!user) AppError.userInput('Bad user data for authorization');
+  if (user?.provider !== 'email')
+    AppError.userInput('Bad user authentication provider', {
       argumentName: 'provider',
     });
 
   const compareResult = await encrypt.compare(
     data.password,
-    user.password as string,
+    user?.password as string,
   );
   if (!compareResult)
     throw new UserInputError('Bad user data for authorization');
 
-  const token = getToken({ id: user.id, type: user.role, system: info });
+  const token = getToken({ id: user?.id, type: user?.role, system: info });
 
   return {
     token,
@@ -59,15 +59,11 @@ export const signInToOrganization: SignInToOrganization = async (
     data.organizationId,
   );
 
-  if (!organization)
-    throw new OrganizationError(
-      'such an organization does not exist',
-      ERROR.NOT_FOUND,
-    );
+  if (!organization) AppError.userInput('such an organization does not exist');
 
   const user = await findEmployeeByNameAndOrganizationId(
     Employee,
-    organization.id,
+    organization?.id as number,
     data.name,
   );
 
@@ -147,17 +143,14 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
       employee.organizationId,
     );
     if (!organization)
-      throw new OrganizationError(
-        'such an organization does not exist',
-        ERROR.NOT_FOUND,
-      );
+      AppError.userInput('such an organization does not exist');
 
     const token = getToken(
       {
         userId: employee.id,
         userRole: UserTypes.Employee,
-        organizationId: organization.id,
-        organizationOwnerId: organization.ownerId,
+        organizationId: organization?.id,
+        organizationOwnerId: organization?.ownerId,
         organizationUserRole: employee.role,
       },
       TOKEN.USER_SESSION_TOKEN,

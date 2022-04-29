@@ -1,11 +1,11 @@
 import { TCategoryModel } from '@agrarspace/shared';
 
-import { DatabaseError } from '../../utils/apolloError';
+import { AppError } from '../../utils/error';
 
 export const findAllCategories = async (Model: TCategoryModel) => {
   try {
     return await Model.findAll({});
   } catch (err: Error | unknown) {
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };

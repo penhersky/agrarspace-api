@@ -1,6 +1,6 @@
 import { TCultureModel, TYearModel, Sequelize } from '@agrarspace/shared';
 
-import { DatabaseError } from '../../utils/apolloError';
+import { AppError } from '../../utils/error';
 
 export const getTopCulturesByYield = async (
   CultureModel: TCultureModel,
@@ -28,6 +28,6 @@ export const getTopCulturesByYield = async (
     });
     return stats;
   } catch (err: Error | unknown) {
-    if (err instanceof Error) throw new DatabaseError(err.message);
+    if (err instanceof Error) AppError.database(err.message);
   }
 };
