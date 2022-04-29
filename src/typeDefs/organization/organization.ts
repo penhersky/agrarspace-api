@@ -10,8 +10,25 @@ export default gql`
     updatedAt: String
   }
 
+  type OrganizationGeneralInfo {
+    plantationsCount: Int
+    totalAreaSize: Float
+    plantedResources: Float
+    collectedResources: Float
+    countOfCultures: Int
+    countOfEmployees: Int
+  }
+
+  input OrganizationGeneralInfoArgs {
+    id: ID!
+    year: Int
+  }
+
   extend type Query {
     getMyOrganization: Organization! # owner or organization member
+    getOrganizationGeneralInfo(
+      data: OrganizationGeneralInfoArgs!
+    ): OrganizationGeneralInfo! # authenticated user
   }
 
   extend type Mutation {

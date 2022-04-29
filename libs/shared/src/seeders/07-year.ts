@@ -19,7 +19,7 @@ module.exports = {
     const organizationsIds = organizations[0];
     const plantationIds = plantations[0];
     await queryInterface.bulkInsert(
-      'yield',
+      'year',
       fillArr(5000, () => {
         const interval = randomIntFromInterval(50, 80);
 
@@ -75,10 +75,10 @@ module.exports = {
         };
       }),
     );
-    await queryInterface.bulkDelete('yield', { collectedWeight: 0 }, {});
+    await queryInterface.bulkDelete('year', { collectedWeight: 0 }, {});
   },
 
   down: async (queryInterface: any) => {
-    await queryInterface.bulkDelete('yield', null, {});
+    await queryInterface.bulkDelete('year', null, {});
   },
 };

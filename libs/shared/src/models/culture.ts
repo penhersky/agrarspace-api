@@ -10,7 +10,7 @@ import {
   PrimaryKey,
 } from 'sequelize-typescript';
 
-import { Category, Yield } from '.';
+import { Category, Year } from '.';
 
 @Table({
   tableName: 'culture',
@@ -38,14 +38,15 @@ export class Culture extends Model {
   @Column
   image?: string;
 
+  @AllowNull
   @Column
   description?: string;
 
   @BelongsTo(() => Category)
   category: Category;
 
-  @HasMany(() => Yield)
-  yields: Yield[];
+  @HasMany(() => Year)
+  years: Year[];
 }
 
 export type TCultureModel = typeof Sequelize.Model & {

@@ -13,7 +13,7 @@ module.exports = {
     const passwordHash = await encrypt.hash(pass);
     await queryInterface.bulkInsert(
       'user',
-      fillArr(10, () => {
+      fillArr(30, () => {
         return {
           firstName: faker.name.firstName(),
           lastName: faker.name.lastName(),

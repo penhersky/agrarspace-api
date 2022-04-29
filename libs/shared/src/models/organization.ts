@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { Yield, User, Plantation } from '.';
+import { Year, User, Plantation } from '.';
 
 @Table({
   tableName: 'organization',
@@ -30,6 +30,9 @@ export class Organization extends Model {
   @Column
   name: string;
 
+  @Column
+  confirmed: boolean;
+
   @AllowNull
   @Column
   description?: string;
@@ -37,8 +40,8 @@ export class Organization extends Model {
   @BelongsTo(() => User)
   owner: User;
 
-  @HasMany(() => Yield)
-  yields: Yield[];
+  @HasMany(() => Year)
+  years: Year[];
 
   @HasMany(() => Plantation)
   plantations: Plantation[];

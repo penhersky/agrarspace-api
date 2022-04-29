@@ -46,7 +46,7 @@ module.exports = {
 
     plantation.associate = (models: any) => {
       plantation.belongsTo(models.organization);
-      plantation.hasMany(models.yield);
+      plantation.hasMany(models.year);
     };
 
     return plantation;

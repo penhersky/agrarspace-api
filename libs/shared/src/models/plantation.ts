@@ -9,7 +9,7 @@ import {
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
-import { Organization, Yield } from '.';
+import { Organization, Year, PlantationAreaPoint } from '.';
 
 @Table({
   tableName: 'plantation',
@@ -41,8 +41,11 @@ export class Plantation extends Model {
   @BelongsTo(() => Organization)
   organization: Organization;
 
-  @HasMany(() => Yield)
-  yields: Yield[];
+  @HasMany(() => Year)
+  years: Year[];
+
+  @HasMany(() => PlantationAreaPoint)
+  areaPoints: PlantationAreaPoint[];
 }
 
 export type TPlantationModel = typeof Sequelize.Model & {

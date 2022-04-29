@@ -10,7 +10,7 @@ module.exports = {
     );
     const ids = organizations[0];
 
-    const plantation = fillArr(100, () => {
+    const plantation = fillArr(200, () => {
       return {
         organizationId: getRandom(ids).id || ids[0].id,
         areaSize: faker.datatype.number(250),

@@ -21,7 +21,7 @@ module.exports = {
 
     const children = fillArr(20, () => ({
       name: faker.commerce.productName(),
-      image: faker.image.food(),
+      image: faker.image.nature(),
       description: faker.lorem.text(),
       categoryId: getRandom(ids).id || ids[0].id,
       parentId: getRandom(parents).id,

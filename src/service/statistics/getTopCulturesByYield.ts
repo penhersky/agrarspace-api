@@ -1,13 +1,13 @@
-import { TCultureModel, TYieldModel, Sequelize } from '@agrarspace/shared';
+import { TCultureModel, TYearModel, Sequelize } from '@agrarspace/shared';
 
 import { DatabaseError } from '../../utils/apolloError';
 
 export const getTopCulturesByYield = async (
   CultureModel: TCultureModel,
-  YieldModel: TYieldModel,
+  YearModel: TYearModel,
 ) => {
   try {
-    const stats = await YieldModel.findAll({
+    const stats = await YearModel.findAll({
       attributes: [
         'cultureId',
         [

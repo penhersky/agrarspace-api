@@ -12,12 +12,12 @@ import Sequelize from 'sequelize';
 import { Culture, Organization, Plantation } from '.';
 
 @Table({
-  tableName: 'yield',
+  tableName: 'year',
   timestamps: true,
   createdAt: true,
   updatedAt: true,
 })
-export class Yield extends Model {
+export class Year extends Model {
   @PrimaryKey
   @Column
   id: number;
@@ -71,6 +71,6 @@ export class Yield extends Model {
   plantation: Plantation;
 }
 
-export type TYieldModel = typeof Sequelize.Model & {
-  new (values?: object, options?: Sequelize.BuildOptions): Yield;
+export type TYearModel = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): Year;
 };

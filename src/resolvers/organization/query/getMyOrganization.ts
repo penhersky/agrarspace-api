@@ -1,12 +1,13 @@
 import { Organization } from '@agrarspace/shared';
 
-import { findOrganizationById } from '../../service/organization';
-import { GetMyOrganizationResolver } from '../../types/resolvers';
+import { findOrganizationById } from '../../../service/organization';
+
+import { GetMyOrganizationResolver } from '../../../types/resolvers';
 import {
   OrganizationError,
   AuthenticationError,
-} from '../../utils/apolloError';
-import { ERROR } from '../../utils/constants';
+} from '../../../utils/apolloError';
+import { ERROR } from '../../../utils/constants';
 
 export const getMyOrganization: GetMyOrganizationResolver = async (
   _,

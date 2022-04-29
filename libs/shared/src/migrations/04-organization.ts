@@ -21,6 +21,11 @@ module.exports = {
         type: new Sequelize.STRING(124),
         allowNull: false,
       },
+      confirmed: {
+        type: new Sequelize.BOOLEAN(),
+        allowNull: false,
+        defaultValue: false,
+      },
       description: {
         type: new Sequelize.TEXT(),
         allowNull: true,
@@ -31,7 +36,7 @@ module.exports = {
 
     organization.associate = (models: any) => {
       organization.belongsTo(models.user);
-      organization.hasMany(models.yield);
+      organization.hasMany(models.year);
       organization.hasMany(models.employee);
       organization.hasMany(models.plantation);
     };

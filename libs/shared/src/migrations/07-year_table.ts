@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface: any, Sequelize: any) => {
-    const yieldModel = queryInterface.createTable('yield', {
+    const yearModel = queryInterface.createTable('year', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
         autoIncrement: true,
@@ -74,16 +74,16 @@ module.exports = {
       updatedAt: Sequelize.DATE,
     });
 
-    yieldModel.associate = (models: any) => {
-      yieldModel.belongsTo(models.culture);
-      yieldModel.belongsTo(models.organization);
-      yieldModel.belongsTo(models.plantation);
+    yearModel.associate = (models: any) => {
+      yearModel.belongsTo(models.culture);
+      yearModel.belongsTo(models.organization);
+      yearModel.belongsTo(models.plantation);
     };
 
-    return yieldModel;
+    return yearModel;
   },
 
   down: async (queryInterface: any) => {
-    return queryInterface.dropTable('yield');
+    return queryInterface.dropTable('year');
   },
 };

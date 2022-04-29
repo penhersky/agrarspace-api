@@ -45,7 +45,7 @@ module.exports = {
 
     culture.associate = (models: any) => {
       culture.belongsTo(models.category);
-      culture.hasMany(models.yield);
+      culture.hasMany(models.year);
       culture.hasOne(models.culture);
     };
 

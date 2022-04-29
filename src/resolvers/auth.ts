@@ -144,7 +144,7 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
     if (!employee) throw new UserInputError('Bad user data for authentication');
     const organization = await findOrganizationById(
       Organization,
-      tokenContent.id,
+      employee.organizationId,
     );
     if (!organization)
       throw new OrganizationError(

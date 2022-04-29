@@ -7,6 +7,8 @@ import {
   Category,
   TopCultureItem,
   Organization,
+  OrganizationGeneralInfo,
+  QueryGetOrganizationGeneralInfoArgs,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
@@ -29,3 +31,7 @@ export type GetTopCultureResolver = IResolverReturnArray<TopCultureItem, {}>;
 
 // organization
 export type GetMyOrganizationResolver = IResolver<Organization, {}>;
+export type GetOrganizationGeneralInfoResolver = IResolver<
+  OrganizationGeneralInfo,
+  QueryGetOrganizationGeneralInfoArgs
+>;

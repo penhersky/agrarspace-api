@@ -198,6 +198,21 @@ export type Organization = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
+export type OrganizationGeneralInfo = {
+  __typename?: 'OrganizationGeneralInfo';
+  collectedResources?: Maybe<Scalars['Int']>;
+  countOfCultures?: Maybe<Scalars['Int']>;
+  countOfEmployees?: Maybe<Scalars['Int']>;
+  plantationsCount?: Maybe<Scalars['Int']>;
+  plantedResources?: Maybe<Scalars['Int']>;
+  totalAreaSize?: Maybe<Scalars['Int']>;
+};
+
+export type OrganizationGeneralInfoArgs = {
+  id: Scalars['ID'];
+  year?: InputMaybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   authenticate: AuthenticateResult;
@@ -207,6 +222,7 @@ export type Query = {
   getMe: User;
   getMyEmployeeProfile: Employee;
   getMyOrganization: Organization;
+  getOrganizationGeneralInfo: OrganizationGeneralInfo;
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
   getUser: User;
   signIn: SignInResult;
@@ -216,6 +232,11 @@ export type Query = {
 
 export type QueryGetCulturesByCategoryIdArgs = {
   categoryId: Scalars['ID'];
+};
+
+
+export type QueryGetOrganizationGeneralInfoArgs = {
+  data: OrganizationGeneralInfoArgs;
 };
 
 
@@ -398,6 +419,8 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Organization: ResolverTypeWrapper<Organization>;
+  OrganizationGeneralInfo: ResolverTypeWrapper<OrganizationGeneralInfo>;
+  OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
   Query: ResolverTypeWrapper<{}>;
   SignIn: SignIn;
   SignInOrganization: SignInOrganization;
@@ -429,6 +452,8 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   Mutation: {};
   Organization: Organization;
+  OrganizationGeneralInfo: OrganizationGeneralInfo;
+  OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
   Query: {};
   SignIn: SignIn;
   SignInOrganization: SignInOrganization;
@@ -527,6 +552,16 @@ export type OrganizationResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type OrganizationGeneralInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['OrganizationGeneralInfo'] = ResolversParentTypes['OrganizationGeneralInfo']> = {
+  collectedResources?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  countOfCultures?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  countOfEmployees?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  plantationsCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  plantedResources?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  totalAreaSize?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authenticate?: Resolver<ResolversTypes['AuthenticateResult'], ParentType, ContextType>;
   getCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
@@ -535,6 +570,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getMyEmployeeProfile?: Resolver<ResolversTypes['Employee'], ParentType, ContextType>;
   getMyOrganization?: Resolver<ResolversTypes['Organization'], ParentType, ContextType>;
+  getOrganizationGeneralInfo?: Resolver<ResolversTypes['OrganizationGeneralInfo'], ParentType, ContextType, RequireFields<QueryGetOrganizationGeneralInfoArgs, 'data'>>;
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
   signIn?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInArgs, 'data' | 'info'>>;
@@ -581,6 +617,7 @@ export type Resolvers<ContextType = any> = {
   Employee?: EmployeeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Organization?: OrganizationResolvers<ContextType>;
+  OrganizationGeneralInfo?: OrganizationGeneralInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignInResult?: SignInResultResolvers<ContextType>;
   StandardCoordinates?: StandardCoordinatesResolvers<ContextType>;
