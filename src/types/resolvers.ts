@@ -9,6 +9,8 @@ import {
   Organization,
   OrganizationGeneralInfo,
   QueryGetOrganizationGeneralInfoArgs,
+  TotalOrganizationAnnualYearsIncome,
+  QueryGetTotalOrganizationAnnualYearsIncomeArgs,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
@@ -28,6 +30,10 @@ export type GetCategoriesResolver = IResolverReturnArray<Category, {}>;
 
 // statistics
 export type GetTopCultureResolver = IResolverReturnArray<TopCultureItem, {}>;
+export type GetTotalOrganizationAnnualYearsIncome = IResolver<
+  TotalOrganizationAnnualYearsIncome,
+  QueryGetTotalOrganizationAnnualYearsIncomeArgs
+>;
 
 // organization
 export type GetMyOrganizationResolver = IResolver<Organization, {}>;

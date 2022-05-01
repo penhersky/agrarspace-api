@@ -1,4 +1,5 @@
-export { Sequelize, default as SequelizeT } from 'sequelize-typescript';
+export { default as SequelizeT } from 'sequelize-typescript';
+export * as Sequelize from 'sequelize';
 export * from './models';
 export { sequelize } from './db';
 export { default as config } from './utils/sequelizerc';

@@ -200,12 +200,12 @@ export type Organization = {
 
 export type OrganizationGeneralInfo = {
   __typename?: 'OrganizationGeneralInfo';
-  collectedResources?: Maybe<Scalars['Int']>;
+  collectedResources?: Maybe<Scalars['Float']>;
   countOfCultures?: Maybe<Scalars['Int']>;
   countOfEmployees?: Maybe<Scalars['Int']>;
   plantationsCount?: Maybe<Scalars['Int']>;
-  plantedResources?: Maybe<Scalars['Int']>;
-  totalAreaSize?: Maybe<Scalars['Int']>;
+  plantedResources?: Maybe<Scalars['Float']>;
+  totalAreaSize?: Maybe<Scalars['Float']>;
 };
 
 export type OrganizationGeneralInfoArgs = {
@@ -224,6 +224,7 @@ export type Query = {
   getMyOrganization: Organization;
   getOrganizationGeneralInfo: OrganizationGeneralInfo;
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
+  getTotalOrganizationAnnualYearsIncome: TotalOrganizationAnnualYearsIncome;
   getUser: User;
   signIn: SignInResult;
   signInToOrganization: SignInResult;
@@ -237,6 +238,11 @@ export type QueryGetCulturesByCategoryIdArgs = {
 
 export type QueryGetOrganizationGeneralInfoArgs = {
   data: OrganizationGeneralInfoArgs;
+};
+
+
+export type QueryGetTotalOrganizationAnnualYearsIncomeArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -291,6 +297,21 @@ export type TopCultureItem = {
   data: StandardCoordinates;
   id: Scalars['Int'];
   name: Scalars['String'];
+};
+
+export type TotalAnnualIncome = {
+  __typename?: 'TotalAnnualIncome';
+  sumCollected?: Maybe<Scalars['Float']>;
+  sumPlanted: Scalars['Float'];
+  year: Scalars['Int'];
+};
+
+export type TotalOrganizationAnnualYearsIncome = {
+  __typename?: 'TotalOrganizationAnnualYearsIncome';
+  avgCollected?: Maybe<Scalars['Float']>;
+  avgPlanted?: Maybe<Scalars['Float']>;
+  data: Array<Maybe<TotalAnnualIncome>>;
+  maxCollected?: Maybe<Scalars['Float']>;
 };
 
 export type UpdateEmployee = {
@@ -413,6 +434,7 @@ export type ResolversTypes = {
   Culture: ResolverTypeWrapper<Culture>;
   Employee: ResolverTypeWrapper<Employee>;
   EmployeeRoles: EmployeeRoles;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   InputCategory: InputCategory;
   InputCulture: InputCulture;
@@ -429,6 +451,8 @@ export type ResolversTypes = {
   StandardCoordinates: ResolverTypeWrapper<StandardCoordinates>;
   String: ResolverTypeWrapper<Scalars['String']>;
   TopCultureItem: ResolverTypeWrapper<TopCultureItem>;
+  TotalAnnualIncome: ResolverTypeWrapper<TotalAnnualIncome>;
+  TotalOrganizationAnnualYearsIncome: ResolverTypeWrapper<TotalOrganizationAnnualYearsIncome>;
   UpdateEmployee: UpdateEmployee;
   UpdateUser: UpdateUser;
   User: ResolverTypeWrapper<User>;
@@ -446,6 +470,7 @@ export type ResolversParentTypes = {
   CreateUser: CreateUser;
   Culture: Culture;
   Employee: Employee;
+  Float: Scalars['Float'];
   ID: Scalars['ID'];
   InputCategory: InputCategory;
   InputCulture: InputCulture;
@@ -462,6 +487,8 @@ export type ResolversParentTypes = {
   StandardCoordinates: StandardCoordinates;
   String: Scalars['String'];
   TopCultureItem: TopCultureItem;
+  TotalAnnualIncome: TotalAnnualIncome;
+  TotalOrganizationAnnualYearsIncome: TotalOrganizationAnnualYearsIncome;
   UpdateEmployee: UpdateEmployee;
   UpdateUser: UpdateUser;
   User: User;
@@ -553,12 +580,12 @@ export type OrganizationResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type OrganizationGeneralInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['OrganizationGeneralInfo'] = ResolversParentTypes['OrganizationGeneralInfo']> = {
-  collectedResources?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  collectedResources?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   countOfCultures?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   countOfEmployees?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   plantationsCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  plantedResources?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  totalAreaSize?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  plantedResources?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  totalAreaSize?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -572,6 +599,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getMyOrganization?: Resolver<ResolversTypes['Organization'], ParentType, ContextType>;
   getOrganizationGeneralInfo?: Resolver<ResolversTypes['OrganizationGeneralInfo'], ParentType, ContextType, RequireFields<QueryGetOrganizationGeneralInfoArgs, 'data'>>;
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
+  getTotalOrganizationAnnualYearsIncome?: Resolver<ResolversTypes['TotalOrganizationAnnualYearsIncome'], ParentType, ContextType, RequireFields<QueryGetTotalOrganizationAnnualYearsIncomeArgs, 'id'>>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
   signIn?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInArgs, 'data' | 'info'>>;
   signInToOrganization?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInToOrganizationArgs, 'data' | 'info'>>;
@@ -594,6 +622,21 @@ export type TopCultureItemResolvers<ContextType = any, ParentType extends Resolv
   data?: Resolver<ResolversTypes['StandardCoordinates'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TotalAnnualIncomeResolvers<ContextType = any, ParentType extends ResolversParentTypes['TotalAnnualIncome'] = ResolversParentTypes['TotalAnnualIncome']> = {
+  sumCollected?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  sumPlanted?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  year?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TotalOrganizationAnnualYearsIncomeResolvers<ContextType = any, ParentType extends ResolversParentTypes['TotalOrganizationAnnualYearsIncome'] = ResolversParentTypes['TotalOrganizationAnnualYearsIncome']> = {
+  avgCollected?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  avgPlanted?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  data?: Resolver<Array<Maybe<ResolversTypes['TotalAnnualIncome']>>, ParentType, ContextType>;
+  maxCollected?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -622,6 +665,8 @@ export type Resolvers<ContextType = any> = {
   SignInResult?: SignInResultResolvers<ContextType>;
   StandardCoordinates?: StandardCoordinatesResolvers<ContextType>;
   TopCultureItem?: TopCultureItemResolvers<ContextType>;
+  TotalAnnualIncome?: TotalAnnualIncomeResolvers<ContextType>;
+  TotalOrganizationAnnualYearsIncome?: TotalOrganizationAnnualYearsIncomeResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

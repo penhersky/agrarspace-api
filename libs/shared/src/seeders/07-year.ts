@@ -23,7 +23,7 @@ module.exports = {
       fillArr(5000, () => {
         const interval = randomIntFromInterval(50, 80);
 
-        const dateOfSowingStart = faker.date.past(10, new Date(2022, 1, 1));
+        const dateOfSowingStart = faker.date.past(10, new Date(2024, 1, 1));
         const month = randomIntFromInterval(3, 6);
         dateOfSowingStart.setMonth(month);
         const dateOfSowingEnd = new Date(dateOfSowingStart);
