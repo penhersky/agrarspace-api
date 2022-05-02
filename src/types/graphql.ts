@@ -213,16 +213,32 @@ export type OrganizationGeneralInfoArgs = {
   year?: InputMaybe<Scalars['Int']>;
 };
 
+export type PercentSection = {
+  __typename?: 'PercentSection';
+  name?: Maybe<Scalars['String']>;
+  percent: Scalars['Float'];
+  value: Scalars['Float'];
+};
+
+export type PercentStatistic = {
+  __typename?: 'PercentStatistic';
+  data: Array<Maybe<PercentSection>>;
+  totalPercent: Scalars['Float'];
+  totalValue: Scalars['Float'];
+};
+
 export type Query = {
   __typename?: 'Query';
   authenticate: AuthenticateResult;
   getCategories: Array<Maybe<Category>>;
   getCulturesByCategoryId: Array<Maybe<Culture>>;
   getEmployees: Employee;
+  getGlobalPlantedAreaPerYear: PercentStatistic;
   getMe: User;
   getMyEmployeeProfile: Employee;
   getMyOrganization: Organization;
   getOrganizationGeneralInfo: OrganizationGeneralInfo;
+  getOrganizationPlantedAreaPerYear: PercentStatistic;
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
   getTotalOrganizationAnnualYearsIncome: TotalOrganizationAnnualYearsIncome;
   getUser: User;
@@ -236,8 +252,18 @@ export type QueryGetCulturesByCategoryIdArgs = {
 };
 
 
+export type QueryGetGlobalPlantedAreaPerYearArgs = {
+  year: Scalars['Int'];
+};
+
+
 export type QueryGetOrganizationGeneralInfoArgs = {
   data: OrganizationGeneralInfoArgs;
+};
+
+
+export type QueryGetOrganizationPlantedAreaPerYearArgs = {
+  year: Scalars['Int'];
 };
 
 
@@ -443,6 +469,8 @@ export type ResolversTypes = {
   Organization: ResolverTypeWrapper<Organization>;
   OrganizationGeneralInfo: ResolverTypeWrapper<OrganizationGeneralInfo>;
   OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
+  PercentSection: ResolverTypeWrapper<PercentSection>;
+  PercentStatistic: ResolverTypeWrapper<PercentStatistic>;
   Query: ResolverTypeWrapper<{}>;
   SignIn: SignIn;
   SignInOrganization: SignInOrganization;
@@ -479,6 +507,8 @@ export type ResolversParentTypes = {
   Organization: Organization;
   OrganizationGeneralInfo: OrganizationGeneralInfo;
   OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
+  PercentSection: PercentSection;
+  PercentStatistic: PercentStatistic;
   Query: {};
   SignIn: SignIn;
   SignInOrganization: SignInOrganization;
@@ -589,15 +619,31 @@ export type OrganizationGeneralInfoResolvers<ContextType = any, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PercentSectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['PercentSection'] = ResolversParentTypes['PercentSection']> = {
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  percent?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PercentStatisticResolvers<ContextType = any, ParentType extends ResolversParentTypes['PercentStatistic'] = ResolversParentTypes['PercentStatistic']> = {
+  data?: Resolver<Array<Maybe<ResolversTypes['PercentSection']>>, ParentType, ContextType>;
+  totalPercent?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  totalValue?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authenticate?: Resolver<ResolversTypes['AuthenticateResult'], ParentType, ContextType>;
   getCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
   getCulturesByCategoryId?: Resolver<Array<Maybe<ResolversTypes['Culture']>>, ParentType, ContextType, RequireFields<QueryGetCulturesByCategoryIdArgs, 'categoryId'>>;
   getEmployees?: Resolver<ResolversTypes['Employee'], ParentType, ContextType>;
+  getGlobalPlantedAreaPerYear?: Resolver<ResolversTypes['PercentStatistic'], ParentType, ContextType, RequireFields<QueryGetGlobalPlantedAreaPerYearArgs, 'year'>>;
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getMyEmployeeProfile?: Resolver<ResolversTypes['Employee'], ParentType, ContextType>;
   getMyOrganization?: Resolver<ResolversTypes['Organization'], ParentType, ContextType>;
   getOrganizationGeneralInfo?: Resolver<ResolversTypes['OrganizationGeneralInfo'], ParentType, ContextType, RequireFields<QueryGetOrganizationGeneralInfoArgs, 'data'>>;
+  getOrganizationPlantedAreaPerYear?: Resolver<ResolversTypes['PercentStatistic'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantedAreaPerYearArgs, 'year'>>;
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
   getTotalOrganizationAnnualYearsIncome?: Resolver<ResolversTypes['TotalOrganizationAnnualYearsIncome'], ParentType, ContextType, RequireFields<QueryGetTotalOrganizationAnnualYearsIncomeArgs, 'id'>>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
@@ -661,6 +707,8 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Organization?: OrganizationResolvers<ContextType>;
   OrganizationGeneralInfo?: OrganizationGeneralInfoResolvers<ContextType>;
+  PercentSection?: PercentSectionResolvers<ContextType>;
+  PercentStatistic?: PercentStatisticResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignInResult?: SignInResultResolvers<ContextType>;
   StandardCoordinates?: StandardCoordinatesResolvers<ContextType>;

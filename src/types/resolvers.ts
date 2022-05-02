@@ -11,6 +11,9 @@ import {
   QueryGetOrganizationGeneralInfoArgs,
   TotalOrganizationAnnualYearsIncome,
   QueryGetTotalOrganizationAnnualYearsIncomeArgs,
+  PercentStatistic,
+  QueryGetOrganizationPlantedAreaPerYearArgs,
+  QueryGetGlobalPlantedAreaPerYearArgs,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
@@ -33,6 +36,14 @@ export type GetTopCultureResolver = IResolverReturnArray<TopCultureItem, {}>;
 export type GetTotalOrganizationAnnualYearsIncome = IResolver<
   TotalOrganizationAnnualYearsIncome,
   QueryGetTotalOrganizationAnnualYearsIncomeArgs
+>;
+export type GetOrganizationPlantedAreaPerYearResolver = IResolver<
+  PercentStatistic,
+  QueryGetOrganizationPlantedAreaPerYearArgs
+>;
+export type GetGlobalPlantedAreaPerYearResolver = IResolver<
+  PercentStatistic,
+  QueryGetGlobalPlantedAreaPerYearArgs
 >;
 
 // organization
