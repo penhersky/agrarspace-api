@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { patterns } from '../constants';
+import { PATTERNS } from '../constants';
 
 export const user = async ({
   name,
@@ -10,7 +10,7 @@ export const user = async ({
   email: string;
 }): Promise<undefined | Joi.ValidationErrorItem[]> => {
   const schema = Joi.object({
-    name: Joi.string().pattern(patterns.name).min(3).max(60).required(),
+    name: Joi.string().pattern(PATTERNS.name).min(3).max(60).required(),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .required(),
@@ -24,7 +24,7 @@ export const password = async (data: {
   password: string;
 }): Promise<undefined | Joi.ValidationErrorItem[]> => {
   const schema = Joi.object({
-    password: Joi.string().min(6).max(60).pattern(patterns.name).required(),
+    password: Joi.string().min(6).max(60).pattern(PATTERNS.password).required(),
   });
 
   const result = schema.validate(data);
