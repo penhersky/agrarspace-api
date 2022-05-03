@@ -1,5 +1,10 @@
 import { Resolvers } from '../types/graphql';
-import { signIn, signInToOrganization, authenticate } from './auth';
+import {
+  signIn,
+  signInToOrganization,
+  authenticate,
+  refreshToken,
+} from './auth';
 
 import { Category, CategoriesQueries } from './category';
 import { Organization, OrganizationQueries } from './organization';
@@ -11,6 +16,7 @@ export const resolvers: Resolvers = {
     signIn,
     signInToOrganization,
     authenticate,
+    refreshToken,
     ...CategoriesQueries,
     ...statistics,
     ...OrganizationQueries,

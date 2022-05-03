@@ -18,7 +18,7 @@ export const getMyOrganization: GetMyOrganizationResolver = async (
 
   const organization = await findOrganizationById(
     Organization,
-    user?.organizationId,
+    user?.organizationId as number,
   );
   if (!organization) AppError.unexpected('Organization das not exist');
 

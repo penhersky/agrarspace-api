@@ -17,8 +17,6 @@ export type Scalars = {
 export type AuthenticateResult = {
   __typename?: 'AuthenticateResult';
   employee?: Maybe<Employee>;
-  expiresIn: Scalars['String'];
-  token: Scalars['String'];
   type: UserTypes;
   user?: Maybe<User>;
 };
@@ -242,6 +240,7 @@ export type Query = {
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
   getTotalOrganizationAnnualYearsIncome: TotalOrganizationAnnualYearsIncome;
   getUser: User;
+  refreshToken: RefreshTokenResult;
   signIn: SignInResult;
   signInToOrganization: SignInResult;
 };
@@ -288,6 +287,12 @@ export type QuerySignInToOrganizationArgs = {
   info: UserDeviceInfo;
 };
 
+export type RefreshTokenResult = {
+  __typename?: 'RefreshTokenResult';
+  rToken: Scalars['String'];
+  token: Scalars['String'];
+};
+
 export type SignIn = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -301,7 +306,7 @@ export type SignInOrganization = {
 
 export type SignInResult = {
   __typename?: 'SignInResult';
-  expiresIn?: Maybe<Scalars['String']>;
+  rToken?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
   type: UserTypes;
 };
@@ -472,6 +477,7 @@ export type ResolversTypes = {
   PercentSection: ResolverTypeWrapper<PercentSection>;
   PercentStatistic: ResolverTypeWrapper<PercentStatistic>;
   Query: ResolverTypeWrapper<{}>;
+  RefreshTokenResult: ResolverTypeWrapper<RefreshTokenResult>;
   SignIn: SignIn;
   SignInOrganization: SignInOrganization;
   SignInResult: ResolverTypeWrapper<SignInResult>;
@@ -510,6 +516,7 @@ export type ResolversParentTypes = {
   PercentSection: PercentSection;
   PercentStatistic: PercentStatistic;
   Query: {};
+  RefreshTokenResult: RefreshTokenResult;
   SignIn: SignIn;
   SignInOrganization: SignInOrganization;
   SignInResult: SignInResult;
@@ -540,8 +547,6 @@ export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Arg
 
 export type AuthenticateResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthenticateResult'] = ResolversParentTypes['AuthenticateResult']> = {
   employee?: Resolver<Maybe<ResolversTypes['Employee']>, ParentType, ContextType>;
-  expiresIn?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['UserTypes'], ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -647,12 +652,19 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
   getTotalOrganizationAnnualYearsIncome?: Resolver<ResolversTypes['TotalOrganizationAnnualYearsIncome'], ParentType, ContextType, RequireFields<QueryGetTotalOrganizationAnnualYearsIncomeArgs, 'id'>>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
+  refreshToken?: Resolver<ResolversTypes['RefreshTokenResult'], ParentType, ContextType>;
   signIn?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInArgs, 'data' | 'info'>>;
   signInToOrganization?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<QuerySignInToOrganizationArgs, 'data' | 'info'>>;
 };
 
+export type RefreshTokenResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['RefreshTokenResult'] = ResolversParentTypes['RefreshTokenResult']> = {
+  rToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type SignInResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInResult'] = ResolversParentTypes['SignInResult']> = {
-  expiresIn?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  rToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['UserTypes'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -710,6 +722,7 @@ export type Resolvers<ContextType = any> = {
   PercentSection?: PercentSectionResolvers<ContextType>;
   PercentStatistic?: PercentStatisticResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RefreshTokenResult?: RefreshTokenResultResolvers<ContextType>;
   SignInResult?: SignInResultResolvers<ContextType>;
   StandardCoordinates?: StandardCoordinatesResolvers<ContextType>;
   TopCultureItem?: TopCultureItemResolvers<ContextType>;

@@ -19,16 +19,35 @@ export default gql`
   }
 
   type SignInResult {
+    rToken: String
     token: String
-    expiresIn: String
     type: UserTypes!
   }
 
   type AuthenticateResult {
-    token: String!
-    expiresIn: String!
     user: User
     type: UserTypes!
     employee: Employee
+  }
+
+  type RefreshTokenResult {
+    rToken: String!
+    token: String!
+  }
+
+  extend type Query {
+    signIn(data: SignIn!, info: UserDeviceInfo!): SignInResult!
+    signInToOrganization(
+      data: SignInOrganization!
+      info: UserDeviceInfo!
+    ): SignInResult!
+    authenticate: AuthenticateResult!
+    refreshToken: RefreshTokenResult!
+  }
+
+  extend type Mutation {
+    signUp(data: SignUp!): Boolean!
+    forgotPassword(email: String!): Boolean!
+    confirmForgotPassword(token: String!): Boolean!
   }
 `;

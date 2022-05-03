@@ -14,6 +14,7 @@ import {
   PercentStatistic,
   QueryGetOrganizationPlantedAreaPerYearArgs,
   QueryGetGlobalPlantedAreaPerYearArgs,
+  RefreshTokenResult,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
@@ -24,6 +25,7 @@ export type SignInToOrganization = IResolver<
   QuerySignInToOrganizationArgs
 >;
 export type AuthenticateResolver = IResolver<AuthenticateResult, {}>;
+export type RefreshTokenResolver = IResolver<RefreshTokenResult | any, {}>;
 
 // user
 export type GetMeResolver = IResolver<User, {}>;

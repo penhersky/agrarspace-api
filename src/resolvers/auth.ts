@@ -11,6 +11,7 @@ import {
   AuthenticateResolver,
   SingInResolver,
   SignInToOrganization,
+  RefreshTokenResolver,
 } from '../types/resolvers';
 import { findUserByEmail, findUserById } from '../service/user';
 import {
@@ -21,9 +22,13 @@ import {
   findEmployeeByNameAndOrganizationId,
   findEmployeeById,
 } from '../service/employee';
-import { getToken, verifyToken } from '../utils/token';
-import { TOKEN } from '../utils/constants';
+import {
+  createRefreshToken,
+  createSessionToken,
+  verifyToken,
+} from '../service/token.service';
 import { AppError } from '../utils/error';
+import { IRefreshToken } from '../types/token';
 
 export const signIn: SingInResolver = async (_, { data, info }) => {
   const user = await findUserByEmail(User, data.email);
@@ -41,11 +46,27 @@ export const signIn: SingInResolver = async (_, { data, info }) => {
   if (!compareResult)
     throw new UserInputError('Bad user data for authorization');
 
-  const token = getToken({ id: user?.id, type: user?.role, system: info });
+  const organization = await findOrganizationByOwnerId(
+    Organization,
+    user?.id as number,
+  );
+
+  const rToken = createRefreshToken({
+    id: user?.id as number,
+    type: UserTypes.User, // TODO: Create switch on user or admin
+    system: info,
+  });
+  const token = createSessionToken({
+    userId: user?.id as number,
+    type: UserTypes.User, // TODO: Create switch on user or admin
+    organizationId: organization?.id,
+    organizationOwnerId: organization?.ownerId,
+    userRole: user?.role,
+  });
 
   return {
     token,
-    expiresIn: 'unlimited',
+    rToken,
     type: UserTypes.User, // TODO: Create switch on user or admin
   };
 };
@@ -75,68 +96,47 @@ export const signInToOrganization: SignInToOrganization = async (
   if (!compareResult)
     throw new UserInputError('Bad user data for authentication');
 
-  const token = getToken({
-    id: user.id,
-    type: UserTypes.Employee,
+  const rToken = createRefreshToken({
+    id: user?.id as number,
+    type: UserTypes.Employee, // TODO: Create switch on user or admin
     system: info,
-  }); // TODO: add date of expiration
+  });
+  const token = createSessionToken({
+    userId: user?.id as number,
+    type: UserTypes.Employee, // TODO: Create switch on user or admin
+    organizationId: organization?.id,
+    organizationOwnerId: organization?.ownerId,
+    employeeRole: user.role,
+  });
 
   return {
     token,
-    expiresIn: 'unlimited', // TODO: add date of expiration
+    rToken,
     type: UserTypes.Employee,
   };
 };
 
-export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
-  const tokenContent = verifyToken(tokens.permanent);
-  if (typeof tokenContent === 'string') throw new UserInputError(tokenContent);
-
-  const date = new Date();
+export const authenticate: AuthenticateResolver = async (
+  _,
+  {},
+  { user: contextUser },
+) => {
+  if (!contextUser?.id) AppError.authentication('Session das not exists');
 
   if (
-    tokenContent.type === UserTypes.Admin ||
-    tokenContent.type === UserTypes.User
+    contextUser?.type === UserTypes.Admin ||
+    contextUser?.type === UserTypes.User
   ) {
-    const user = await findUserById(User, tokenContent.id);
+    const user = await findUserById(User, contextUser.id);
 
     if (!user) throw new UserInputError('Bad user data for authentication');
 
-    let token = '';
-    let expiresIn = '';
-    if (UserTypes.Admin === tokenContent.type) {
-      token = getToken(
-        { id: user.id, role: user.role },
-        TOKEN.ADMIN_SESSION_TOKEN,
-      );
-      expiresIn = date
-        .setMilliseconds(date.getMilliseconds() + TOKEN.ADMIN_SESSION_TOKEN)
-        .toString();
-    }
-
-    if (UserTypes.User === tokenContent.type) {
-      const organization = await findOrganizationByOwnerId(
-        Organization,
-        tokenContent.id,
-      );
-
-      token = getToken(
-        { userId: user.id, role: user.role, organizationId: organization?.id },
-        TOKEN.USER_SESSION_TOKEN,
-      );
-      expiresIn = date
-        .setMilliseconds(date.getMilliseconds() + TOKEN.USER_SESSION_TOKEN)
-        .toString();
-    }
-
     return {
-      token,
-      expiresIn,
       type: UserTypes.User,
       user,
     };
-  } else if (tokenContent.type === UserTypes.Employee) {
-    const employee = await findEmployeeById(Employee, tokenContent.id);
+  } else if (contextUser?.type === UserTypes.Employee) {
+    const employee = await findEmployeeById(Employee, contextUser.id);
     if (!employee) throw new UserInputError('Bad user data for authentication');
     const organization = await findOrganizationById(
       Organization,
@@ -145,28 +145,78 @@ export const authenticate: AuthenticateResolver = async (_, {}, { tokens }) => {
     if (!organization)
       AppError.userInput('such an organization does not exist');
 
-    const token = getToken(
-      {
-        userId: employee.id,
-        userRole: UserTypes.Employee,
-        organizationId: organization?.id,
-        organizationOwnerId: organization?.ownerId,
-        organizationUserRole: employee.role,
-      },
-      TOKEN.USER_SESSION_TOKEN,
-    );
-    const expiresIn = date
-      .setMilliseconds(
-        date.getMilliseconds() + TOKEN.ORGANIZATION_SESSION_TOKEN,
-      )
-      .toString();
-
     return {
-      token,
-      expiresIn,
       type: UserTypes.Employee,
       employee,
     };
   }
   throw new UserInputError('Bad user data for authentication');
+};
+
+export const refreshToken: RefreshTokenResolver = async (_, __, { tokens }) => {
+  const rTokenVerification = verifyToken<IRefreshToken>(tokens.refresh);
+  if (typeof rTokenVerification === 'string')
+    return AppError.authentication('Required Sign In', 'NEED_REAUTHENTICATE');
+
+  if (
+    rTokenVerification?.type === UserTypes.Admin ||
+    rTokenVerification?.type === UserTypes.User
+  ) {
+    const user = await findUserById(User, rTokenVerification?.id);
+
+    if (!user)
+      AppError.authentication('Required Sign In', 'NEED_REAUTHENTICATE');
+
+    const organization = await findOrganizationByOwnerId(
+      Organization,
+      user?.id as number,
+    );
+
+    const rToken = createRefreshToken({
+      id: user?.id as number,
+      type: rTokenVerification.type,
+      system: rTokenVerification.system,
+    });
+    const token = createSessionToken({
+      userId: user?.id as number,
+      type: rTokenVerification.type,
+      organizationId: organization?.id,
+      organizationOwnerId: organization?.ownerId,
+      userRole: user?.role,
+    });
+
+    return {
+      rToken,
+      token,
+    };
+  } else if (rTokenVerification?.type === UserTypes.Employee) {
+    const employee = await findEmployeeById(Employee, rTokenVerification.id);
+    if (!employee) return AppError.userInput('This account das not exist');
+
+    const organization = await findOrganizationById(
+      Organization,
+      employee.organizationId,
+    );
+    if (!organization) AppError.userInput('Your organization das not exist');
+
+    const rToken = createRefreshToken({
+      id: employee?.id as number,
+      type: UserTypes.Employee,
+      system: rTokenVerification.system,
+    });
+    const token = createSessionToken({
+      userId: employee?.id as number,
+      type: UserTypes.Employee,
+      organizationId: organization?.id,
+      organizationOwnerId: organization?.ownerId,
+      employeeRole: employee.role,
+    });
+
+    return {
+      rToken,
+      token,
+    };
+  }
+
+  AppError.unexpected('User role das not exists');
 };
