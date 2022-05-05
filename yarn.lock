@@ -3,7 +3,7 @@
 
 
 "@agrarspace/shared@file:libs/shared/agrarspace-shared-1.0.0.tgz":
-  "integrity" "sha512-st/01B2pimAbC18mPXKG940KVbzOkoapYk75e8WroNlIQHvsNQVbSIYdW0c3kabovK2GwO30MnCCRtAdpLg33A=="
+  "integrity" "sha512-aKRxOXfsEmXRtF8AyaaeSK/CV6PuQjpT7WsHrUIQG73D3OfR9ShvCsObOEm4+YeaGdhXbsM1Fq/hglHLYejqdw=="
   "resolved" "file:libs/shared/agrarspace-shared-1.0.0.tgz"
   "version" "1.0.0"
   dependencies:

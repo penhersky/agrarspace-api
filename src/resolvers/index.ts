@@ -8,6 +8,7 @@ import {
 
 import { Category, CategoriesQueries } from './category';
 import { Organization, OrganizationQueries } from './organization';
+import { PlantationQueries } from './plantation';
 
 import * as statistics from './statistics';
 
@@ -20,6 +21,7 @@ export const resolvers: Resolvers = {
     ...CategoriesQueries,
     ...statistics,
     ...OrganizationQueries,
+    ...PlantationQueries,
   },
   Category,
   Organization,

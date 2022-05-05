@@ -83,6 +83,17 @@ export enum EmployeeRoles {
   Worker = 'worker'
 }
 
+export type FilterInterval = {
+  __typename?: 'FilterInterval';
+  max?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
+};
+
+export type FilterIntervalInput = {
+  max?: InputMaybe<Scalars['Int']>;
+  min?: InputMaybe<Scalars['Int']>;
+};
+
 export type InputCategory = {
   color?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
@@ -211,6 +222,19 @@ export type OrganizationGeneralInfoArgs = {
   year?: InputMaybe<Scalars['Int']>;
 };
 
+export type Pagination = {
+  __typename?: 'Pagination';
+  currentPage: Scalars['Int'];
+  itemCountPerPage: Scalars['Int'];
+  totalItemCount: Scalars['Int'];
+  totalPagesCount: Scalars['Int'];
+};
+
+export type PaginationInput = {
+  itemCountPerPage?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']>;
+};
+
 export type PercentSection = {
   __typename?: 'PercentSection';
   name?: Maybe<Scalars['String']>;
@@ -225,6 +249,67 @@ export type PercentStatistic = {
   totalValue: Scalars['Float'];
 };
 
+export type Plantation = {
+  __typename?: 'Plantation';
+  areaSize?: Maybe<Scalars['Float']>;
+  createdAt?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  organization?: Maybe<Organization>;
+  region?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
+export type PlantationListArgs = {
+  filter?: InputMaybe<PlantationsListFilter>;
+  pagination?: InputMaybe<PaginationInput>;
+  search?: InputMaybe<Search>;
+  sort: PlantationsListSort;
+};
+
+export type PlantationListItem = {
+  __typename?: 'PlantationListItem';
+  areaSize?: Maybe<Scalars['Float']>;
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  region?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
+export type PlantationListOption = {
+  __typename?: 'PlantationListOption';
+  areaSize?: Maybe<FilterInterval>;
+  statuses?: Maybe<Array<Maybe<SelectItem>>>;
+};
+
+export type PlantationsList = {
+  __typename?: 'PlantationsList';
+  data: Array<Maybe<PlantationListItem>>;
+  option: PlantationListOption;
+  pagination: Pagination;
+};
+
+export type PlantationsListFilter = {
+  areaSize?: InputMaybe<FilterIntervalInput>;
+  status?: InputMaybe<Scalars['String']>;
+};
+
+export type PlantationsListSort = {
+  field?: InputMaybe<PlantationsListSortFields>;
+  order?: InputMaybe<SortType>;
+};
+
+export enum PlantationsListSortFields {
+  AreaSize = 'areaSize',
+  Name = 'name',
+  Region = 'region',
+  Status = 'status',
+  UpdatedAt = 'updatedAt'
+}
+
 export type Query = {
   __typename?: 'Query';
   authenticate: AuthenticateResult;
@@ -236,6 +321,7 @@ export type Query = {
   getMyEmployeeProfile: Employee;
   getMyOrganization: Organization;
   getOrganizationGeneralInfo: OrganizationGeneralInfo;
+  getOrganizationPlantationList: PlantationsList;
   getOrganizationPlantedAreaPerYear: PercentStatistic;
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
   getTotalOrganizationAnnualYearsIncome: TotalOrganizationAnnualYearsIncome;
@@ -258,6 +344,11 @@ export type QueryGetGlobalPlantedAreaPerYearArgs = {
 
 export type QueryGetOrganizationGeneralInfoArgs = {
   data: OrganizationGeneralInfoArgs;
+};
+
+
+export type QueryGetOrganizationPlantationListArgs = {
+  data: PlantationListArgs;
 };
 
 
@@ -293,6 +384,16 @@ export type RefreshTokenResult = {
   token: Scalars['String'];
 };
 
+export type Search = {
+  value?: InputMaybe<Scalars['String']>;
+};
+
+export type SelectItem = {
+  __typename?: 'SelectItem';
+  key?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+};
+
 export type SignIn = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -316,6 +417,11 @@ export type SignUp = {
   name: Scalars['String'];
   password: Scalars['String'];
 };
+
+export enum SortType {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
 
 export type StandardCoordinates = {
   __typename?: 'StandardCoordinates';
@@ -465,6 +571,8 @@ export type ResolversTypes = {
   Culture: ResolverTypeWrapper<Culture>;
   Employee: ResolverTypeWrapper<Employee>;
   EmployeeRoles: EmployeeRoles;
+  FilterInterval: ResolverTypeWrapper<FilterInterval>;
+  FilterIntervalInput: FilterIntervalInput;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   InputCategory: InputCategory;
@@ -474,14 +582,27 @@ export type ResolversTypes = {
   Organization: ResolverTypeWrapper<Organization>;
   OrganizationGeneralInfo: ResolverTypeWrapper<OrganizationGeneralInfo>;
   OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
+  Pagination: ResolverTypeWrapper<Pagination>;
+  PaginationInput: PaginationInput;
   PercentSection: ResolverTypeWrapper<PercentSection>;
   PercentStatistic: ResolverTypeWrapper<PercentStatistic>;
+  Plantation: ResolverTypeWrapper<Plantation>;
+  PlantationListArgs: PlantationListArgs;
+  PlantationListItem: ResolverTypeWrapper<PlantationListItem>;
+  PlantationListOption: ResolverTypeWrapper<PlantationListOption>;
+  PlantationsList: ResolverTypeWrapper<PlantationsList>;
+  PlantationsListFilter: PlantationsListFilter;
+  PlantationsListSort: PlantationsListSort;
+  PlantationsListSortFields: PlantationsListSortFields;
   Query: ResolverTypeWrapper<{}>;
   RefreshTokenResult: ResolverTypeWrapper<RefreshTokenResult>;
+  Search: Search;
+  SelectItem: ResolverTypeWrapper<SelectItem>;
   SignIn: SignIn;
   SignInOrganization: SignInOrganization;
   SignInResult: ResolverTypeWrapper<SignInResult>;
   SignUp: SignUp;
+  SortType: SortType;
   StandardCoordinates: ResolverTypeWrapper<StandardCoordinates>;
   String: ResolverTypeWrapper<Scalars['String']>;
   TopCultureItem: ResolverTypeWrapper<TopCultureItem>;
@@ -504,6 +625,8 @@ export type ResolversParentTypes = {
   CreateUser: CreateUser;
   Culture: Culture;
   Employee: Employee;
+  FilterInterval: FilterInterval;
+  FilterIntervalInput: FilterIntervalInput;
   Float: Scalars['Float'];
   ID: Scalars['ID'];
   InputCategory: InputCategory;
@@ -513,10 +636,21 @@ export type ResolversParentTypes = {
   Organization: Organization;
   OrganizationGeneralInfo: OrganizationGeneralInfo;
   OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
+  Pagination: Pagination;
+  PaginationInput: PaginationInput;
   PercentSection: PercentSection;
   PercentStatistic: PercentStatistic;
+  Plantation: Plantation;
+  PlantationListArgs: PlantationListArgs;
+  PlantationListItem: PlantationListItem;
+  PlantationListOption: PlantationListOption;
+  PlantationsList: PlantationsList;
+  PlantationsListFilter: PlantationsListFilter;
+  PlantationsListSort: PlantationsListSort;
   Query: {};
   RefreshTokenResult: RefreshTokenResult;
+  Search: Search;
+  SelectItem: SelectItem;
   SignIn: SignIn;
   SignInOrganization: SignInOrganization;
   SignInResult: SignInResult;
@@ -588,6 +722,12 @@ export type EmployeeResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type FilterIntervalResolvers<ContextType = any, ParentType extends ResolversParentTypes['FilterInterval'] = ResolversParentTypes['FilterInterval']> = {
+  max?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  min?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   confirmForgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationConfirmForgotPasswordArgs, 'token'>>;
   createCategory?: Resolver<ResolversTypes['Category'], ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'category'>>;
@@ -624,6 +764,14 @@ export type OrganizationGeneralInfoResolvers<ContextType = any, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PaginationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Pagination'] = ResolversParentTypes['Pagination']> = {
+  currentPage?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  itemCountPerPage?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  totalItemCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  totalPagesCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type PercentSectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['PercentSection'] = ResolversParentTypes['PercentSection']> = {
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   percent?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -638,6 +786,42 @@ export type PercentStatisticResolvers<ContextType = any, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PlantationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Plantation'] = ResolversParentTypes['Plantation']> = {
+  areaSize?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  organization?: Resolver<Maybe<ResolversTypes['Organization']>, ParentType, ContextType>;
+  region?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PlantationListItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlantationListItem'] = ResolversParentTypes['PlantationListItem']> = {
+  areaSize?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  region?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PlantationListOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlantationListOption'] = ResolversParentTypes['PlantationListOption']> = {
+  areaSize?: Resolver<Maybe<ResolversTypes['FilterInterval']>, ParentType, ContextType>;
+  statuses?: Resolver<Maybe<Array<Maybe<ResolversTypes['SelectItem']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PlantationsListResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlantationsList'] = ResolversParentTypes['PlantationsList']> = {
+  data?: Resolver<Array<Maybe<ResolversTypes['PlantationListItem']>>, ParentType, ContextType>;
+  option?: Resolver<ResolversTypes['PlantationListOption'], ParentType, ContextType>;
+  pagination?: Resolver<ResolversTypes['Pagination'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authenticate?: Resolver<ResolversTypes['AuthenticateResult'], ParentType, ContextType>;
   getCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
@@ -648,6 +832,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getMyEmployeeProfile?: Resolver<ResolversTypes['Employee'], ParentType, ContextType>;
   getMyOrganization?: Resolver<ResolversTypes['Organization'], ParentType, ContextType>;
   getOrganizationGeneralInfo?: Resolver<ResolversTypes['OrganizationGeneralInfo'], ParentType, ContextType, RequireFields<QueryGetOrganizationGeneralInfoArgs, 'data'>>;
+  getOrganizationPlantationList?: Resolver<ResolversTypes['PlantationsList'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantationListArgs, 'data'>>;
   getOrganizationPlantedAreaPerYear?: Resolver<ResolversTypes['PercentStatistic'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantedAreaPerYearArgs, 'year'>>;
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
   getTotalOrganizationAnnualYearsIncome?: Resolver<ResolversTypes['TotalOrganizationAnnualYearsIncome'], ParentType, ContextType, RequireFields<QueryGetTotalOrganizationAnnualYearsIncomeArgs, 'id'>>;
@@ -660,6 +845,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type RefreshTokenResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['RefreshTokenResult'] = ResolversParentTypes['RefreshTokenResult']> = {
   rToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SelectItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['SelectItem'] = ResolversParentTypes['SelectItem']> = {
+  key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -716,13 +907,20 @@ export type Resolvers<ContextType = any> = {
   Category?: CategoryResolvers<ContextType>;
   Culture?: CultureResolvers<ContextType>;
   Employee?: EmployeeResolvers<ContextType>;
+  FilterInterval?: FilterIntervalResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Organization?: OrganizationResolvers<ContextType>;
   OrganizationGeneralInfo?: OrganizationGeneralInfoResolvers<ContextType>;
+  Pagination?: PaginationResolvers<ContextType>;
   PercentSection?: PercentSectionResolvers<ContextType>;
   PercentStatistic?: PercentStatisticResolvers<ContextType>;
+  Plantation?: PlantationResolvers<ContextType>;
+  PlantationListItem?: PlantationListItemResolvers<ContextType>;
+  PlantationListOption?: PlantationListOptionResolvers<ContextType>;
+  PlantationsList?: PlantationsListResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RefreshTokenResult?: RefreshTokenResultResolvers<ContextType>;
+  SelectItem?: SelectItemResolvers<ContextType>;
   SignInResult?: SignInResultResolvers<ContextType>;
   StandardCoordinates?: StandardCoordinatesResolvers<ContextType>;
   TopCultureItem?: TopCultureItemResolvers<ContextType>;

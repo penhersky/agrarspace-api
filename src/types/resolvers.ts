@@ -15,6 +15,8 @@ import {
   QueryGetOrganizationPlantedAreaPerYearArgs,
   QueryGetGlobalPlantedAreaPerYearArgs,
   RefreshTokenResult,
+  QueryGetOrganizationPlantationListArgs,
+  PlantationsList,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
@@ -53,4 +55,10 @@ export type GetMyOrganizationResolver = IResolver<Organization, {}>;
 export type GetOrganizationGeneralInfoResolver = IResolver<
   OrganizationGeneralInfo,
   QueryGetOrganizationGeneralInfoArgs
+>;
+
+// plantations
+export type GetOrganizationPlantationList = IResolver<
+  PlantationsList,
+  QueryGetOrganizationPlantationListArgs
 >;

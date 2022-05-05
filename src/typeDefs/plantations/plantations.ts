@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-koa';
 export default gql`
   type Plantation {
     id: Int!
+    name: String
     status: String
     areaSize: Float
     region: String
@@ -17,12 +18,10 @@ export default gql`
 
   type PlantationListItem {
     id: Int!
+    name: String
     status: String
     areaSize: Float
-    plantedArea: Float
     region: String
-    cultureId: Int
-    cultureName: String
     updatedAt: String
   }
 
@@ -33,25 +32,22 @@ export default gql`
   }
 
   type PlantationListOption {
-    status: [SelectItem]!
-    areaSize: FilterInterval!
-    plantedArea: FilterInterval!
-    culture: [SelectItem]!
+    statuses: [SelectItem]
+    areaSize: FilterInterval
   }
 
-  input PlantationListFilter {
-    search: Search!
-    sort: PlantationsListSort
+  input PlantationListArgs {
+    search: Search
+    sort: PlantationsListSort!
     filter: PlantationsListFilter
     pagination: PaginationInput
   }
 
   enum PlantationsListSortFields {
+    name
     status
     areaSize
-    plantedArea
     region
-    cultureName
     updatedAt
   }
 
@@ -63,11 +59,9 @@ export default gql`
   input PlantationsListFilter {
     status: String
     areaSize: FilterIntervalInput
-    plantedArea: FilterIntervalInput
-    culture: ID
   }
 
   extend type Query {
-    getOrganizationPlantationList(data: PlantationListFilter!): PlantationsList!
+    getOrganizationPlantationList(data: PlantationListArgs!): PlantationsList!
   }
 `;

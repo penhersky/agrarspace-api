@@ -27,6 +27,9 @@ export class Plantation extends Model {
   organizationId: number;
 
   @Column({ allowNull: true })
+  name: string;
+
+  @Column({ allowNull: true })
   status: string;
 
   @Column

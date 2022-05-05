@@ -12,6 +12,7 @@ module.exports = {
 
     const plantation = fillArr(200, () => {
       return {
+        name: `${faker.address.streetName()} ${randomIntFromInterval(0, 5)}`,
         organizationId: getRandom(ids).id || ids[0].id,
         areaSize: faker.datatype.number(250),
         region: `${faker.address.country()}, ${faker.address.city()}, ${faker.address.streetName()} ${randomIntFromInterval(
