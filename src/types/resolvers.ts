@@ -1,4 +1,5 @@
 import {
+  Id,
   QuerySignInArgs,
   QuerySignInToOrganizationArgs,
   SignInResult,
@@ -17,6 +18,8 @@ import {
   RefreshTokenResult,
   QueryGetOrganizationPlantationListArgs,
   PlantationsList,
+  MutationCreatePlantationArgs,
+  MutationDeletePlantationArgs,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
@@ -62,3 +65,5 @@ export type GetOrganizationPlantationList = IResolver<
   PlantationsList,
   QueryGetOrganizationPlantationListArgs
 >;
+export type CreatePlantation = IResolver<Id, MutationCreatePlantationArgs>;
+export type DeletePlantation = IResolver<Id, MutationDeletePlantationArgs>;

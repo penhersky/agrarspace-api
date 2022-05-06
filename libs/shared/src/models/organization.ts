@@ -7,6 +7,8 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  AutoIncrement,
+  Unique,
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
@@ -20,6 +22,7 @@ import { Year, User, Plantation } from '.';
 })
 export class Organization extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id: number;
 
@@ -27,6 +30,7 @@ export class Organization extends Model {
   @Column
   ownerId: number;
 
+  @Unique
   @Column
   name: string;
 

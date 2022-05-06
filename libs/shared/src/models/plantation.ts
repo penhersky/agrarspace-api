@@ -6,6 +6,7 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
@@ -19,6 +20,7 @@ import { Organization, Year, PlantationAreaPoint } from '.';
 })
 export class Plantation extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id: number;
 
@@ -26,7 +28,7 @@ export class Plantation extends Model {
   @Column
   organizationId: number;
 
-  @Column({ allowNull: true })
+  @Column
   name: string;
 
   @Column({ allowNull: true })

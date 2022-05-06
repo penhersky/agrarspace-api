@@ -8,7 +8,11 @@ import {
 
 import { Category, CategoriesQueries } from './category';
 import { Organization, OrganizationQueries } from './organization';
-import { PlantationQueries } from './plantation';
+import {
+  PlantationQueries,
+  PlantationMutation,
+  Plantation,
+} from './plantation';
 
 import * as statistics from './statistics';
 
@@ -23,6 +27,10 @@ export const resolvers: Resolvers = {
     ...OrganizationQueries,
     ...PlantationQueries,
   },
+  Mutation: {
+    ...PlantationMutation,
+  },
   Category,
   Organization,
+  Plantation,
 };

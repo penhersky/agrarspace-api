@@ -9,24 +9,23 @@ export default gql`
     region: String
     description: String
     organization: Organization
-    # years: [Year]
-    # currentYears: Year
+    years: [Year]
+    currentYear: Year
     createdAt: String
     updatedAt: String
     # areaPoints: [PlantationAreaPoint]
   }
 
-  type PlantationListItem {
-    id: Int!
-    name: String
+  input PlantationInput {
+    name: String!
     status: String
-    areaSize: Float
-    region: String
-    updatedAt: String
+    areaSize: Float!
+    region: String!
+    description: String
   }
 
   type PlantationsList {
-    data: [PlantationListItem]!
+    data: [Plantation]!
     pagination: Pagination!
     option: PlantationListOption!
   }
@@ -63,5 +62,10 @@ export default gql`
 
   extend type Query {
     getOrganizationPlantationList(data: PlantationListArgs!): PlantationsList!
+  }
+
+  extend type Mutation {
+    createPlantation(data: PlantationInput!): Id
+    deletePlantation(id: ID!): Id
   }
 `;

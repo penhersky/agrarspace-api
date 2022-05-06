@@ -1,4 +1,4 @@
-import { ApolloError } from 'apollo-server-koa';
+import { ApolloError, UserInputError } from 'apollo-server-koa';
 
 export class AppError extends ApolloError {
   constructor(message: string, cose: string, subCode?: string, params?: any) {
@@ -31,12 +31,7 @@ export class AppError extends ApolloError {
   }
 
   static userInput(message?: string, data?: any) {
-    throw new AppError(
-      `User Input Error: ${message}`,
-      'USER_INPUT_ERROR',
-      undefined,
-      data,
-    );
+    throw new UserInputError(`User Input Error: ${message}`, { details: data });
   }
 
   static unexpected(message?: string) {

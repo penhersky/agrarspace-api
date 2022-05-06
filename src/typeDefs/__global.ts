@@ -8,11 +8,6 @@ export default gql`
     details: String
   }
 
-  enum CacheControlScope {
-    PUBLIC
-    PRIVATE
-  }
-
   enum UserRoles {
     ${Object.values(UserRoles).join(' ').toLowerCase()}
   }
@@ -23,6 +18,19 @@ export default gql`
 
   enum EmployeeRoles {
     ${Object.values(EmployeeRoles).join(' ').toLowerCase()}
+  }
+
+  type Id {
+    id: Int!
+  }
+
+  input IId {
+    id: ID!
+  }
+
+  enum CacheControlScope {
+    PUBLIC
+    PRIVATE
   }
 
   directive @cacheControl(

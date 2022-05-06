@@ -1,12 +1,12 @@
 import { Plantation } from '@agrarspace/shared';
 
 import { GetOrganizationPlantationList } from '../../../types/resolvers';
-import { getOrganizationPlantations } from '../../../service/plantations';
+import { getOrganizationPlantationsListService } from '../../../service/plantations/getPlantationsList.service';
 import { PlantationsList } from '../../../types/graphql';
 
 export const getOrganizationPlantationList: GetOrganizationPlantationList =
   async (_, { data: { search, filter, pagination, sort } }, { user }) => {
-    const result = await getOrganizationPlantations(Plantation, {
+    const result = await getOrganizationPlantationsListService(Plantation, {
       organizationId: user?.organizationId as number,
       pagination: {
         itemCountPerPage: pagination?.itemCountPerPage ?? 10,

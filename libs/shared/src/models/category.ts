@@ -5,6 +5,8 @@ import {
   HasMany,
   AllowNull,
   PrimaryKey,
+  AutoIncrement,
+  Unique,
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
@@ -18,9 +20,11 @@ import { Culture } from '.';
 })
 export class Category extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id: number;
 
+  @Unique
   @Column
   name: string;
 

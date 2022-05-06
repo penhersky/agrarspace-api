@@ -17,7 +17,7 @@ module.exports = {
             key: 'id',
           },
           onUpdate: 'CASCADE',
-          onDelete: 'SET NULL',
+          onDelete: 'CASCADE',
         },
         lat: {
           type: new Sequelize.DECIMAL(8, 6),

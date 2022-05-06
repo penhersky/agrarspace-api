@@ -7,6 +7,7 @@ import {
   BelongsTo,
   AllowNull,
   PrimaryKey,
+  AutoIncrement,
 } from 'sequelize-typescript';
 
 import { Plantation } from '.';
@@ -19,6 +20,7 @@ import { Plantation } from '.';
 })
 export class PlantationAreaPoint extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id: number;
 

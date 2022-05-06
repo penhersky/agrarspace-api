@@ -18,12 +18,12 @@ module.exports = {
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
       },
 
       name: {
         type: new Sequelize.STRING(124),
-        allowNull: true,
+        allowNull: false,
       },
 
       status: {

@@ -6,6 +6,7 @@ import {
   ForeignKey,
   BelongsTo,
   PrimaryKey,
+  AutoIncrement,
 } from 'sequelize-typescript';
 
 import { Organization } from '.';
@@ -24,6 +25,7 @@ import { EmployeeRoles } from './../utils/constants';
 })
 export class Employee extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id: number;
 

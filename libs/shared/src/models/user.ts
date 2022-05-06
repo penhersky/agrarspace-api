@@ -4,6 +4,8 @@ import {
   Model,
   AllowNull,
   PrimaryKey,
+  Unique,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
@@ -22,6 +24,7 @@ import { UserRoles } from '../utils/constants';
 })
 export class User extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id: number;
 
@@ -31,6 +34,8 @@ export class User extends Model {
   @Column
   lastName: string;
 
+  @Unique
+  @PrimaryKey
   @Column
   email: string;
 

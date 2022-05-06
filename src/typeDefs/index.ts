@@ -11,6 +11,7 @@ import __fragments from './__fragments';
 import statistics from './statistics';
 import organization from './organization';
 import plantations from './plantations';
+import year from './year';
 
 import Mutation from './Mutation';
 import Query from './Query';
@@ -27,4 +28,5 @@ export default mergeTypeDefs([
   statistics,
   organization,
   plantations,
+  year,
 ]);

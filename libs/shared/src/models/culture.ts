@@ -8,6 +8,8 @@ import {
   HasMany,
   AllowNull,
   PrimaryKey,
+  AutoIncrement,
+  Unique,
 } from 'sequelize-typescript';
 
 import { Category, Year } from '.';
@@ -20,9 +22,11 @@ import { Category, Year } from '.';
 })
 export class Culture extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id: number;
 
+  @Unique
   @Column
   name: string;
 

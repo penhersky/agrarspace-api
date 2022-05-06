@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { AppError } from '../../utils/error';
 import { CODE } from '../../utils/constants/error';
 import { buildSearch, buildMinMax } from '../../utils/queryBuilder';
+import { Plantation } from '../../types/graphql';
 
 interface IListOption {
   organizationId: number;
@@ -24,7 +25,7 @@ interface IListOption {
   };
 }
 
-export const getOrganizationPlantations = async (
+export const getOrganizationPlantationsListService = async (
   PlantationModel: TPlantationModel,
   option: IListOption,
 ) => {
@@ -86,7 +87,7 @@ export const getOrganizationPlantations = async (
     });
 
     return {
-      data: list,
+      data: list as unknown as Plantation[],
       pagination: {
         totalItemCount,
         totalPagesCount,

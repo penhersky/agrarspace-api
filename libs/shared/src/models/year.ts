@@ -6,6 +6,7 @@ import {
   BelongsTo,
   AllowNull,
   PrimaryKey,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import Sequelize from 'sequelize';
 
@@ -19,6 +20,7 @@ import { Culture, Organization, Plantation } from '.';
 })
 export class Year extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id: number;
 
