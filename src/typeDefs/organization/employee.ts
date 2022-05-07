@@ -23,9 +23,36 @@ export default gql`
     position: String
   }
 
+  type EmployeeList {
+    data: [Employee]!
+    pagination: Pagination!
+  }
+
+  input EmployeeListArgs {
+    search: Search
+    sort: EmployeeListSort!
+    filter: EmployeeListFilter
+    pagination: PaginationInput
+  }
+
+  enum EmployeeListSortFields {
+    name
+    position
+    role
+  }
+
+  input EmployeeListSort {
+    field: EmployeeListSortFields
+    order: SortType
+  }
+
+  input EmployeeListFilter {
+    role: EmployeeRoles
+  }
+
   extend type Query {
     getMyEmployeeProfile: Employee! # owner
-    getEmployees: Employee! # organization members
+    getOrganizationEmployeesList(data: EmployeeListArgs!): EmployeeList! # organization members
   }
 
   extend type Mutation {

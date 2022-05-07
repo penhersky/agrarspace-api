@@ -22,6 +22,8 @@ import {
   MutationDeletePlantationArgs,
   YearsList,
   QueryGetOrganizationYearsListArgs,
+  EmployeeList,
+  QueryGetOrganizationEmployeesListArgs,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
@@ -60,6 +62,12 @@ export type GetMyOrganizationResolver = IResolver<Organization, {}>;
 export type GetOrganizationGeneralInfoResolver = IResolver<
   OrganizationGeneralInfo,
   QueryGetOrganizationGeneralInfoArgs
+>;
+
+// employee
+export type GetOrganizationEmployeeList = IResolver<
+  EmployeeList,
+  QueryGetOrganizationEmployeesListArgs
 >;
 
 // plantations

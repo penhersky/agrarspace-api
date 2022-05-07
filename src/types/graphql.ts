@@ -77,6 +77,34 @@ export type Employee = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
+export type EmployeeList = {
+  __typename?: 'EmployeeList';
+  data: Array<Maybe<Employee>>;
+  pagination: Pagination;
+};
+
+export type EmployeeListArgs = {
+  filter?: InputMaybe<EmployeeListFilter>;
+  pagination?: InputMaybe<PaginationInput>;
+  search?: InputMaybe<Search>;
+  sort: EmployeeListSort;
+};
+
+export type EmployeeListFilter = {
+  role?: InputMaybe<EmployeeRoles>;
+};
+
+export type EmployeeListSort = {
+  field?: InputMaybe<EmployeeListSortFields>;
+  order?: InputMaybe<SortType>;
+};
+
+export enum EmployeeListSortFields {
+  Name = 'name',
+  Position = 'position',
+  Role = 'role'
+}
+
 export enum EmployeeRoles {
   Director = 'director',
   Manager = 'manager',
@@ -351,11 +379,11 @@ export type Query = {
   authenticate: AuthenticateResult;
   getCategories: Array<Maybe<Category>>;
   getCulturesByCategoryId: Array<Maybe<Culture>>;
-  getEmployees: Employee;
   getGlobalPlantedAreaPerYear: PercentStatistic;
   getMe: User;
   getMyEmployeeProfile: Employee;
   getMyOrganization: Organization;
+  getOrganizationEmployeesList: EmployeeList;
   getOrganizationGeneralInfo: OrganizationGeneralInfo;
   getOrganizationPlantationList: PlantationsList;
   getOrganizationPlantedAreaPerYear: PercentStatistic;
@@ -376,6 +404,11 @@ export type QueryGetCulturesByCategoryIdArgs = {
 
 export type QueryGetGlobalPlantedAreaPerYearArgs = {
   year: Scalars['Int'];
+};
+
+
+export type QueryGetOrganizationEmployeesListArgs = {
+  data: EmployeeListArgs;
 };
 
 
@@ -694,6 +727,11 @@ export type ResolversTypes = {
   CreateUser: CreateUser;
   Culture: ResolverTypeWrapper<Culture>;
   Employee: ResolverTypeWrapper<Employee>;
+  EmployeeList: ResolverTypeWrapper<EmployeeList>;
+  EmployeeListArgs: EmployeeListArgs;
+  EmployeeListFilter: EmployeeListFilter;
+  EmployeeListSort: EmployeeListSort;
+  EmployeeListSortFields: EmployeeListSortFields;
   EmployeeRoles: EmployeeRoles;
   FilterDateInterval: ResolverTypeWrapper<FilterDateInterval>;
   FilterInterval: ResolverTypeWrapper<FilterInterval>;
@@ -759,6 +797,10 @@ export type ResolversParentTypes = {
   CreateUser: CreateUser;
   Culture: Culture;
   Employee: Employee;
+  EmployeeList: EmployeeList;
+  EmployeeListArgs: EmployeeListArgs;
+  EmployeeListFilter: EmployeeListFilter;
+  EmployeeListSort: EmployeeListSort;
   FilterDateInterval: FilterDateInterval;
   FilterInterval: FilterInterval;
   FilterIntervalInput: FilterIntervalInput;
@@ -863,6 +905,12 @@ export type EmployeeResolvers<ContextType = any, ParentType extends ResolversPar
   position?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['EmployeeRoles'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EmployeeListResolvers<ContextType = any, ParentType extends ResolversParentTypes['EmployeeList'] = ResolversParentTypes['EmployeeList']> = {
+  data?: Resolver<Array<Maybe<ResolversTypes['Employee']>>, ParentType, ContextType>;
+  pagination?: Resolver<ResolversTypes['Pagination'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -975,11 +1023,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   authenticate?: Resolver<ResolversTypes['AuthenticateResult'], ParentType, ContextType>;
   getCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
   getCulturesByCategoryId?: Resolver<Array<Maybe<ResolversTypes['Culture']>>, ParentType, ContextType, RequireFields<QueryGetCulturesByCategoryIdArgs, 'categoryId'>>;
-  getEmployees?: Resolver<ResolversTypes['Employee'], ParentType, ContextType>;
   getGlobalPlantedAreaPerYear?: Resolver<ResolversTypes['PercentStatistic'], ParentType, ContextType, RequireFields<QueryGetGlobalPlantedAreaPerYearArgs, 'year'>>;
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getMyEmployeeProfile?: Resolver<ResolversTypes['Employee'], ParentType, ContextType>;
   getMyOrganization?: Resolver<ResolversTypes['Organization'], ParentType, ContextType>;
+  getOrganizationEmployeesList?: Resolver<ResolversTypes['EmployeeList'], ParentType, ContextType, RequireFields<QueryGetOrganizationEmployeesListArgs, 'data'>>;
   getOrganizationGeneralInfo?: Resolver<ResolversTypes['OrganizationGeneralInfo'], ParentType, ContextType, RequireFields<QueryGetOrganizationGeneralInfoArgs, 'data'>>;
   getOrganizationPlantationList?: Resolver<ResolversTypes['PlantationsList'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantationListArgs, 'data'>>;
   getOrganizationPlantedAreaPerYear?: Resolver<ResolversTypes['PercentStatistic'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantedAreaPerYearArgs, 'year'>>;
@@ -1115,6 +1163,7 @@ export type Resolvers<ContextType = any> = {
   Category?: CategoryResolvers<ContextType>;
   Culture?: CultureResolvers<ContextType>;
   Employee?: EmployeeResolvers<ContextType>;
+  EmployeeList?: EmployeeListResolvers<ContextType>;
   FilterDateInterval?: FilterDateIntervalResolvers<ContextType>;
   FilterInterval?: FilterIntervalResolvers<ContextType>;
   Id?: IdResolvers<ContextType>;
