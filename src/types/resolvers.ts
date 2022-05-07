@@ -20,6 +20,8 @@ import {
   PlantationsList,
   MutationCreatePlantationArgs,
   MutationDeletePlantationArgs,
+  YearsList,
+  QueryGetOrganizationYearsListArgs,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
@@ -67,3 +69,9 @@ export type GetOrganizationPlantationList = IResolver<
 >;
 export type CreatePlantation = IResolver<Id, MutationCreatePlantationArgs>;
 export type DeletePlantation = IResolver<Id, MutationDeletePlantationArgs>;
+
+// years
+export type GetOrganizationYearsList = IResolver<
+  YearsList,
+  QueryGetOrganizationYearsListArgs
+>;

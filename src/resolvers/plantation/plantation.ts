@@ -8,8 +8,8 @@ import {
 } from '../../types/graphql';
 import { findOrganizationById } from '../../service/organization';
 import {
-  findCurrentYearForPlantation,
-  findYearsByPlantationId,
+  findCurrentYearForPlantationService,
+  findYearsByPlantationIdService,
 } from '../../service/year';
 
 export default {
@@ -25,7 +25,7 @@ export default {
   },
   currentYear: async (root) => {
     try {
-      const year = await findCurrentYearForPlantation(Year, root.id);
+      const year = await findCurrentYearForPlantationService(Year, root.id);
       if (year) return year;
       return null;
     } catch (err: Error | unknown) {
@@ -35,7 +35,7 @@ export default {
   },
   years: async (root: any) => {
     try {
-      const years = await findYearsByPlantationId(Year, root.id);
+      const years = await findYearsByPlantationIdService(Year, root.id);
       if (years) return years as unknown as TYear[];
       return [];
     } catch (err: Error | unknown) {

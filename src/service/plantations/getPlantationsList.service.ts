@@ -5,33 +5,20 @@ import { AppError } from '../../utils/error';
 import { CODE } from '../../utils/constants/error';
 import { buildSearch, buildMinMax } from '../../utils/queryBuilder';
 import { Plantation } from '../../types/graphql';
+import { IListOption, IMinMaxFilter } from '../../types/services';
 
-interface IListOption {
-  organizationId: number;
-  pagination: {
-    itemCountPerPage: number;
-    page: number;
-  };
-  sort: {
-    field?: string | null;
-    order?: 'DESC' | 'ASC' | null;
-  };
-  search?: string;
-  filter: {
-    areaSize?: {
-      min?: number | null;
-      max?: number | null;
-    } | null;
-  };
+interface IPlantationListFilter {
+  areaSize?: IMinMaxFilter;
 }
 
 export const getOrganizationPlantationsListService = async (
   PlantationModel: TPlantationModel,
-  option: IListOption,
+  organizationId: number,
+  option: IListOption<IPlantationListFilter>,
 ) => {
   try {
     const where = {
-      organizationId: option.organizationId,
+      organizationId,
       ...(option.search ? buildSearch(['region'], option.search) : {}),
     };
 

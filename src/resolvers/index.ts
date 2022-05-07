@@ -13,6 +13,7 @@ import {
   PlantationMutation,
   Plantation,
 } from './plantation';
+import { YearQuery } from './year';
 
 import * as statistics from './statistics';
 
@@ -26,6 +27,7 @@ export const resolvers: Resolvers = {
     ...statistics,
     ...OrganizationQueries,
     ...PlantationQueries,
+    ...YearQuery,
   },
   Mutation: {
     ...PlantationMutation,

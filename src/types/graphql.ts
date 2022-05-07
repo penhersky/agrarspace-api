@@ -83,6 +83,12 @@ export enum EmployeeRoles {
   Worker = 'worker'
 }
 
+export type FilterDateInterval = {
+  __typename?: 'FilterDateInterval';
+  end?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['String']>;
+};
+
 export type FilterInterval = {
   __typename?: 'FilterInterval';
   max?: Maybe<Scalars['Int']>;
@@ -289,7 +295,7 @@ export type PlantationInput = {
   areaSize: Scalars['Float'];
   description?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  region?: InputMaybe<Scalars['String']>;
+  region: Scalars['String'];
   status?: InputMaybe<Scalars['String']>;
 };
 
@@ -325,7 +331,16 @@ export type PlantationsListSort = {
 
 export enum PlantationsListSortFields {
   AreaSize = 'areaSize',
+  CollectedWeight = 'collectedWeight',
+  CultureName = 'cultureName',
+  DateOfCollectionEnd = 'dateOfCollectionEnd',
+  DateOfCollectionStart = 'dateOfCollectionStart',
+  DateOfSowingEnd = 'dateOfSowingEnd',
+  DateOfSowingStart = 'dateOfSowingStart',
   Name = 'name',
+  PlantationName = 'plantationName',
+  PlantedArea = 'plantedArea',
+  PlantedWeight = 'plantedWeight',
   Region = 'region',
   Status = 'status',
   UpdatedAt = 'updatedAt'
@@ -344,6 +359,7 @@ export type Query = {
   getOrganizationGeneralInfo: OrganizationGeneralInfo;
   getOrganizationPlantationList: PlantationsList;
   getOrganizationPlantedAreaPerYear: PercentStatistic;
+  getOrganizationYearsList: YearsList;
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
   getTotalOrganizationAnnualYearsIncome: TotalOrganizationAnnualYearsIncome;
   getUser: User;
@@ -375,6 +391,11 @@ export type QueryGetOrganizationPlantationListArgs = {
 
 export type QueryGetOrganizationPlantedAreaPerYearArgs = {
   year: Scalars['Int'];
+};
+
+
+export type QueryGetOrganizationYearsListArgs = {
+  data: YearsListArgs;
 };
 
 
@@ -532,6 +553,70 @@ export type Year = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
+export type YearListFilter = {
+  areaSize?: InputMaybe<FilterIntervalInput>;
+  collectedWeight?: InputMaybe<FilterIntervalInput>;
+  culture?: InputMaybe<Scalars['String']>;
+  dateOfCollectionEnd?: InputMaybe<Scalars['String']>;
+  dateOfCollectionStart?: InputMaybe<Scalars['String']>;
+  dateOfSowingEnd?: InputMaybe<Scalars['String']>;
+  dateOfSowingStart?: InputMaybe<Scalars['String']>;
+  plantedArea?: InputMaybe<FilterIntervalInput>;
+  plantedWeight?: InputMaybe<FilterIntervalInput>;
+};
+
+export type YearListOption = {
+  __typename?: 'YearListOption';
+  areaSize?: Maybe<FilterInterval>;
+  collectedWeight?: Maybe<FilterInterval>;
+  culture?: Maybe<Array<Maybe<SelectItem>>>;
+  dateOfCollectionEnd?: Maybe<FilterDateInterval>;
+  dateOfCollectionStart?: Maybe<FilterDateInterval>;
+  dateOfSowingEnd?: Maybe<FilterDateInterval>;
+  dateOfSowingStart?: Maybe<FilterDateInterval>;
+  plantedArea?: Maybe<FilterInterval>;
+  plantedWeight?: Maybe<FilterInterval>;
+};
+
+export type YearListSort = {
+  field?: InputMaybe<PlantationsListSortFields>;
+  order?: InputMaybe<SortType>;
+};
+
+export type YearsList = {
+  __typename?: 'YearsList';
+  data: Array<Maybe<YearsListItem>>;
+  option: YearListOption;
+  pagination: Pagination;
+};
+
+export type YearsListArgs = {
+  filter?: InputMaybe<YearListFilter>;
+  pagination?: InputMaybe<PaginationInput>;
+  search?: InputMaybe<Search>;
+  sort: YearListSort;
+};
+
+export type YearsListItem = {
+  __typename?: 'YearsListItem';
+  areaSize?: Maybe<Scalars['Float']>;
+  collectedWeight?: Maybe<Scalars['Float']>;
+  collectedYear?: Maybe<Scalars['Int']>;
+  cultureId?: Maybe<Scalars['Int']>;
+  cultureName?: Maybe<Scalars['String']>;
+  dateOfCollectionEnd?: Maybe<Scalars['String']>;
+  dateOfCollectionStart?: Maybe<Scalars['String']>;
+  dateOfSowingEnd?: Maybe<Scalars['String']>;
+  dateOfSowingStart?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  plantationId?: Maybe<Scalars['Int']>;
+  plantationName?: Maybe<Scalars['String']>;
+  plantedArea?: Maybe<Scalars['Float']>;
+  plantedPercent?: Maybe<Scalars['Float']>;
+  plantedWeight?: Maybe<Scalars['Float']>;
+  sowingYear?: Maybe<Scalars['Int']>;
+};
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -610,6 +695,7 @@ export type ResolversTypes = {
   Culture: ResolverTypeWrapper<Culture>;
   Employee: ResolverTypeWrapper<Employee>;
   EmployeeRoles: EmployeeRoles;
+  FilterDateInterval: ResolverTypeWrapper<FilterDateInterval>;
   FilterInterval: ResolverTypeWrapper<FilterInterval>;
   FilterIntervalInput: FilterIntervalInput;
   Float: ResolverTypeWrapper<Scalars['Float']>;
@@ -656,6 +742,12 @@ export type ResolversTypes = {
   UserRoles: UserRoles;
   UserTypes: UserTypes;
   Year: ResolverTypeWrapper<Year>;
+  YearListFilter: YearListFilter;
+  YearListOption: ResolverTypeWrapper<YearListOption>;
+  YearListSort: YearListSort;
+  YearsList: ResolverTypeWrapper<YearsList>;
+  YearsListArgs: YearsListArgs;
+  YearsListItem: ResolverTypeWrapper<YearsListItem>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -667,6 +759,7 @@ export type ResolversParentTypes = {
   CreateUser: CreateUser;
   Culture: Culture;
   Employee: Employee;
+  FilterDateInterval: FilterDateInterval;
   FilterInterval: FilterInterval;
   FilterIntervalInput: FilterIntervalInput;
   Float: Scalars['Float'];
@@ -709,6 +802,12 @@ export type ResolversParentTypes = {
   User: User;
   UserDeviceInfo: UserDeviceInfo;
   Year: Year;
+  YearListFilter: YearListFilter;
+  YearListOption: YearListOption;
+  YearListSort: YearListSort;
+  YearsList: YearsList;
+  YearsListArgs: YearsListArgs;
+  YearsListItem: YearsListItem;
 };
 
 export type AuthDirectiveArgs = {
@@ -764,6 +863,12 @@ export type EmployeeResolvers<ContextType = any, ParentType extends ResolversPar
   position?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['EmployeeRoles'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FilterDateIntervalResolvers<ContextType = any, ParentType extends ResolversParentTypes['FilterDateInterval'] = ResolversParentTypes['FilterDateInterval']> = {
+  end?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  start?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -878,6 +983,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getOrganizationGeneralInfo?: Resolver<ResolversTypes['OrganizationGeneralInfo'], ParentType, ContextType, RequireFields<QueryGetOrganizationGeneralInfoArgs, 'data'>>;
   getOrganizationPlantationList?: Resolver<ResolversTypes['PlantationsList'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantationListArgs, 'data'>>;
   getOrganizationPlantedAreaPerYear?: Resolver<ResolversTypes['PercentStatistic'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantedAreaPerYearArgs, 'year'>>;
+  getOrganizationYearsList?: Resolver<ResolversTypes['YearsList'], ParentType, ContextType, RequireFields<QueryGetOrganizationYearsListArgs, 'data'>>;
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
   getTotalOrganizationAnnualYearsIncome?: Resolver<ResolversTypes['TotalOrganizationAnnualYearsIncome'], ParentType, ContextType, RequireFields<QueryGetTotalOrganizationAnnualYearsIncomeArgs, 'id'>>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
@@ -964,11 +1070,52 @@ export type YearResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type YearListOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['YearListOption'] = ResolversParentTypes['YearListOption']> = {
+  areaSize?: Resolver<Maybe<ResolversTypes['FilterInterval']>, ParentType, ContextType>;
+  collectedWeight?: Resolver<Maybe<ResolversTypes['FilterInterval']>, ParentType, ContextType>;
+  culture?: Resolver<Maybe<Array<Maybe<ResolversTypes['SelectItem']>>>, ParentType, ContextType>;
+  dateOfCollectionEnd?: Resolver<Maybe<ResolversTypes['FilterDateInterval']>, ParentType, ContextType>;
+  dateOfCollectionStart?: Resolver<Maybe<ResolversTypes['FilterDateInterval']>, ParentType, ContextType>;
+  dateOfSowingEnd?: Resolver<Maybe<ResolversTypes['FilterDateInterval']>, ParentType, ContextType>;
+  dateOfSowingStart?: Resolver<Maybe<ResolversTypes['FilterDateInterval']>, ParentType, ContextType>;
+  plantedArea?: Resolver<Maybe<ResolversTypes['FilterInterval']>, ParentType, ContextType>;
+  plantedWeight?: Resolver<Maybe<ResolversTypes['FilterInterval']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type YearsListResolvers<ContextType = any, ParentType extends ResolversParentTypes['YearsList'] = ResolversParentTypes['YearsList']> = {
+  data?: Resolver<Array<Maybe<ResolversTypes['YearsListItem']>>, ParentType, ContextType>;
+  option?: Resolver<ResolversTypes['YearListOption'], ParentType, ContextType>;
+  pagination?: Resolver<ResolversTypes['Pagination'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type YearsListItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['YearsListItem'] = ResolversParentTypes['YearsListItem']> = {
+  areaSize?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  collectedWeight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  collectedYear?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  cultureId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  cultureName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  dateOfCollectionEnd?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  dateOfCollectionStart?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  dateOfSowingEnd?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  dateOfSowingStart?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  plantationId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  plantationName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  plantedArea?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  plantedPercent?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  plantedWeight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  sowingYear?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   AuthenticateResult?: AuthenticateResultResolvers<ContextType>;
   Category?: CategoryResolvers<ContextType>;
   Culture?: CultureResolvers<ContextType>;
   Employee?: EmployeeResolvers<ContextType>;
+  FilterDateInterval?: FilterDateIntervalResolvers<ContextType>;
   FilterInterval?: FilterIntervalResolvers<ContextType>;
   Id?: IdResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
@@ -990,6 +1137,9 @@ export type Resolvers<ContextType = any> = {
   TotalOrganizationAnnualYearsIncome?: TotalOrganizationAnnualYearsIncomeResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   Year?: YearResolvers<ContextType>;
+  YearListOption?: YearListOptionResolvers<ContextType>;
+  YearsList?: YearsListResolvers<ContextType>;
+  YearsListItem?: YearsListItemResolvers<ContextType>;
 };
 
 export type DirectiveResolvers<ContextType = any> = {

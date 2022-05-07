@@ -15,6 +15,11 @@ export default gql`
     max: Int
   }
 
+  type FilterDateInterval {
+    start: String
+    end: String
+  }
+
   input FilterIntervalInput {
     min: Int
     max: Int

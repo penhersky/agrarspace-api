@@ -3,7 +3,10 @@ import _ from 'lodash';
 
 import { AppError } from '../../utils/error';
 
-export const findYearId = async (Model: TYearModel, id: string | number) => {
+export const findYearByIdService = async (
+  Model: TYearModel,
+  id: string | number,
+) => {
   try {
     return await Model.findByPk(id);
   } catch (err: Error | unknown) {
@@ -11,7 +14,7 @@ export const findYearId = async (Model: TYearModel, id: string | number) => {
   }
 };
 
-export const findYearsByPlantationId = async (
+export const findYearsByPlantationIdService = async (
   Model: TYearModel,
   plantationId: string | number,
 ) => {
@@ -26,7 +29,7 @@ export const findYearsByPlantationId = async (
   }
 };
 
-export const findCurrentYearForPlantation = async (
+export const findCurrentYearForPlantationService = async (
   Model: TYearModel,
   plantationId: string | number,
 ) => {
