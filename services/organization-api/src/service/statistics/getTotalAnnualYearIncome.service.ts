@@ -46,6 +46,7 @@ export const getTotalAnnualYearIncome = async (
       SELECT 
         AVG(sumCollected) as avg_collected,
         AVG(sumPlanted) as avg_planted,
+        MAX(sumPlanted) as max_planted,
         MAX(sumCollected) as max_collected FROM (
           SELECT SUM("plantedWeight") as sumPlanted,
             SUM("collectedWeight") as sumCollected,

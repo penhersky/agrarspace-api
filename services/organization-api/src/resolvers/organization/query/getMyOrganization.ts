@@ -10,17 +10,11 @@ export const getMyOrganization: GetMyOrganizationResolver = async (
   __,
   { user },
 ) => {
-  if (!user?.organizationId)
-    AppError.authentication(
-      'You do not have access to this resource',
-      'NEED_REAUTHENTICATE',
-    );
-
   const organization = await findOrganizationById(
     Organization,
     user?.organizationId as number,
   );
-  if (!organization) AppError.unexpected('Organization das not exist');
+  if (!organization) AppError.userInput('Organization das not exist');
 
   return organization as Organization;
 };

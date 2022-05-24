@@ -254,6 +254,7 @@ export type MutationUpdateUserArgs = {
 
 export type Organization = {
   __typename?: 'Organization';
+  confirmed?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -523,7 +524,7 @@ export type TotalOrganizationAnnualYearsIncome = {
   avgCollected?: Maybe<Scalars['Float']>;
   avgPlanted?: Maybe<Scalars['Float']>;
   data: Array<Maybe<TotalAnnualIncome>>;
-  maxCollected?: Maybe<Scalars['Float']>;
+  maxValue?: Maybe<Scalars['Float']>;
 };
 
 export type UpdateEmployee = {
@@ -950,6 +951,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type OrganizationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Organization'] = ResolversParentTypes['Organization']> = {
+  confirmed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -1083,7 +1085,7 @@ export type TotalOrganizationAnnualYearsIncomeResolvers<ContextType = any, Paren
   avgCollected?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   avgPlanted?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   data?: Resolver<Array<Maybe<ResolversTypes['TotalAnnualIncome']>>, ParentType, ContextType>;
-  maxCollected?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  maxValue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

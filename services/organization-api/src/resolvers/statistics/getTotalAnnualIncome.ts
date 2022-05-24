@@ -11,7 +11,15 @@ export const getTotalOrganizationAnnualYearsIncome: GetTotalOrganizationAnnualYe
   async (__, { id }) => {
     const statistics = await getTotalAnnualYearIncome(Year, Number(id));
 
-    if (!statistics?.data) AppError.lackOfData('Year statistics is empty');
+    if (!_.get(statistics, 'data')?.length)
+      AppError.lackOfData('Year statistics is empty');
+
+    if (
+      (_.get(statistics, 'data')?.length as number) === 1 &&
+      (!_.get(_.nth(_.get(statistics, 'data'), 0), 'sumCollected') ||
+        !_.get(_.nth(_.get(statistics, 'data'), 0), 'sumPlanted'))
+    )
+      AppError.lackOfData('Not enough data to display');
 
     return statistics as TotalOrganizationAnnualYearsIncome;
   };

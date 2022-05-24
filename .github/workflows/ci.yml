@@ -7,8 +7,11 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  organization-api-build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./services/organization-api
 
     strategy:
       matrix:
@@ -30,6 +33,7 @@ jobs:
         run: npm install
 
       - name: Run lint
+        working-directory: ./
         run: npm run lint
 
       - name: Run test

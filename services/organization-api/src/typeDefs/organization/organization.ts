@@ -6,6 +6,7 @@ export default gql`
     name: String!
     owner: User!
     description: String
+    confirmed: Boolean
     createdAt: String
     updatedAt: String
   }

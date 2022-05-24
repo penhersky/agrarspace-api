@@ -1,0 +1,17 @@
+FROM node:16.15
+
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm preinstall
+RUN npm install --production
+RUN npm run build
+
+COPY --from=builder ./dist ./dist
+
+EXPOSE 8080
+
+CMD ["npm", "run", "start"]

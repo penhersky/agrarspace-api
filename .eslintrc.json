@@ -5,7 +5,12 @@
     "es6": true
   },
   "parserOptions": {
-    "project": ["./tsconfig.json", "./**/tsconfig.json"]
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "project": [
+      "./libs/shared/tsconfig.json",
+      "./services/organization-api/tsconfig.json"
+    ]
   },
   "plugins": ["eslint-plugin-import", "prettier"],
   "parser": "@typescript-eslint/parser",

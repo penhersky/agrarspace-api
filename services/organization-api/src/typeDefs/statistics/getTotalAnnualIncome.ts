@@ -11,7 +11,7 @@ export default gql`
     data: [TotalAnnualIncome]!
     avgCollected: Float
     avgPlanted: Float
-    maxCollected: Float
+    maxValue: Float
   }
 
   extend type Query {
