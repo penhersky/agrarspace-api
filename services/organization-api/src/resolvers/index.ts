@@ -8,7 +8,7 @@ import {
 
 import { Category, CategoriesQueries } from './category';
 import { Organization, OrganizationQueries } from './organization';
-import { EmployeeQuery } from './employee';
+import { EmployeeQuery, Employee } from './employee';
 import {
   PlantationQueries,
   PlantationMutation,
@@ -36,5 +36,6 @@ export const resolvers: Resolvers = {
   },
   Category,
   Organization,
+  Employee,
   Plantation,
 };
