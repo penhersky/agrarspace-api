@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { AppError } from '../../utils/error';
 import { IListOption, IMinMaxFilter } from '../../types/services';
 import { buildYearsListStructure } from '../../structureBuilders/list';
+import { ApolloError } from 'apollo-server-core';
 
 interface IYearListFilter {
   areaSize?: IMinMaxFilter;
@@ -97,6 +98,7 @@ export const getYearsListService = async (
       option: {},
     };
   } catch (err: Error | unknown) {
+    if (err instanceof ApolloError) throw err;
     if (err instanceof Error) AppError.database(err.message);
   }
 };

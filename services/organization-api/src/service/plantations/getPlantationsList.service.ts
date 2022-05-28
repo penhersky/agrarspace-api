@@ -6,6 +6,7 @@ import { CODE } from '../../utils/constants/error';
 import { buildSearch, buildMinMax } from '../../utils/queryBuilder';
 import { Plantation } from '../../types/graphql';
 import { IListOption, IMinMaxFilter } from '../../types/services';
+import { ApolloError } from 'apollo-server-core';
 
 interface IPlantationListFilter {
   areaSize?: IMinMaxFilter;
@@ -19,7 +20,7 @@ export const getOrganizationPlantationsListService = async (
   try {
     const where = {
       organizationId,
-      ...(option.search ? buildSearch(['region'], option.search) : {}),
+      ...(option.search ? buildSearch(['region', 'name'], option.search) : {}),
     };
 
     const defaultOption = await PlantationModel.findAll({
@@ -47,7 +48,7 @@ export const getOrganizationPlantationsListService = async (
     const totalPagesCount = Math.ceil(
       totalItemCount / option.pagination.itemCountPerPage,
     );
-    if (totalPagesCount < option.pagination.page)
+    if (totalItemCount !== 0 && totalPagesCount < option.pagination.page)
       AppError.lackOfData(
         `page: ${option.pagination.page} totalPage: ${totalPagesCount}`,
         CODE.PAGINATION,
@@ -89,6 +90,7 @@ export const getOrganizationPlantationsListService = async (
       },
     };
   } catch (err: Error | unknown) {
+    if (err instanceof ApolloError) throw err;
     if (err instanceof Error) AppError.database(err.message);
   }
 };
