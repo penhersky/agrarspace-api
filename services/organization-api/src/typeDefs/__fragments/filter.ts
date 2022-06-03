@@ -11,8 +11,8 @@ export default gql`
   }
 
   type FilterInterval {
-    min: Int
-    max: Int
+    min: Float
+    max: Float
   }
 
   type FilterDateInterval {
@@ -21,8 +21,8 @@ export default gql`
   }
 
   input FilterIntervalInput {
-    min: Int
-    max: Int
+    min: Float
+    max: Float
   }
 
   type SelectItem {

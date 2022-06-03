@@ -9,7 +9,7 @@ export const createPlantationValidator = async (
     name: Joi.string().min(4).max(124).required(),
     status: Joi.string().allow(null),
     areaSize: Joi.number().min(0).max(999999).required(),
-    region: Joi.string().min(4).max(256).required(),
+    region: Joi.string().min(4).max(376).required(),
     description: Joi.string().min(0).max(900).allow(null),
   });
 
