@@ -12,4 +12,14 @@ export default gql`
     page: Int = 1
     itemCountPerPage: Int = 10
   }
+
+  input PaginatedSelectSuggestionsInput {
+    value: String
+    limit: Int = 7
+  }
+
+  type PaginatedSelectSuggestionsResult {
+    totalItemCount: Int!
+    filteredItemCount: Int!
+  }
 `;

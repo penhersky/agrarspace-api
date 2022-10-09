@@ -60,8 +60,16 @@ export default gql`
     areaSize: FilterIntervalInput
   }
 
+  type PlantationsSelectSuggestionsResult {
+    dataset: [SelectItem]!
+    pagination: PaginatedSelectSuggestionsResult!
+  }
+
   extend type Query {
     getOrganizationPlantationList(data: PlantationListArgs!): PlantationsList!
+    getOrganizationPlantationSelectSuggestionsList(
+      data: PaginatedSelectSuggestionsInput!
+    ): PlantationsSelectSuggestionsResult!
   }
 
   extend type Mutation {

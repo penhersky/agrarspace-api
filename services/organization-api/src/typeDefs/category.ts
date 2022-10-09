@@ -22,7 +22,7 @@ export default gql`
   }
 
   extend type Query {
-    getCategories: [Category]! @cacheControl(maxAge: 1200) @auth
+    getCategories: [Category]! @cacheControl(maxAge: 7200)
   }
 
   extend type Mutation {

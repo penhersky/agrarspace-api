@@ -1,12 +1,15 @@
 import { Culture, logger } from '@agrarspace/shared';
 
 import { Category, CategoryResolvers } from '../../types/graphql';
-import { findCulturesByCategoryId } from '../../service/culture';
+import { findCulturesWithParentNullByCategoryId } from '../../service/culture';
 
 export default {
   cultures: async (root) => {
     try {
-      const cultures = await findCulturesByCategoryId(Culture, root.id);
+      const cultures = await findCulturesWithParentNullByCategoryId(
+        Culture,
+        root.id,
+      );
       if (cultures) return cultures;
       return null;
     } catch (err: Error | unknown) {

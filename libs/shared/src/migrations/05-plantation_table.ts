@@ -37,7 +37,7 @@ module.exports = {
       },
 
       region: {
-        type: new Sequelize.STRING(256),
+        type: new Sequelize.STRING(376),
         allowNull: false,
       },
 

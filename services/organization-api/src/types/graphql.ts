@@ -119,13 +119,13 @@ export type FilterDateInterval = {
 
 export type FilterInterval = {
   __typename?: 'FilterInterval';
-  max?: Maybe<Scalars['Int']>;
-  min?: Maybe<Scalars['Int']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
 };
 
 export type FilterIntervalInput = {
-  max?: InputMaybe<Scalars['Int']>;
-  min?: InputMaybe<Scalars['Int']>;
+  max?: InputMaybe<Scalars['Float']>;
+  min?: InputMaybe<Scalars['Float']>;
 };
 
 export type IId = {
@@ -278,6 +278,17 @@ export type OrganizationGeneralInfoArgs = {
   year?: InputMaybe<Scalars['Int']>;
 };
 
+export type PaginatedSelectSuggestionsInput = {
+  limit?: InputMaybe<Scalars['Int']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+export type PaginatedSelectSuggestionsResult = {
+  __typename?: 'PaginatedSelectSuggestionsResult';
+  filteredItemCount: Scalars['Int'];
+  totalItemCount: Scalars['Int'];
+};
+
 export type Pagination = {
   __typename?: 'Pagination';
   currentPage: Scalars['Int'];
@@ -375,6 +386,12 @@ export enum PlantationsListSortFields {
   UpdatedAt = 'updatedAt'
 }
 
+export type PlantationsSelectSuggestionsResult = {
+  __typename?: 'PlantationsSelectSuggestionsResult';
+  dataset: Array<Maybe<SelectItem>>;
+  pagination: PaginatedSelectSuggestionsResult;
+};
+
 export type Query = {
   __typename?: 'Query';
   authenticate: AuthenticateResult;
@@ -387,6 +404,7 @@ export type Query = {
   getOrganizationEmployeesList: EmployeeList;
   getOrganizationGeneralInfo: OrganizationGeneralInfo;
   getOrganizationPlantationList: PlantationsList;
+  getOrganizationPlantationSelectSuggestionsList: PlantationsSelectSuggestionsResult;
   getOrganizationPlantedAreaPerYear: PercentStatistic;
   getOrganizationYearsList: YearsList;
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
@@ -420,6 +438,11 @@ export type QueryGetOrganizationGeneralInfoArgs = {
 
 export type QueryGetOrganizationPlantationListArgs = {
   data: PlantationListArgs;
+};
+
+
+export type QueryGetOrganizationPlantationSelectSuggestionsListArgs = {
+  data: PaginatedSelectSuggestionsInput;
 };
 
 
@@ -748,6 +771,8 @@ export type ResolversTypes = {
   Organization: ResolverTypeWrapper<Organization>;
   OrganizationGeneralInfo: ResolverTypeWrapper<OrganizationGeneralInfo>;
   OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
+  PaginatedSelectSuggestionsInput: PaginatedSelectSuggestionsInput;
+  PaginatedSelectSuggestionsResult: ResolverTypeWrapper<PaginatedSelectSuggestionsResult>;
   Pagination: ResolverTypeWrapper<Pagination>;
   PaginationInput: PaginationInput;
   PercentSection: ResolverTypeWrapper<PercentSection>;
@@ -760,6 +785,7 @@ export type ResolversTypes = {
   PlantationsListFilter: PlantationsListFilter;
   PlantationsListSort: PlantationsListSort;
   PlantationsListSortFields: PlantationsListSortFields;
+  PlantationsSelectSuggestionsResult: ResolverTypeWrapper<PlantationsSelectSuggestionsResult>;
   Query: ResolverTypeWrapper<{}>;
   RefreshTokenResult: ResolverTypeWrapper<RefreshTokenResult>;
   Search: Search;
@@ -816,6 +842,8 @@ export type ResolversParentTypes = {
   Organization: Organization;
   OrganizationGeneralInfo: OrganizationGeneralInfo;
   OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
+  PaginatedSelectSuggestionsInput: PaginatedSelectSuggestionsInput;
+  PaginatedSelectSuggestionsResult: PaginatedSelectSuggestionsResult;
   Pagination: Pagination;
   PaginationInput: PaginationInput;
   PercentSection: PercentSection;
@@ -827,6 +855,7 @@ export type ResolversParentTypes = {
   PlantationsList: PlantationsList;
   PlantationsListFilter: PlantationsListFilter;
   PlantationsListSort: PlantationsListSort;
+  PlantationsSelectSuggestionsResult: PlantationsSelectSuggestionsResult;
   Query: {};
   RefreshTokenResult: RefreshTokenResult;
   Search: Search;
@@ -922,8 +951,8 @@ export type FilterDateIntervalResolvers<ContextType = any, ParentType extends Re
 };
 
 export type FilterIntervalResolvers<ContextType = any, ParentType extends ResolversParentTypes['FilterInterval'] = ResolversParentTypes['FilterInterval']> = {
-  max?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  min?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  max?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  min?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -968,6 +997,12 @@ export type OrganizationGeneralInfoResolvers<ContextType = any, ParentType exten
   plantationsCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   plantedResources?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   totalAreaSize?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedSelectSuggestionsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['PaginatedSelectSuggestionsResult'] = ResolversParentTypes['PaginatedSelectSuggestionsResult']> = {
+  filteredItemCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  totalItemCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1021,6 +1056,12 @@ export type PlantationsListResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PlantationsSelectSuggestionsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlantationsSelectSuggestionsResult'] = ResolversParentTypes['PlantationsSelectSuggestionsResult']> = {
+  dataset?: Resolver<Array<Maybe<ResolversTypes['SelectItem']>>, ParentType, ContextType>;
+  pagination?: Resolver<ResolversTypes['PaginatedSelectSuggestionsResult'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authenticate?: Resolver<ResolversTypes['AuthenticateResult'], ParentType, ContextType>;
   getCategories?: Resolver<Array<Maybe<ResolversTypes['Category']>>, ParentType, ContextType>;
@@ -1032,6 +1073,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getOrganizationEmployeesList?: Resolver<ResolversTypes['EmployeeList'], ParentType, ContextType, RequireFields<QueryGetOrganizationEmployeesListArgs, 'data'>>;
   getOrganizationGeneralInfo?: Resolver<ResolversTypes['OrganizationGeneralInfo'], ParentType, ContextType, RequireFields<QueryGetOrganizationGeneralInfoArgs, 'data'>>;
   getOrganizationPlantationList?: Resolver<ResolversTypes['PlantationsList'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantationListArgs, 'data'>>;
+  getOrganizationPlantationSelectSuggestionsList?: Resolver<ResolversTypes['PlantationsSelectSuggestionsResult'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantationSelectSuggestionsListArgs, 'data'>>;
   getOrganizationPlantedAreaPerYear?: Resolver<ResolversTypes['PercentStatistic'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantedAreaPerYearArgs, 'year'>>;
   getOrganizationYearsList?: Resolver<ResolversTypes['YearsList'], ParentType, ContextType, RequireFields<QueryGetOrganizationYearsListArgs, 'data'>>;
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
@@ -1172,12 +1214,14 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Organization?: OrganizationResolvers<ContextType>;
   OrganizationGeneralInfo?: OrganizationGeneralInfoResolvers<ContextType>;
+  PaginatedSelectSuggestionsResult?: PaginatedSelectSuggestionsResultResolvers<ContextType>;
   Pagination?: PaginationResolvers<ContextType>;
   PercentSection?: PercentSectionResolvers<ContextType>;
   PercentStatistic?: PercentStatisticResolvers<ContextType>;
   Plantation?: PlantationResolvers<ContextType>;
   PlantationListOption?: PlantationListOptionResolvers<ContextType>;
   PlantationsList?: PlantationsListResolvers<ContextType>;
+  PlantationsSelectSuggestionsResult?: PlantationsSelectSuggestionsResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RefreshTokenResult?: RefreshTokenResultResolvers<ContextType>;
   SelectItem?: SelectItemResolvers<ContextType>;

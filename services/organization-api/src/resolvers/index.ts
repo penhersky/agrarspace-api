@@ -7,6 +7,7 @@ import {
 } from './auth';
 
 import { Category, CategoriesQueries } from './category';
+import { Culture } from './culture';
 import { Organization, OrganizationQueries } from './organization';
 import { EmployeeQuery, Employee } from './employee';
 import {
@@ -35,6 +36,7 @@ export const resolvers: Resolvers = {
     ...PlantationMutation,
   },
   Category,
+  Culture,
   Organization,
   Employee,
   Plantation,

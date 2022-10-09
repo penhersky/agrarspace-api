@@ -7,7 +7,7 @@ export default gql`
     image: String
     description: String
     category: Category!
-    subcultures: [Category]
+    subcultures: [Culture]
     createdAt: String
     updatedAt: String
   }
@@ -23,7 +23,7 @@ export default gql`
   }
 
   extend type Query {
-    getCulturesByCategoryId(categoryId: ID!): [Culture]! @auth
+    getCulturesByCategoryId(categoryId: ID!): [Culture]!
   }
 
   extend type Mutation {
