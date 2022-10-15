@@ -24,11 +24,13 @@ import {
   QueryGetOrganizationYearsListArgs,
   EmployeeList,
   QueryGetOrganizationEmployeesListArgs,
+  MutationSignUpArgs,
 } from './graphql';
 import { IResolver, IResolverReturnArray } from '.';
 
 // auth
 export type SingInResolver = IResolver<SignInResult, QuerySignInArgs>;
+export type SingUpResolver = IResolver<boolean, MutationSignUpArgs>;
 export type SignInToOrganization = IResolver<
   SignInResult,
   QuerySignInToOrganizationArgs

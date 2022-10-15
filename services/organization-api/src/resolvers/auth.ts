@@ -5,6 +5,7 @@ import {
   Employee,
   encrypt,
   UserTypes,
+  UserRoles,
 } from '@agrarspace/shared';
 
 import {
@@ -12,8 +13,9 @@ import {
   SingInResolver,
   SignInToOrganization,
   RefreshTokenResolver,
+  SingUpResolver,
 } from '../types/resolvers';
-import { findUserByEmail, findUserById } from '../service/user';
+import { findUserByEmail, findUserById, createUser } from '../service/user';
 import {
   findOrganizationById,
   findOrganizationByOwnerId,
@@ -28,7 +30,33 @@ import {
   verifyToken,
 } from '../service/token.service';
 import { AppError } from '../utils/error';
+import * as validate from '../utils/validation/auth';
 import { IRefreshToken } from '../types/token';
+
+export const signUp: SingUpResolver = async (_, { data }) => {
+  const user = await findUserByEmail(User, data.email);
+
+  if (user) AppError.userInput('Invalid email');
+
+  const validateUser = await validate.user({
+    email: data.email,
+    name: data.name,
+  });
+
+  if (validateUser)
+    AppError.userInput('Invalid user data', { details: validateUser });
+
+  const validatePassword = await validate.password({
+    password: data.password,
+  });
+
+  if (validatePassword)
+    AppError.userInput('Invalid password', { details: validateUser });
+
+  await createUser(User, { ...data, role: UserRoles.User, provider: 'email' });
+
+  return true;
+};
 
 export const signIn: SingInResolver = async (_, { data, info }) => {
   const user = await findUserByEmail(User, data.email);

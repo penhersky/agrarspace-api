@@ -1,5 +1,6 @@
 import { Resolvers } from '../types/graphql';
 import {
+  signUp,
   signIn,
   signInToOrganization,
   authenticate,
@@ -33,6 +34,7 @@ export const resolvers: Resolvers = {
     ...YearQuery,
   },
   Mutation: {
+    signUp,
     ...PlantationMutation,
   },
   Category,
