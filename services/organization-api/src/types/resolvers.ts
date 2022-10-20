@@ -14,6 +14,8 @@ import {
   QueryGetTotalOrganizationAnnualYearsIncomeArgs,
   PercentStatistic,
   QueryGetOrganizationPlantedAreaPerYearArgs,
+  OrganizationUsedCulturesPerYearItem,
+  QueryGetOrganizationUsedCulturesPerYearArgs,
   QueryGetGlobalPlantedAreaPerYearArgs,
   RefreshTokenResult,
   QueryGetOrganizationPlantationListArgs,
@@ -57,6 +59,10 @@ export type GetOrganizationPlantedAreaPerYearResolver = IResolver<
 export type GetGlobalPlantedAreaPerYearResolver = IResolver<
   PercentStatistic,
   QueryGetGlobalPlantedAreaPerYearArgs
+>;
+export type GetOrganizationUsedCulturesPerYear = IResolverReturnArray<
+  OrganizationUsedCulturesPerYearItem,
+  QueryGetOrganizationUsedCulturesPerYearArgs
 >;
 
 // organization

@@ -10,6 +10,7 @@
     "node": "^16.x"
   },
   "scripts": {
+    "run:organization": "cd services/organization-api && npm run dev",
     "test": "jest --passWithNoTests",
     "lint": "eslint --ignore-path .gitignore ."
   },

@@ -62,7 +62,7 @@ export type Culture = {
   id: Scalars['Int'];
   image?: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  subcultures?: Maybe<Array<Maybe<Category>>>;
+  subcultures?: Maybe<Array<Maybe<Culture>>>;
   updatedAt?: Maybe<Scalars['String']>;
 };
 
@@ -278,6 +278,12 @@ export type OrganizationGeneralInfoArgs = {
   year?: InputMaybe<Scalars['Int']>;
 };
 
+export type OrganizationUsedCulturesPerYearItem = {
+  __typename?: 'OrganizationUsedCulturesPerYearItem';
+  count: Scalars['Int'];
+  culture: Culture;
+};
+
 export type PaginatedSelectSuggestionsInput = {
   limit?: InputMaybe<Scalars['Int']>;
   value?: InputMaybe<Scalars['String']>;
@@ -406,6 +412,7 @@ export type Query = {
   getOrganizationPlantationList: PlantationsList;
   getOrganizationPlantationSelectSuggestionsList: PlantationsSelectSuggestionsResult;
   getOrganizationPlantedAreaPerYear: PercentStatistic;
+  getOrganizationUsedCulturesPerYear: Array<Maybe<OrganizationUsedCulturesPerYearItem>>;
   getOrganizationYearsList: YearsList;
   getTopCulturesByYield: Array<Maybe<TopCultureItem>>;
   getTotalOrganizationAnnualYearsIncome: TotalOrganizationAnnualYearsIncome;
@@ -447,6 +454,11 @@ export type QueryGetOrganizationPlantationSelectSuggestionsListArgs = {
 
 
 export type QueryGetOrganizationPlantedAreaPerYearArgs = {
+  year: Scalars['Int'];
+};
+
+
+export type QueryGetOrganizationUsedCulturesPerYearArgs = {
   year: Scalars['Int'];
 };
 
@@ -771,6 +783,7 @@ export type ResolversTypes = {
   Organization: ResolverTypeWrapper<Organization>;
   OrganizationGeneralInfo: ResolverTypeWrapper<OrganizationGeneralInfo>;
   OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
+  OrganizationUsedCulturesPerYearItem: ResolverTypeWrapper<OrganizationUsedCulturesPerYearItem>;
   PaginatedSelectSuggestionsInput: PaginatedSelectSuggestionsInput;
   PaginatedSelectSuggestionsResult: ResolverTypeWrapper<PaginatedSelectSuggestionsResult>;
   Pagination: ResolverTypeWrapper<Pagination>;
@@ -842,6 +855,7 @@ export type ResolversParentTypes = {
   Organization: Organization;
   OrganizationGeneralInfo: OrganizationGeneralInfo;
   OrganizationGeneralInfoArgs: OrganizationGeneralInfoArgs;
+  OrganizationUsedCulturesPerYearItem: OrganizationUsedCulturesPerYearItem;
   PaginatedSelectSuggestionsInput: PaginatedSelectSuggestionsInput;
   PaginatedSelectSuggestionsResult: PaginatedSelectSuggestionsResult;
   Pagination: Pagination;
@@ -922,7 +936,7 @@ export type CultureResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  subcultures?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
+  subcultures?: Resolver<Maybe<Array<Maybe<ResolversTypes['Culture']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -997,6 +1011,12 @@ export type OrganizationGeneralInfoResolvers<ContextType = any, ParentType exten
   plantationsCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   plantedResources?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   totalAreaSize?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type OrganizationUsedCulturesPerYearItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['OrganizationUsedCulturesPerYearItem'] = ResolversParentTypes['OrganizationUsedCulturesPerYearItem']> = {
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  culture?: Resolver<ResolversTypes['Culture'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1075,6 +1095,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getOrganizationPlantationList?: Resolver<ResolversTypes['PlantationsList'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantationListArgs, 'data'>>;
   getOrganizationPlantationSelectSuggestionsList?: Resolver<ResolversTypes['PlantationsSelectSuggestionsResult'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantationSelectSuggestionsListArgs, 'data'>>;
   getOrganizationPlantedAreaPerYear?: Resolver<ResolversTypes['PercentStatistic'], ParentType, ContextType, RequireFields<QueryGetOrganizationPlantedAreaPerYearArgs, 'year'>>;
+  getOrganizationUsedCulturesPerYear?: Resolver<Array<Maybe<ResolversTypes['OrganizationUsedCulturesPerYearItem']>>, ParentType, ContextType, RequireFields<QueryGetOrganizationUsedCulturesPerYearArgs, 'year'>>;
   getOrganizationYearsList?: Resolver<ResolversTypes['YearsList'], ParentType, ContextType, RequireFields<QueryGetOrganizationYearsListArgs, 'data'>>;
   getTopCulturesByYield?: Resolver<Array<Maybe<ResolversTypes['TopCultureItem']>>, ParentType, ContextType>;
   getTotalOrganizationAnnualYearsIncome?: Resolver<ResolversTypes['TotalOrganizationAnnualYearsIncome'], ParentType, ContextType, RequireFields<QueryGetTotalOrganizationAnnualYearsIncomeArgs, 'id'>>;
@@ -1214,6 +1235,7 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Organization?: OrganizationResolvers<ContextType>;
   OrganizationGeneralInfo?: OrganizationGeneralInfoResolvers<ContextType>;
+  OrganizationUsedCulturesPerYearItem?: OrganizationUsedCulturesPerYearItemResolvers<ContextType>;
   PaginatedSelectSuggestionsResult?: PaginatedSelectSuggestionsResultResolvers<ContextType>;
   Pagination?: PaginationResolvers<ContextType>;
   PercentSection?: PercentSectionResolvers<ContextType>;
